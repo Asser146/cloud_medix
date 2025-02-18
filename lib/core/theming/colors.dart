@@ -7,4 +7,6 @@ class ColorsManager {
   static const Color darkcyanColor = Color(0xff10B3C4);
   static const Color midcyanColors = Color(0xff45CFDD);
   static const Color lightCyanColor = Color(0xffA7EDE7);
+  static const Color lightgreyColor = Color(0xffdadada);
+  static const Color darkgreyColor = Color(0xff666666);
 }

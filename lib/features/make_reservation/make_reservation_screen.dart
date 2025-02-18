@@ -1,6 +1,6 @@
 import 'package:cloud_medix/core/widgets/my_app_bar.dart';
 import 'package:cloud_medix/features/make_reservation/components/filter_option.dart';
-import 'package:cloud_medix/features/make_reservation/components/reservation_card.dart';
+import 'package:cloud_medix/features/make_reservation/components/reservation_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cloud_medix/core/theming/colors.dart';
@@ -41,7 +41,7 @@ class MakeReservationScreen extends StatelessWidget {
                 padding: EdgeInsets.all(10.w),
                 itemCount: 10, // Replace with actual data length
                 itemBuilder: (context, index) {
-                  return ReservationCard(index: index);
+                  return ReservationRow(index: index);
                 },
               ),
             ),

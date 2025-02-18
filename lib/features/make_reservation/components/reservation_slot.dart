@@ -3,11 +3,12 @@ import 'package:cloud_medix/core/theming/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class SlotDetails extends StatelessWidget {
-  const SlotDetails({
+class ReservationSlot extends StatelessWidget {
+  const ReservationSlot({
     super.key,
+    required this.isOdd,
   });
-
+  final bool isOdd;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -17,7 +18,9 @@ class SlotDetails extends StatelessWidget {
           borderRadius: BorderRadius.only(
               topRight: Radius.circular(10.r),
               bottomRight: Radius.circular(10.r)),
-          color: ColorsManager.lightCyanColor,
+          color: isOdd
+              ? ColorsManager.lightCyanColor
+              : ColorsManager.lightgreyColor,
         ),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
