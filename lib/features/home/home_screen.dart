@@ -28,7 +28,11 @@ class HomeScreen extends StatelessWidget {
                     Navigator.pushNamed(context, Routes.makeReservation),
                 child: const HomeOption(text: "Make Reservation"),
               ),
-              const HomeOption(text: "My Reservations"),
+              GestureDetector(
+                onTap: () =>
+                    Navigator.pushNamed(context, Routes.myReservations),
+                child: const HomeOption(text: "My Reservations"),
+              ),
             ],
           ),
         ),
