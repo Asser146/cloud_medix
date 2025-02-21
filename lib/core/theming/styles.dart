@@ -35,4 +35,10 @@ class TextStyles {
     fontWeight: FontWeightHelper.bold,
     color: Colors.white,
   );
+  static TextStyle tabsText = TextStyle(
+    fontSize: 15.sp,
+    // fontFamily: 'Circular Std',
+    fontWeight: FontWeightHelper.medium,
+    color: Colors.black,
+  );
 }

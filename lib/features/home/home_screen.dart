@@ -21,7 +21,11 @@ class HomeScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               SizedBox(height: 3.h),
-              const HomeOption(text: "View Medical Record"),
+              GestureDetector(
+                onTap: () =>
+                    Navigator.pushNamed(context, Routes.viewMedicalRecord),
+                child: const HomeOption(text: "View Medical Record"),
+              ),
               GestureDetector(
                 onTap: () =>
                     Navigator.pushNamed(context, Routes.testsScanResults),

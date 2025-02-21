@@ -45,11 +45,16 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     AppBarContainer(
-                        image: 'assets/images/weight.svg', data: '74'),
+                        image: 'assets/images/weight.svg', data: '74', type: 1),
                     AppBarContainer(
-                        image: 'assets/images/height.svg', data: '180'),
+                      image: 'assets/images/height.svg',
+                      data: '180',
+                      type: 2,
+                    ),
                     AppBarContainer(
-                        image: 'assets/images/signout.svg', data: 'log out'),
+                        image: 'assets/images/signout.svg',
+                        data: 'log out',
+                        type: 3),
                   ],
                 ),
                 SizedBox(height: 10.h),
