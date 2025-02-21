@@ -12,7 +12,7 @@ class ReservationSlot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 70.h,
+        height: 80.h,
         width: 0.6 * MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
@@ -23,15 +23,19 @@ class ReservationSlot extends StatelessWidget {
               : ColorsManager.lightgreyColor,
         ),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("08:00 - 08:15", style: TextStyles.slotDuration),
-              Text("Doctor XYZ", style: TextStyles.doctorName),
-              Text("ABC Hospital", style: TextStyles.hospitalName),
-            ],
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 5.h),
+          child: FittedBox(
+            alignment: Alignment.centerLeft,
+            fit: BoxFit.contain,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("08:00 - 08:15", style: TextStyles.slotDuration),
+                Text("Doctor XYZ", style: TextStyles.doctorName),
+                Text("ABC Hospital", style: TextStyles.hospitalName),
+              ],
+            ),
           ),
         ));
   }

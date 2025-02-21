@@ -22,7 +22,11 @@ class HomeScreen extends StatelessWidget {
             children: [
               SizedBox(height: 3.h),
               const HomeOption(text: "View Medical Record"),
-              const HomeOption(text: "Tests/Scans Results"),
+              GestureDetector(
+                onTap: () =>
+                    Navigator.pushNamed(context, Routes.testsScanResults),
+                child: const HomeOption(text: "Tests/Scans Results"),
+              ),
               GestureDetector(
                 onTap: () =>
                     Navigator.pushNamed(context, Routes.makeReservation),

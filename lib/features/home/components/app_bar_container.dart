@@ -20,25 +20,27 @@ class AppBarContainer extends StatelessWidget {
       decoration: BoxDecoration(
           color: ColorsManager.secondaryColor,
           borderRadius: BorderRadius.all(Radius.circular(12.sp))),
-      child: Column(
-        children: [
-          SizedBox(height: 5.h),
-          SvgPicture.asset(
-            image,
-            width: 45.w,
-            height: 40.h,
-            fit: BoxFit.contain,
-          ),
-          SizedBox(height: 3.h),
-          Text(
-            data,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18.sp,
-              fontWeight: FontWeight.bold,
+      child: FittedBox(
+        child: Column(
+          children: [
+            SizedBox(height: 5.h),
+            SvgPicture.asset(
+              image,
+              width: 45.w,
+              height: 40.h,
+              fit: BoxFit.contain,
             ),
-          ),
-        ],
+            SizedBox(height: 3.h),
+            Text(
+              data,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18.sp,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

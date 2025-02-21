@@ -1,5 +1,5 @@
 import 'package:cloud_medix/core/theming/colors.dart';
-import 'package:cloud_medix/features/make_reservation/blocs/cubit/reserve_status_cubit.dart';
+import 'package:cloud_medix/features/make_reservation/blocs/reserve_status_cubit.dart';
 import 'package:cloud_medix/features/make_reservation/components/reservation_button.dart';
 import 'package:cloud_medix/features/make_reservation/components/reservation_slot.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +24,7 @@ class ReservationRow extends StatelessWidget {
           child: Row(
             children: [
               Container(
-                height: 70.h,
+                height: 80.h,
                 width: 8.w,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(

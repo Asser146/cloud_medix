@@ -1,5 +1,5 @@
 import 'package:cloud_medix/core/theming/colors.dart';
-import 'package:cloud_medix/features/make_reservation/blocs/cubit/reserve_status_cubit.dart';
+import 'package:cloud_medix/features/make_reservation/blocs/reserve_status_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

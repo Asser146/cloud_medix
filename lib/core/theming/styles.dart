@@ -29,4 +29,10 @@ class TextStyles {
     fontWeight: FontWeightHelper.semiBold,
     color: ColorsManager.primaryColor,
   );
+  static TextStyle testName = TextStyle(
+    fontSize: 20.sp,
+    // fontFamily: 'Circular Std',
+    fontWeight: FontWeightHelper.bold,
+    color: Colors.white,
+  );
 }
