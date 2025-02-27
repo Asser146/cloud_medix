@@ -1,10 +1,12 @@
 import 'package:cloud_medix/core/routing/routes.dart';
 import 'package:cloud_medix/features/home/home_screen.dart';
 import 'package:cloud_medix/features/make_reservation/make_reservation_screen.dart';
+import 'package:cloud_medix/features/medical_record/blocs/medical_record_cubit.dart';
 import 'package:cloud_medix/features/medical_record/view_medical_record.dart';
 import 'package:cloud_medix/features/my_reservations/my_reservations_screen.dart';
 import 'package:cloud_medix/features/tests_scan_results/tests_scan_results.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AppRouter {
   Route? onGenerateRoute(RouteSettings settings) {
@@ -12,7 +14,11 @@ class AppRouter {
       case Routes.home:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
       case Routes.viewMedicalRecord:
-        return MaterialPageRoute(builder: (_) => const ViewMedicalRecord());
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                  create: (context) => MedicalRecordCubit(),
+                  child: const ViewMedicalRecord(),
+                ));
       case Routes.testsScanResults:
         return MaterialPageRoute(builder: (_) => const TestsScanResults());
       case Routes.makeReservation:
