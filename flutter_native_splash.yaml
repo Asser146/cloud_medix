@@ -15,14 +15,14 @@ flutter_native_splash:
   # splash screen to a png image.  This is useful for gradients. The image will be stretch to the
   # size of the app. Only one parameter can be used, color and background_image cannot both be set.
   color: "#b89ce1"
-  #background_image: "assets/background.png"
+  background_image: assets/images/splash_icon.png
 
   # Optional parameters are listed below.  To enable a parameter, uncomment the line by removing
   # the leading # character.
 
   # The image parameter allows you to specify an image used in the splash screen.  It must be a
   # png file and should be sized for 4x pixel density.
-  image: assets/images/splash_icon.svg
+  #image: assets/splash.png
 
   # The branding property allows you to specify an image used as branding in the splash screen.
   # It must be a png file. It is supported for Android, iOS and the Web.  For Android 12,
@@ -34,14 +34,13 @@ flutter_native_splash:
   #branding_mode: bottom
   
   # Set the branding padding from the bottom of the screen.  The default value is 0
-  # (Not supported on web yet)
   # branding_bottom_padding: 24
 
   # The color_dark, background_image_dark, image_dark, branding_dark are parameters that set the background
   # and image when the device is in dark mode. If they are not specified, the app will use the
-  # parameters from above.  If there is no parameter above, the app will use the light mode values.
-  # If the image_dark parameter is specified, color_dark or background_image_dark must be specified.  
-  # color_dark and background_image_dark cannot both be set.
+  # parameters from above. If the image_dark parameter is specified, color_dark or
+  # background_image_dark must be specified.  color_dark and background_image_dark cannot both be
+  # set.
   #color_dark: "#042a49"
   #background_image_dark: "assets/dark-background.png"
   #image_dark: assets/splash-invert.png
@@ -57,13 +56,11 @@ flutter_native_splash:
     # App icon with an icon background: This should be 960×960 pixels, and fit within a circle
     # 640 pixels in diameter.
     # App icon without an icon background: This should be 1152×1152 pixels, and fit within a circle
-    # 768 pixels in diameter.  To fit a 1152x1152 image within a circle with a 768 diameter, simply 
-    # ensure that the most important design elements of your image are placed within a circular area
-    # with a 768 diameter at the center of the 1152x1152 canvas.
-    #image: assets/android12splash.png
+    # 768 pixels in diameter.
+    image: assets/images/splash_icon.png
 
     # Splash screen background color.
-    #color: "#42a5f5"
+    color: "#b89ce1"
 
     # App icon background color.
     #icon_background_color: "#111111"
@@ -73,14 +70,14 @@ flutter_native_splash:
 
     # The image_dark, color_dark, icon_background_color_dark, and branding_dark set values that
     # apply when the device is in dark mode. If they are not specified, the app will use the
-    # parameters from above.  If there is no parameter above, the app will use the light mode values.
+    # parameters from above.
     #image_dark: assets/android12splash-invert.png
     #color_dark: "#042a49"
     #icon_background_color_dark: "#eeeeee"
 
   # The android, ios and web parameters can be used to disable generating a splash screen on a given
   # platform.
-  #android: false
+  android: true
   #ios: false
   #web: false
 
@@ -119,9 +116,7 @@ flutter_native_splash:
   # android_gravity can be one of the following Android Gravity (see
   # https://developer.android.com/reference/android/view/Gravity): bottom, center,
   # center_horizontal, center_vertical, clip_horizontal, clip_vertical, end, fill, fill_horizontal,
-  # fill_vertical, left, right, start, or top. android_gravity can be combined using the | operator to achieve multiple effects. 
-  # For example:
-  # `android_gravity: fill|clip_vertical` - This will fill the width while maintaining the image's vertical aspect ratio
+  # fill_vertical, left, right, start, or top.
   #android_gravity: center
   #
   # ios_content_mode can be one of the following iOS UIView.ContentMode (see
