@@ -36,10 +36,7 @@ class ViewMedicalRecord extends StatelessWidget {
                     children: [
                       for (int i = 0; i < data.length; i++)
                         Row(
-                          children: [
-                            Icon(Icons.medical_services),
-                            Text(data[i])
-                          ],
+                          children: [Text('• ${data[i]}')],
                         )
                     ],
                   )),
