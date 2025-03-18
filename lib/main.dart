@@ -1,10 +1,16 @@
+import 'package:cloud_medix/core/di/dependency_injection.dart';
 import 'package:cloud_medix/core/routing/app_router.dart';
 import 'package:cloud_medix/core/routing/routes.dart';
 import 'package:cloud_medix/features/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
+
+  setupGetIt();
   runApp(MyApp(
     appRouter: AppRouter(),
   ));
