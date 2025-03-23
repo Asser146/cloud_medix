@@ -1,4 +1,4 @@
-import 'package:cloud_medix/features/auth/data/models/address.dart';
+import 'package:cloud_medix/features/auth/data/address.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'register_body.g.dart';
 

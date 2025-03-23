@@ -1,7 +1,8 @@
 import 'package:cloud_medix/core/di/dependency_injection.dart';
 import 'package:cloud_medix/core/networking/api_service.dart';
-import 'package:cloud_medix/features/auth/data/models/address.dart';
-import 'package:cloud_medix/features/auth/data/models/register_body.dart';
+import 'package:cloud_medix/features/auth/data/address.dart';
+import 'package:cloud_medix/features/auth/data/login_body.dart';
+import 'package:cloud_medix/features/auth/data/register_body.dart';
 import 'package:dio/dio.dart';
 
 class AuthRepository {
@@ -33,6 +34,29 @@ class AuthRepository {
       print("Error Data: ${e.response?.data}");
     } catch (e) {
       print("Unexpected Error: $e");
+    }
+  }
+
+  Future<bool> loginPatient() async {
+    try {
+      ApiService client = getIt<ApiService>();
+      var response = await client.login(
+          LoginBody(userName: "asser_tamer", password: "SecurePass123!"));
+
+      if (response.status == 200) {
+        print("Login Successful: ${response.data}");
+        return true;
+      } else {
+        print("Login Failed: ${response.error}");
+        return false;
+      }
+    } on DioException catch (e) {
+      print("Dio Error: ${e.response?.statusCode}");
+      print("Error Data: ${e.response?.data}");
+      return false;
+    } catch (e) {
+      print("Unexpected Error: $e");
+      return false;
     }
   }
 }

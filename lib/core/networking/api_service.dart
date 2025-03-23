@@ -1,7 +1,8 @@
 import 'package:cloud_medix/core/networking/api_constants.dart';
 import 'package:cloud_medix/core/networking/api_response.dart';
 import 'package:cloud_medix/core/networking/system_user.dart';
-import 'package:cloud_medix/features/auth/data/models/register_body.dart';
+import 'package:cloud_medix/features/auth/data/login_body.dart';
+import 'package:cloud_medix/features/auth/data/register_body.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -19,5 +20,10 @@ abstract class ApiService {
   @POST(ApiConstants.register)
   Future<ApiResponse> register(
     @Body() RegisterBody registerRequestBody,
+  );
+
+  @POST(ApiConstants.login)
+  Future<ApiResponse> login(
+    @Body() LoginBody loginRequestBody,
   );
 }

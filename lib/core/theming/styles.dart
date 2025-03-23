@@ -4,6 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TextStyles {
+  static TextStyle welcomBack = TextStyle(
+    fontSize: 30.sp,
+    // fontFamily: 'Circular Std',
+    fontWeight: FontWeightHelper.bold,
+    color: ColorsManager.primaryColor,
+  );
   static TextStyle cyanTexts = TextStyle(
     fontSize: 16.sp,
     // fontFamily: 'Circular Std',

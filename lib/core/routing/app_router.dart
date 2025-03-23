@@ -1,4 +1,7 @@
 import 'package:cloud_medix/core/routing/routes.dart';
+import 'package:cloud_medix/features/auth/presentation/blocs/auth_cubit.dart';
+import 'package:cloud_medix/features/auth/presentation/screens/login_screen.dart';
+import 'package:cloud_medix/features/auth/presentation/screens/register_screen.dart';
 import 'package:cloud_medix/features/home/home_screen.dart';
 import 'package:cloud_medix/features/make_reservation/make_reservation_screen.dart';
 import 'package:cloud_medix/features/medical_record/blocs/medical_record_cubit.dart';
@@ -11,6 +14,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class AppRouter {
   Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case Routes.login:
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                  create: (context) => AuthCubit(),
+                  child: const LoginScreen(),
+                ));
+      case Routes.register:
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                  create: (context) => AuthCubit(),
+                  child: const RegisterScreen(),
+                ));
       case Routes.home:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
       case Routes.viewMedicalRecord:

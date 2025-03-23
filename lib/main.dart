@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
           ),
           home: child,
           onGenerateRoute: appRouter.onGenerateRoute,
-          initialRoute: Routes.home,
+          initialRoute: Routes.register,
         );
       },
       child: const HomeScreen(),
