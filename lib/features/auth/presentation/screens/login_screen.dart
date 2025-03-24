@@ -1,12 +1,8 @@
-import 'package:cloud_medix/core/routing/routes.dart';
 import 'package:cloud_medix/core/theming/colors.dart';
 import 'package:cloud_medix/core/theming/styles.dart';
-import 'package:cloud_medix/features/auth/presentation/blocs/auth_cubit.dart';
 import 'package:cloud_medix/features/auth/presentation/screens/components/input_text_field.dart';
 import 'package:cloud_medix/features/auth/presentation/screens/components/login_button.dart';
-import 'package:cloud_medix/features/home/home_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
