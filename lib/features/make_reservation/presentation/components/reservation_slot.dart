@@ -1,5 +1,6 @@
 import 'package:cloud_medix/core/theming/colors.dart';
 import 'package:cloud_medix/core/theming/styles.dart';
+import 'package:cloud_medix/features/make_reservation/data/hospital_slot.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -7,12 +8,14 @@ class ReservationSlot extends StatelessWidget {
   const ReservationSlot({
     super.key,
     required this.isOdd,
+    required this.slot,
   });
   final bool isOdd;
+  final HospitalSlot slot;
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 80.h,
+        height: 70.h,
         width: 0.6 * MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
@@ -23,19 +26,16 @@ class ReservationSlot extends StatelessWidget {
               : ColorsManager.lightgreyColor,
         ),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 5.h),
-          child: FittedBox(
-            alignment: Alignment.centerLeft,
-            fit: BoxFit.contain,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("08:00 - 08:15", style: TextStyles.slotDuration),
-                Text("Doctor XYZ", style: TextStyles.doctorName),
-                Text("ABC Hospital", style: TextStyles.hospitalName),
-              ],
-            ),
+          padding: EdgeInsets.symmetric(horizontal: 20.w),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("${slot.startTime} - ${slot.endTime}",
+                  style: TextStyles.slotDuration),
+              Text(slot.physician, style: TextStyles.doctorName),
+              Text(slot.department, style: TextStyles.hospitalName),
+            ],
           ),
         ));
   }

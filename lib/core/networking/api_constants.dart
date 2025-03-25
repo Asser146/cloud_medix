@@ -5,6 +5,7 @@ class ApiConstants {
   static const String systemAccController = "SystemUser/patients";
   static const String register = "SystemAccount/register-patient";
   static const String login = "SystemAccount/login-patient";
+  static const String slots = "SystemAccount/slots";
   // static const String sortDesc = "?sort=desc";
   // static const String jewCategory = "/category/jewelery";
 }
