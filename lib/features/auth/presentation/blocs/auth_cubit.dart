@@ -20,3 +20,6 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 }
+          // if (context.read<RegisterCubit>().formKey.currentState!.validate()) {
+          //   Navigator.of(context).pushNamed(Routes.welcome);
+          // } else {}

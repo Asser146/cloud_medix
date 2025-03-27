@@ -1,6 +1,9 @@
 import 'package:cloud_medix/core/routing/routes.dart';
 import 'package:cloud_medix/core/theming/colors.dart';
 import 'package:cloud_medix/core/theming/styles.dart';
+import 'package:cloud_medix/features/auth/presentation/screens/components/controllers_validators.dart';
+import 'package:cloud_medix/features/auth/presentation/screens/components/custom_dob.dart';
+import 'package:cloud_medix/features/auth/presentation/screens/components/custom_text_form_field.dart';
 import 'package:cloud_medix/features/auth/presentation/screens/components/input_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -70,15 +73,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget _buildFirstForm() {
     return Column(
       children: [
-        const InputTextField(title: "Username"),
+        // const InputTextField(title: "Username"),
+        CustomTextFormField(
+            hintText: 'UserName', type: 0, fieldController: nameController),
         SizedBox(height: 15.h),
-        const InputTextField(title: "Full Name"),
+        CustomTextFormField(
+            hintText: 'Full Name', type: 0, fieldController: nameController),
         SizedBox(height: 15.h),
-        const InputTextField(title: "Email"),
+        CustomTextFormField(
+            hintText: 'Email', type: 0, fieldController: emailController),
         SizedBox(height: 15.h),
-        const InputTextField(title: "Password"),
+        CustomTextFormField(
+            hintText: 'Password', type: 0, fieldController: passController),
         SizedBox(height: 15.h),
-        const InputTextField(title: "Confirm Password"),
+        CustomTextFormField(
+            hintText: 'Confrim Password',
+            type: 0,
+            fieldController: confirmPassController),
         SizedBox(height: 20.h),
         ElevatedButton(
           onPressed: () {
@@ -107,11 +118,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget _buildSecondForm() {
     return Column(
       children: [
-        const InputTextField(title: "Phone Number"),
+        CustomTextFormField(
+            hintText: 'Phone Number', type: 0, fieldController: nameController),
         SizedBox(height: 12.h),
-        const InputTextField(title: "National ID"),
+        CustomTextFormField(
+            hintText: 'National Id', type: 0, fieldController: nameController),
         SizedBox(height: 12.h),
-        const InputTextField(title: "Date of Birth"),
+        CustomDOB(),
         SizedBox(height: 20.h),
         Container(
             width: double.infinity,

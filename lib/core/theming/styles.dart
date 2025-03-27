@@ -47,4 +47,22 @@ class TextStyles {
     fontWeight: FontWeightHelper.medium,
     color: Colors.black,
   );
+  static TextStyle authTitles = TextStyle(
+    fontSize: 24.sp,
+    fontFamily: 'Roboto',
+    fontWeight: FontWeightHelper.regular,
+    color: Colors.black,
+  );
+  static TextStyle authHintTitle = TextStyle(
+    fontSize: 20.sp,
+    fontFamily: 'Roboto',
+    fontWeight: FontWeightHelper.regular,
+    color: Colors.grey,
+  );
+  static TextStyle authField = TextStyle(
+    fontSize: 16.sp,
+    fontFamily: 'Roboto',
+    fontWeight: FontWeightHelper.medium,
+    color: Colors.grey,
+  );
 }
