@@ -5,7 +5,7 @@ import 'package:cloud_medix/features/auth/presentation/screens/register_screen.d
 import 'package:cloud_medix/features/home/home_screen.dart';
 import 'package:cloud_medix/features/make_reservation/presentation/blocs/reserve_status_cubit.dart';
 import 'package:cloud_medix/features/make_reservation/presentation/make_reservation_screen.dart';
-import 'package:cloud_medix/features/medical_record/blocs/medical_record_cubit.dart';
+import 'package:cloud_medix/features/medical_record/presentation/blocs/medical_record_cubit.dart';
 import 'package:cloud_medix/features/medical_record/view_medical_record.dart';
 import 'package:cloud_medix/features/my_reservations/my_reservations_screen.dart';
 import 'package:cloud_medix/features/tests_scan_results/tests_scan_results.dart';

@@ -17,6 +17,6 @@ class ApiResponse<T> {
 
   /// Connect the generated [_$PersonToJson] function to the `toJson` method.
   Map<String, dynamic> toJson(
-          ApiResponse<T> ApiResponse, Object Function(T value) toJsonT) =>
+          ApiResponse<T> apiResponse, Object Function(T value) toJsonT) =>
       _$ApiResponseToJson(this, toJsonT);
 }

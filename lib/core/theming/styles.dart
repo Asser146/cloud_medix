@@ -10,6 +10,16 @@ class TextStyles {
     fontWeight: FontWeightHelper.bold,
     color: ColorsManager.primaryColor,
   );
+  static TextStyle medicalRecordName = TextStyle(
+    fontSize: 20.sp,
+    // fontFamily: 'Circular Std',
+    fontWeight: FontWeightHelper.bold,
+    color: Colors.black,
+  );
+  static TextStyle medicalRecordTypeDesc = medicalRecordName.copyWith(
+    fontSize: 16.sp,
+    fontWeight: FontWeightHelper.semiBold,
+  );
   static TextStyle cyanTexts = TextStyle(
     fontSize: 16.sp,
     // fontFamily: 'Circular Std',
