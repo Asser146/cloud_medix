@@ -37,7 +37,7 @@ class AuthRepository {
     }
   }
 
-  Future<bool> loginPatient() async {
+  Future<List<String>> loginPatient() async {
     try {
       ApiService client = getIt<ApiService>();
       var response = await client.login(
@@ -45,18 +45,18 @@ class AuthRepository {
 
       if (response.status == 200) {
         print("Login Successful: ${response.data}");
-        return true;
+        return response.data;
       } else {
         print("Login Failed: ${response.error}");
-        return false;
+        return [];
       }
     } on DioException catch (e) {
       print("Dio Error: ${e.response?.statusCode}");
       print("Error Data: ${e.response?.data}");
-      return false;
+      return [];
     } catch (e) {
       print("Unexpected Error: $e");
-      return false;
+      return [];
     }
   }
 }
