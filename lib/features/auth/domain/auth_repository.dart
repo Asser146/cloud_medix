@@ -2,8 +2,10 @@ import 'package:cloud_medix/core/di/dependency_injection.dart';
 import 'package:cloud_medix/core/networking/api_service.dart';
 import 'package:cloud_medix/features/auth/data/address.dart';
 import 'package:cloud_medix/features/auth/data/login_body.dart';
+import 'package:cloud_medix/features/auth/data/login_response.dart';
 import 'package:cloud_medix/features/auth/data/register_body.dart';
 import 'package:dio/dio.dart';
+import 'dart:developer';
 
 class AuthRepository {
   Future<void> registerPatient() async {
@@ -25,38 +27,37 @@ class AuthRepository {
       ));
 
       if (response.status == 200) {
-        print("Registration Successful: ${response.data}");
+        log("Registration Successful: ${response.data}");
       } else {
-        print("Registration Failed: ${response.error}");
+        log("Registration Failed: ${response.error}");
       }
     } on DioException catch (e) {
-      print("Dio Error: ${e.response?.statusCode}");
-      print("Error Data: ${e.response?.data}");
+      log("Dio Error: ${e.response?.statusCode}");
+      log("Error Data: ${e.response?.data}");
     } catch (e) {
-      print("Unexpected Error: $e");
+      log("Unexpected Error: $e");
     }
   }
 
-  Future<List<String>> loginPatient() async {
+  Future<LoginResponse> loginPatient() async {
     try {
       ApiService client = getIt<ApiService>();
       var response = await client.login(
-          LoginBody(userName: "asser_tamer", password: "SecurePass123!"));
-
-      if (response.status == 200) {
-        print("Login Successful: ${response.data}");
-        return response.data;
+        LoginBody(userName: "assertamer", password: "SecurePass123!"),
+      );
+      if (response.status == 200 && response.data != null) {
+        return LoginResponse.fromJson(response.data!);
       } else {
-        print("Login Failed: ${response.error}");
-        return [];
+        log("Login Failed: ${response.error}");
+        return LoginResponse(data: []);
       }
     } on DioException catch (e) {
-      print("Dio Error: ${e.response?.statusCode}");
-      print("Error Data: ${e.response?.data}");
-      return [];
+      log("Dio Error: ${e.response?.statusCode}");
+      log("Error Data: ${e.response?.data}");
+      return LoginResponse(data: []);
     } catch (e) {
-      print("Unexpected Error: $e");
-      return [];
+      log("Unexpected Error: $e");
+      return LoginResponse(data: []);
     }
   }
 }

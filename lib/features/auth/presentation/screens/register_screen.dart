@@ -4,7 +4,6 @@ import 'package:cloud_medix/core/theming/styles.dart';
 import 'package:cloud_medix/features/auth/presentation/screens/components/controllers_validators.dart';
 import 'package:cloud_medix/features/auth/presentation/screens/components/custom_dob.dart';
 import 'package:cloud_medix/features/auth/presentation/screens/components/custom_text_form_field.dart';
-import 'package:cloud_medix/features/auth/presentation/screens/components/input_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -91,12 +90,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
             type: 0,
             fieldController: confirmPassController),
         SizedBox(height: 20.h),
-        ElevatedButton(
-          onPressed: () {
-            setState(() {
-              _isFirstForm = false; // Switch to the second form
-            });
-          },
+        GestureDetector(
+          onTap: () => setState(() {
+            _isFirstForm = false; // Switch to the second form
+          }),
           child: Container(
               width: double.infinity,
               height: 35.h,
@@ -124,7 +121,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         CustomTextFormField(
             hintText: 'National Id', type: 0, fieldController: nameController),
         SizedBox(height: 12.h),
-        CustomDOB(),
+        const CustomDOB(),
         SizedBox(height: 20.h),
         Container(
             width: double.infinity,

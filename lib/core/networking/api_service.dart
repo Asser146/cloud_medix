@@ -2,6 +2,7 @@ import 'package:cloud_medix/core/networking/api_constants.dart';
 import 'package:cloud_medix/core/networking/api_response.dart';
 import 'package:cloud_medix/core/networking/system_user.dart';
 import 'package:cloud_medix/features/auth/data/login_body.dart';
+import 'package:cloud_medix/features/auth/data/login_response.dart';
 import 'package:cloud_medix/features/auth/data/register_body.dart';
 import 'package:cloud_medix/features/make_reservation/data/hospital_slot.dart';
 import 'package:cloud_medix/features/medical_record/data/medical_record.dart';
@@ -25,7 +26,7 @@ abstract class ApiService {
   );
 
   @POST(ApiConstants.login)
-  Future<ApiResponse> login(
+  Future<ApiResponse<List<String>>> login(
     @Body() LoginBody loginRequestBody,
   );
 

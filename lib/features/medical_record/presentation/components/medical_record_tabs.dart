@@ -16,7 +16,7 @@ class MedicalRecordTabs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 4,
+        length: 3,
         child: TabBar(
           labelStyle: TextStyles.tabsText.copyWith(fontWeight: FontWeight.bold),
           unselectedLabelStyle: TextStyles.tabsText,

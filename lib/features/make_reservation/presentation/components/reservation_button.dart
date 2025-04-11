@@ -22,8 +22,8 @@ class ReservationButton extends StatelessWidget {
         ),
         child: Center(
             child: context.watch<ReservationCubit>().selected == true
-                ? Text("Reserved")
-                : Text("Reserve")),
+                ? const Text("Reserved")
+                : const Text("Reserve")),
       ),
     );
   }

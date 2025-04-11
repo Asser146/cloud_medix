@@ -71,14 +71,14 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<ApiResponse<dynamic>> login(loginRequestBody) async {
+  Future<ApiResponse<List<String>>> login(loginRequestBody) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(loginRequestBody.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<ApiResponse<dynamic>>(Options(
+        _setStreamType<ApiResponse<List<String>>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -90,9 +90,10 @@ class _ApiService implements ApiService {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = ApiResponse<dynamic>.fromJson(
+    final value = ApiResponse<List<String>>.fromJson(
       _result.data!,
-      (json) => json as dynamic,
+      (json) =>
+          (json as List<dynamic>).map<String>((i) => i as String).toList(),
     );
     return value;
   }

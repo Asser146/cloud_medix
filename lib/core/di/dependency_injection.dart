@@ -9,6 +9,7 @@ import 'package:cloud_medix/features/medical_record/domain/medical_record_reposi
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart'; // Import this for IOHttpClientAdapter
 import 'package:get_it/get_it.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 final getIt = GetIt.instance;
 
@@ -23,7 +24,8 @@ Future<void> setupGetIt() async {
         (X509Certificate cert, String host, int port) => true;
     return client;
   };
-
+  getIt.registerLazySingleton<FlutterSecureStorage>(
+      () => FlutterSecureStorage());
   getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
   getIt.registerLazySingleton<ReservationRepository>(
       () => ReservationRepository());

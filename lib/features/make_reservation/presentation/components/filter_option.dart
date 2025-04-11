@@ -29,7 +29,7 @@ class FilterOption extends StatelessWidget {
           items: ['Today', 'Today2', 'Today3', 'Today4'].map((String value) {
             return DropdownMenuItem<String>(
               value: value,
-              child: Text(value, style: TextStyle(color: Colors.white)),
+              child: Text(value, style: const TextStyle(color: Colors.white)),
             );
           }).toList(),
           onChanged: (String? newValue) {},

@@ -27,8 +27,6 @@ class MedicalRecordCard extends StatelessWidget {
       case 1:
         return record[index] as Chronic;
       case 2:
-        return record[index] as Chronic; // Should this be Diagnosis?
-      case 3:
         return record[index] as CurrentMedication;
       default:
         return record[index] as Allergy;
@@ -54,7 +52,7 @@ class MedicalRecordCard extends StatelessWidget {
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 3.h, horizontal: 5.w),
-            child: category == 3
+            child: category == 2
                 ? MedicineCard(item: item)
                 : NonMedicineCard(item: item),
           ),
