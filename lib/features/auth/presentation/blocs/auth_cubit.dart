@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_medix/core/di/dependency_injection.dart';
 import 'package:cloud_medix/features/auth/data/login_response.dart';
 import 'package:cloud_medix/features/auth/domain/auth_repository.dart';
@@ -14,31 +12,18 @@ class AuthCubit extends Cubit<AuthState> {
   AuthRepository repo = getIt<AuthRepository>();
   late LoginResponse responseData;
   FlutterSecureStorage storage = getIt<FlutterSecureStorage>();
-  // Future<bool> CheckLogin() async {
-  //   emit(const AuthLoading());
-  //   responseData = await repo.loginPatient();
-  //   await storage.write(key: "id", value: responseData[0]);
-  //   await storage.write(key: "token", value: responseData[1]);
-  //   if (responseData.isNotEmpty) {
-  //     emit(const AuthLoaded());
-  //     return true;
-  //   } else {
-  //     emit(const AuthLoaded());
-  //     return false;
-  //   }
-  // }
+
   Future<bool> login() async {
     emit(const AuthLoading());
     responseData = await repo.loginPatient();
     if (responseData.data.isNotEmpty) {
-      // await storage.write(key: "id", value: "2");
-      // await storage.write(key: "token", value: responseData.data[1]);
+      await storage.write(key: "id", value: responseData.data[0]);
+      await storage.write(key: "token", value: responseData.data[1]);
       emit(const AuthLoaded());
       return true;
     } else {
       emit(const AuthLoaded());
-      // return false;
-      return true;
+      return false;
     }
   }
 }

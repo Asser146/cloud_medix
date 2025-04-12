@@ -5,21 +5,34 @@ import 'package:cloud_medix/features/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: ".env");
-
   setupGetIt();
+
+  await dotenv.load(fileName: ".env");
+  String initialRoute;
+
+  FlutterSecureStorage storage = getIt<FlutterSecureStorage>();
+  String? id = await storage.read(key: "id");
+
+  if (id != null) {
+    initialRoute = Routes.home;
+  } else {
+    initialRoute = Routes.register;
+  }
+
   runApp(MyApp(
     appRouter: AppRouter(),
+    initialRoute: initialRoute,
   ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key, required this.appRouter});
+  const MyApp({super.key, required this.appRouter, required this.initialRoute});
   final AppRouter appRouter;
-
+  final String initialRoute;
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
@@ -35,7 +48,7 @@ class MyApp extends StatelessWidget {
           ),
           home: child,
           onGenerateRoute: appRouter.onGenerateRoute,
-          initialRoute: Routes.register,
+          initialRoute: initialRoute,
         );
       },
       child: const HomeScreen(),

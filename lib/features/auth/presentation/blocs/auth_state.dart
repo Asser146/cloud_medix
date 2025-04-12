@@ -18,3 +18,7 @@ final class AuthLoading extends AuthState {
 final class AuthLoaded extends AuthState {
   const AuthLoaded();
 }
+
+final class AuthError extends AuthState {
+  const AuthError();
+}

@@ -1,7 +1,10 @@
+import 'package:cloud_medix/core/di/dependency_injection.dart';
+import 'package:cloud_medix/core/routing/routes.dart';
 import 'package:cloud_medix/core/theming/colors.dart';
 import 'package:cloud_medix/features/home/components/app_bar_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -41,20 +44,29 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                   ),
                 ),
                 SizedBox(height: 5.h),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    AppBarContainer(
+                    const AppBarContainer(
                         image: 'assets/images/weight.svg', data: '74', type: 1),
-                    AppBarContainer(
+                    const AppBarContainer(
                       image: 'assets/images/height.svg',
                       data: '180',
                       type: 2,
                     ),
-                    AppBarContainer(
-                        image: 'assets/images/signout.svg',
-                        data: 'log out',
-                        type: 3),
+                    GestureDetector(
+                      onTap: () async {
+                        final navigator =
+                            Navigator.of(context); // capture before async
+                        final storage = getIt<FlutterSecureStorage>();
+                        await storage.deleteAll();
+                        navigator.popAndPushNamed(Routes.login); // safe!
+                      },
+                      child: AppBarContainer(
+                          image: 'assets/images/signout.svg',
+                          data: 'log out',
+                          type: 3),
+                    ),
                   ],
                 ),
                 SizedBox(height: 10.h),
