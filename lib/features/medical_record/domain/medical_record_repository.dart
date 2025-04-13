@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:cloud_medix/core/di/dependency_injection.dart';
@@ -8,22 +9,39 @@ import 'package:dio/dio.dart';
 
 class MedicalRecordRepository {
   Future<ApiResponse<MedicalRecord>> getMyMedicalRecord(String id) async {
-    ApiService client = getIt<ApiService>();
+    final client = getIt<ApiService>();
 
     try {
-      var response = await client.getMedicalRecord(id);
+      final response = await client
+          .getMedicalRecord(id)
+          .timeout(const Duration(seconds: 5), onTimeout: () {
+        log("Timeout: Server took too long to respond.");
+        return ApiResponse(
+          data: null,
+          error: "Request timed out. Please try again later.",
+        );
+      });
+
       if (response.status == 200) {
         return response;
       } else {
-        log("No medicalRecord available.");
-        return response;
+        return ApiResponse(
+          data: null,
+          error: "No medical record found for this user.",
+        );
       }
     } on DioException catch (e) {
-      log("Dio Error,Failed to load medicalRecord: ${e.toString()}");
-      rethrow;
+      log("DioException: ${e.message}");
+      return ApiResponse(
+        data: null,
+        error: "Network error. Please check your connection and try again.",
+      );
     } catch (e) {
-      log("Failed to load medicalRecord: ${e.toString()}");
-      rethrow;
+      log("Unexpected error: ${e.toString()}");
+      return ApiResponse(
+        data: null,
+        error: "Something went wrong. Please try again.",
+      );
     }
   }
 }

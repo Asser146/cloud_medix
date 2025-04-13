@@ -1,4 +1,7 @@
-import 'package:cloud_medix/core/theming/colors.dart';
+import 'dart:developer';
+
+import 'package:cloud_medix/core/widgets/loading_widget.dart';
+import 'package:cloud_medix/core/widgets/my_error_widget.dart';
 import 'package:cloud_medix/features/make_reservation/presentation/blocs/reserve_status_cubit.dart';
 import 'package:cloud_medix/features/make_reservation/presentation/components/reservation_row.dart';
 import 'package:flutter/material.dart';
@@ -15,18 +18,13 @@ class DataBody extends StatelessWidget {
     return Expanded(
       child: BlocBuilder<ReservationCubit, ReservationState>(
         builder: (context, state) {
+          log(state.toString());
           if (state is ReserveStatusLoading) {
             return const Center(
-              child:
-                  CircularProgressIndicator(color: ColorsManager.primaryColor),
+              child: LoadingWidget(),
             );
           } else if (state is ReserveStatusError) {
-            return Center(
-              child: Text(
-                state.message,
-                style: const TextStyle(color: Colors.black, fontSize: 16),
-              ),
-            );
+            return MyErrorWidget(message: state.message);
           } else if (state is ReserveStatusLoaded) {
             if (state.slots.isEmpty) {
               return const Center(
