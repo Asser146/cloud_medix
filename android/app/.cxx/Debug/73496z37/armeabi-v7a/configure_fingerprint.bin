@@ -2,6 +2,7 @@ C/C++ Structured Logv
 t
 rE:\Term 10\Graduation project\cloud_medix\android\app\.cxx\Debug\73496z37\armeabi-v7a\additional_project_files.txtC
 A
+<<<<<<< HEAD
 ?com.android.build.gradle.internal.cxx.io.EncodedFileFingerPrint	œÞ¤ã2 ²Ãû„ã2s
 q
 oE:\Term 10\Graduation project\cloud_medix\android\app\.cxx\Debug\73496z37\armeabi-v7a\android_gradle_build.json	œÞ¤ã2á ¶Ãû„ã2x
@@ -26,3 +27,29 @@ o
 mE:\Term 10\Graduation project\cloud_medix\android\app\.cxx\Debug\73496z37\armeabi-v7a\symbol_folder_index.txt	ŽœÞ¤ã2d ÚÃû„ã2O
 M
 KE:\src\flutter\packages\flutter_tools\gradle\src\main\groovy\CMakeLists.txt	ŽœÞ¤ã2§ „öøËâ2
+=======
+?com.android.build.gradle.internal.cxx.io.EncodedFileFingerPrint	¬êŽ³ã2 ‚êŽ³ã2s
+q
+oE:\Term 10\Graduation project\cloud_medix\android\app\.cxx\Debug\73496z37\armeabi-v7a\android_gradle_build.json	¬êŽ³ã2á ‹êŽ³ã2x
+v
+tE:\Term 10\Graduation project\cloud_medix\android\app\.cxx\Debug\73496z37\armeabi-v7a\android_gradle_build_mini.json	¬êŽ³ã2î  êŽ³ã2e
+c
+aE:\Term 10\Graduation project\cloud_medix\android\app\.cxx\Debug\73496z37\armeabi-v7a\build.ninja	¬êŽ³ã2Í± ÿçŽ³ã2i
+g
+eE:\Term 10\Graduation project\cloud_medix\android\app\.cxx\Debug\73496z37\armeabi-v7a\build.ninja.txt	¬êŽ³ã2n
+l
+jE:\Term 10\Graduation project\cloud_medix\android\app\.cxx\Debug\73496z37\armeabi-v7a\build_file_index.txt	¬êŽ³ã2K ¥êŽ³ã2o
+m
+kE:\Term 10\Graduation project\cloud_medix\android\app\.cxx\Debug\73496z37\armeabi-v7a\compile_commands.json	­êŽ³ã2s
+q
+oE:\Term 10\Graduation project\cloud_medix\android\app\.cxx\Debug\73496z37\armeabi-v7a\compile_commands.json.bin	­êŽ³ã2	y
+w
+uE:\Term 10\Graduation project\cloud_medix\android\app\.cxx\Debug\73496z37\armeabi-v7a\metadata_generation_command.txt	­êŽ³ã2
+ £êŽ³ã2l
+j
+hE:\Term 10\Graduation project\cloud_medix\android\app\.cxx\Debug\73496z37\armeabi-v7a\prefab_config.json	­êŽ³ã2( £êŽ³ã2q
+o
+mE:\Term 10\Graduation project\cloud_medix\android\app\.cxx\Debug\73496z37\armeabi-v7a\symbol_folder_index.txt	­êŽ³ã2d ¤êŽ³ã2O
+M
+KE:\src\flutter\packages\flutter_tools\gradle\src\main\groovy\CMakeLists.txt	­êŽ³ã2§ „öøËâ2
+>>>>>>> master

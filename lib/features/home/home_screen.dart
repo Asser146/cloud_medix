@@ -24,22 +24,31 @@ class HomeScreen extends StatelessWidget {
               GestureDetector(
                 onTap: () =>
                     Navigator.pushNamed(context, Routes.viewMedicalRecord),
-                child: const HomeOption(text: "View Medical Record"),
+                child: const HomeOption(
+                  text: "View Medical Record",
+                  path: "assets/images/medical_record.svg",
+                ),
               ),
               GestureDetector(
                 onTap: () =>
                     Navigator.pushNamed(context, Routes.testsScanResults),
-                child: const HomeOption(text: "Tests/Scans Results"),
+                child: const HomeOption(
+                    text: "Tests/Scans Results",
+                    path: "assets/images/home_container1.svg"),
               ),
               GestureDetector(
                 onTap: () =>
                     Navigator.pushNamed(context, Routes.makeReservation),
-                child: const HomeOption(text: "Make Reservation"),
+                child: const HomeOption(
+                    text: "Make Reservation",
+                    path: "assets/images/make_reservation.svg"),
               ),
               GestureDetector(
                 onTap: () =>
                     Navigator.pushNamed(context, Routes.myReservations),
-                child: const HomeOption(text: "My Reservations"),
+                child: const HomeOption(
+                    text: "My Reservations",
+                    path: "assets/images/my_reservations.svg"),
               ),
             ],
           ),
