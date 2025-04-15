@@ -1,5 +1,5 @@
 import 'package:cloud_medix/core/theming/colors.dart';
-import 'package:cloud_medix/features/make_reservation/data/hospital_slot.dart';
+import 'package:cloud_medix/features/make_reservation/data/slot.dart';
 import 'package:cloud_medix/features/make_reservation/presentation/blocs/reserve_status_cubit.dart';
 import 'package:cloud_medix/features/make_reservation/presentation/components/reservation_button.dart';
 import 'package:cloud_medix/features/make_reservation/presentation/components/reservation_slot.dart';
@@ -14,7 +14,7 @@ class ReservationRow extends StatelessWidget {
     required this.slot,
   });
   final int index;
-  final HospitalSlot slot;
+  final Slot slot;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

@@ -1,6 +1,6 @@
 import 'package:cloud_medix/core/di/dependency_injection.dart';
 import 'package:cloud_medix/core/networking/api_response.dart';
-import 'package:cloud_medix/features/make_reservation/data/hospital_slot.dart';
+import 'package:cloud_medix/features/make_reservation/data/slot.dart';
 import 'package:cloud_medix/features/make_reservation/domain/reservation_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,14 +11,14 @@ class ReservationCubit extends Cubit<ReservationState> {
   final ReservationRepository repo = getIt<ReservationRepository>();
 
   bool selected = false;
-  List<HospitalSlot> slots = [];
+  List<Slot> slots = [];
   late ApiResponse response;
 
   ReservationCubit() : super(const ReserveStatusInitial()) {
     getSlots();
   }
 
-  void reserveSlot(String slotID) {
+  void reserveSlot(int slotID) {
     selected = !selected;
     emit(ReserveStatusToggled(selected));
   }

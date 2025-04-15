@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ReservationButton extends StatelessWidget {
   const ReservationButton({super.key, required this.id});
-  final String id;
+  final int id;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
