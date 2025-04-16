@@ -21,7 +21,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         isSettings
             ? IconButton(
                 icon: const Icon(
-                  Icons.edit,
+                  Icons.logout,
                   color: Colors.white,
                 ),
                 onPressed: () {
