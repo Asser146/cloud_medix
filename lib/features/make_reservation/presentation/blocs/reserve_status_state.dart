@@ -16,7 +16,7 @@ class ReserveStatusLoading extends ReservationState {
 }
 
 class ReserveStatusLoaded extends ReservationState {
-  final List<HospitalSlot> slots;
+  final List<Slot> slots;
 
   const ReserveStatusLoaded(this.slots);
 

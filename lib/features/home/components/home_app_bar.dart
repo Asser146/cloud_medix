@@ -13,6 +13,9 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    double heightM = 180 / 100;
+    double bmi = 74 / (heightM * heightM); // convert height to meters
+
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -27,12 +30,12 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // SizedBox(height: 25.h), // Adjust spacing for avatar
-                SvgPicture.asset(
-                  'assets/images/user.svg', // Ensure the path is correct
-                  width: 90.w, // Responsive width using screenutil
-                  height: 90.h, // Responsive height
-                  fit: BoxFit.contain,
+                CircleAvatar(
+                  radius: 45,
+                  backgroundColor: Colors.transparent,
+                  child: SvgPicture.asset(
+                    'assets/images/user.svg',
+                  ),
                 ),
                 SizedBox(height: 5.h),
                 Text(
@@ -54,24 +57,27 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                       data: '180',
                       type: 2,
                     ),
-                    GestureDetector(
-                      onTap: () async {
-                        final navigator =
-                            Navigator.of(context); // capture before async
-                        final storage = getIt<FlutterSecureStorage>();
-                        await storage.deleteAll();
-                        navigator.popAndPushNamed(Routes.login); // safe!
-                      },
-                      child: AppBarContainer(
-                          image: 'assets/images/signout.svg',
-                          data: 'log out',
-                          type: 3),
-                    ),
+                    AppBarContainer(
+                        image: 'assets/images/bmi.svg',
+                        data: "BMI: ${bmi.toStringAsFixed(2)}",
+                        type: 3),
                   ],
                 ),
                 SizedBox(height: 10.h),
               ],
             ),
+          ),
+        ),
+        Positioned(
+          top: 35.h,
+          right: 16.w,
+          child: IconButton(
+            icon: Icon(Icons.settings, color: Colors.white, size: 28.sp),
+            onPressed: () {
+              // Navigate to settings or perform your logic
+              Navigator.pushNamed(
+                  context, Routes.settings); // make sure this route exists
+            },
           ),
         ),
       ],

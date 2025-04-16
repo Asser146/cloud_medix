@@ -18,7 +18,7 @@ class ViewMedicalRecord extends StatelessWidget {
   Widget build(BuildContext context) {
     context.read<MedicalRecordCubit>().getMedRecord();
     return Scaffold(
-      appBar: const MyAppBar(title: "Medical Record"),
+      appBar: MyAppBar(title: "Medical Record"),
       backgroundColor: ColorsManager.backgroundColor,
       body: Padding(
         padding: EdgeInsets.only(top: 8.h),

@@ -11,7 +11,7 @@ class TestsScanResults extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MyAppBar(title: "Tests/Scan Results"),
+      appBar: MyAppBar(title: "Tests/Scan Results"),
       backgroundColor: ColorsManager.backgroundColor,
       body: Padding(
         padding:

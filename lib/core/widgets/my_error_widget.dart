@@ -8,6 +8,7 @@ class MyErrorWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Image.asset(
           "assets/images/error.png",

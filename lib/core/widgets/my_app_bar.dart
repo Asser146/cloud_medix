@@ -5,20 +5,33 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const MyAppBar({
+  MyAppBar({
     super.key,
     required this.title,
+    this.isSettings = false, // optional with default
   });
+
   final String title;
+  bool isSettings = false;
   @override
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: ColorsManager.primaryColor,
       actions: [
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 3.h),
-          child: SvgPicture.asset('assets/images/user.svg'),
-        ),
+        isSettings
+            ? IconButton(
+                icon: const Icon(
+                  Icons.logout,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  // Edit action
+                },
+              )
+            : Padding(
+                padding: EdgeInsets.symmetric(vertical: 3.h),
+                child: SvgPicture.asset('assets/images/user.svg'),
+              ),
       ],
       title: Text(title),
       titleTextStyle: TextStyles.appBarTexts,

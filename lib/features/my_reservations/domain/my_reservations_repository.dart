@@ -4,25 +4,24 @@ import 'dart:developer';
 import 'package:cloud_medix/core/di/dependency_injection.dart';
 import 'package:cloud_medix/core/networking/api_response.dart';
 import 'package:cloud_medix/core/networking/api_service.dart';
-import 'package:cloud_medix/features/make_reservation/data/slot.dart';
+import 'package:cloud_medix/features/my_reservations/data/my_reservation.dart';
 import 'package:dio/dio.dart';
 
-class ReservationRepository {
-  Future<ApiResponse<List<Slot>>> getSlots() async {
+class MyReservationsRepository {
+  Future<ApiResponse<List<MyReservation>>> getReservations(String id) async {
     final client = getIt<ApiService>();
 
     try {
       final response = await client
-          .getallSlots()
+          .getMyReservations(id)
           .timeout(const Duration(seconds: 10), onTimeout: () {
         return ApiResponse(
             data: [], error: "Server timeout. Please try again.");
       });
-
       if (response.status == 200) {
         return response;
       } else {
-        return ApiResponse(data: [], error: "No Slots Available");
+        return ApiResponse(data: [], error: "No Reservations Done");
       }
     } on DioException catch (e) {
       log("DioException: ${e.message}");

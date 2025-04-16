@@ -17,53 +17,43 @@ class AppBarContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 80.h,
-      width: 80.w,
+      height: 90.h,
+      width: 90.w,
       decoration: BoxDecoration(
           color: ColorsManager.secondaryColor,
           borderRadius: BorderRadius.all(Radius.circular(12.sp))),
-      child: type == 3
-          ? Padding(
-              padding: EdgeInsets.symmetric(vertical: 5.h),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  FittedBox(
-                    child: SvgPicture.asset(
-                      image,
-                      width: 45.w,
-                      height: 40.h,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                ],
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 5.h),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            FittedBox(
+              fit: BoxFit.fitHeight,
+              child: SvgPicture.asset(
+                image,
+                width: 45.w,
+                height: 45.h,
+                fit: BoxFit.contain,
               ),
-            )
-          : Padding(
-              padding: EdgeInsets.symmetric(vertical: 5.h),
-              child: FittedBox(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset(
-                      image,
-                      width: 45.w,
-                      height: 40.h,
-                      fit: BoxFit.contain,
-                    ),
-                    SizedBox(height: 3.h),
-                    Text(
-                      data,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+            ),
+            SizedBox(height: 3.h),
+            FittedBox(
+              fit: BoxFit.fitWidth,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5.w),
+                child: Text(
+                  data,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
+          ],
+        ),
+      ),
     );
   }
 }

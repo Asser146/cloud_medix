@@ -1,11 +1,10 @@
 import 'package:cloud_medix/core/networking/api_constants.dart';
 import 'package:cloud_medix/core/networking/api_response.dart';
-import 'package:cloud_medix/core/networking/system_user.dart';
 import 'package:cloud_medix/features/auth/data/login_body.dart';
-import 'package:cloud_medix/features/auth/data/login_response.dart';
 import 'package:cloud_medix/features/auth/data/register_body.dart';
-import 'package:cloud_medix/features/make_reservation/data/hospital_slot.dart';
+import 'package:cloud_medix/features/make_reservation/data/slot.dart';
 import 'package:cloud_medix/features/medical_record/data/medical_record.dart';
+import 'package:cloud_medix/features/my_reservations/data/my_reservation.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -16,9 +15,6 @@ abstract class ApiService {
   factory ApiService(Dio dio, {String? baseUrl}) {
     return _ApiService(dio, baseUrl: baseUrl ?? ApiConstants.apiBaseUrl);
   }
-
-  @GET(ApiConstants.systemAccController)
-  Future<List<SystemUser>> getSystemUsers();
 
   @POST(ApiConstants.register)
   Future<ApiResponse> register(
@@ -31,7 +27,11 @@ abstract class ApiService {
   );
 
   @GET(ApiConstants.slots)
-  Future<ApiResponse<List<HospitalSlot>>> getallSlots();
+  Future<ApiResponse<List<Slot>>> getallSlots();
+
+  @GET("${ApiConstants.myReservations}/{id}")
+  Future<ApiResponse<List<MyReservation>>> getMyReservations(
+      @Path('id') String id);
 
   @GET("${ApiConstants.medicalRecord}/{id}")
   Future<ApiResponse<MedicalRecord>> getMedicalRecord(@Path('id') String id);
