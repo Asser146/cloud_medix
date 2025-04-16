@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_medix/core/widgets/loading_widget.dart';
 import 'package:cloud_medix/core/widgets/my_error_widget.dart';
 import 'package:cloud_medix/features/make_reservation/presentation/blocs/reserve_status_cubit.dart';
@@ -18,7 +16,6 @@ class DataBody extends StatelessWidget {
     return Expanded(
       child: BlocBuilder<ReservationCubit, ReservationState>(
         builder: (context, state) {
-          log(state.toString());
           if (state is ReserveStatusLoading) {
             return const Center(
               child: LoadingWidget(),

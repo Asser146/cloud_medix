@@ -22,9 +22,10 @@ class ReservationSlot extends StatelessWidget {
           borderRadius: BorderRadius.only(
               topRight: Radius.circular(10.r),
               bottomRight: Radius.circular(10.r)),
-          color: isOdd
-              ? ColorsManager.lightCyanColor
-              : ColorsManager.lightgreyColor,
+          color: ColorsManager.lightgreyColor,
+          //  isOdd
+          //     ? ColorsManager.lightCyanColor
+          //     : ColorsManager.lightgreyColor,
         ),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),

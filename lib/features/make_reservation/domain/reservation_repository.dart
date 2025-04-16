@@ -14,16 +14,15 @@ class ReservationRepository {
     try {
       final response = await client
           .getallSlots()
-          .timeout(const Duration(seconds: 5), onTimeout: () {
+          .timeout(const Duration(seconds: 10), onTimeout: () {
         return ApiResponse(
             data: [], error: "Server timeout. Please try again.");
       });
 
       if (response.status == 200) {
-        log(response.data.toString());
         return response;
       } else {
-        return ApiResponse(data: [], error: "No Medical Record Available");
+        return ApiResponse(data: [], error: "No Slots Available");
       }
     } on DioException catch (e) {
       log("DioException: ${e.message}");

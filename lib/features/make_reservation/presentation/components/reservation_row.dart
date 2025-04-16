@@ -29,13 +29,14 @@ class ReservationRow extends StatelessWidget {
                 height: 70.h,
                 width: 8.w,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(12.r),
-                      bottomLeft: Radius.circular(12.r)),
-                  color: index % 2 == 0
-                      ? ColorsManager.darkgreyColor
-                      : ColorsManager.darkcyanColor,
-                ),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(12.r),
+                        bottomLeft: Radius.circular(12.r)),
+                    color: ColorsManager.darkgreyColor
+                    // index % 2 == 0
+                    //     ? ColorsManager.darkgreyColor
+                    //     : ColorsManager.darkcyanColor,
+                    ),
               ),
               ReservationSlot(isOdd: index % 2 != 0 ? true : false, slot: slot),
               const Spacer(),
