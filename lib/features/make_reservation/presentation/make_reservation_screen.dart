@@ -11,7 +11,7 @@ class MakeReservationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MyAppBar(title: "Make Reservation"),
+      appBar: MyAppBar(title: "Make Reservation"),
       backgroundColor: ColorsManager.backgroundColor,
       body: Column(
         children: [

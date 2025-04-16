@@ -14,7 +14,7 @@ class MyReservationsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MyAppBar(title: "My Reservations"),
+      appBar: MyAppBar(title: "My Reservations"),
       backgroundColor: ColorsManager.backgroundColor,
       body: BlocBuilder<MyReservationsCubit, MyReservationState>(
         builder: (context, state) {
