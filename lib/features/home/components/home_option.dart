@@ -7,8 +7,9 @@ class HomeOption extends StatelessWidget {
   const HomeOption({
     super.key,
     required this.text,
+    required this.path,
   });
-  final String text;
+  final String text, path;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -29,10 +30,15 @@ class HomeOption extends StatelessWidget {
                 style: TextStyles.cyanTexts,
               ),
               const Spacer(),
-              SvgPicture.asset(
-                "assets/images/home_container1.svg",
-                height: 75.h,
-                fit: BoxFit.cover,
+              Container(
+                margin: EdgeInsets.all(5.w),
+                child: FittedBox(
+                  fit: BoxFit.fitHeight,
+                  child: SvgPicture.asset(
+                    height: 55.h,
+                    path,
+                  ),
+                ),
               )
             ],
           ),
