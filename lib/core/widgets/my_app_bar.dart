@@ -1,7 +1,10 @@
+import 'package:cloud_medix/core/di/dependency_injection.dart';
+import 'package:cloud_medix/core/routing/routes.dart';
 import 'package:cloud_medix/core/theming/colors.dart';
 import 'package:cloud_medix/core/theming/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -24,8 +27,12 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                   Icons.logout,
                   color: Colors.white,
                 ),
-                onPressed: () {
-                  // Edit action
+                onPressed: () async {
+                  FlutterSecureStorage storage = getIt<FlutterSecureStorage>();
+                  await storage.deleteAll();
+                  if (context.mounted) {
+                    Navigator.popAndPushNamed(context, Routes.login);
+                  }
                 },
               )
             : Padding(
