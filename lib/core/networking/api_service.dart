@@ -26,8 +26,8 @@ abstract class ApiService {
     @Body() LoginBody loginRequestBody,
   );
 
-  @GET(ApiConstants.slots)
-  Future<ApiResponse<List<Slot>>> getallSlots();
+  @GET("${ApiConstants.slots}/{id}")
+  Future<ApiResponse<List<Slot>>> getallSlots(@Path('id') String id);
 
   @GET("${ApiConstants.myReservations}/{id}")
   Future<ApiResponse<List<MyReservation>>> getMyReservations(

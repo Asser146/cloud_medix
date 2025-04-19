@@ -8,11 +8,10 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 part 'my_reservations_state.dart';
 
-class MyReservationsCubit extends Cubit<MyReservationState> {
+class MyReservationsCubit extends Cubit<MyReservationsState> {
   final MyReservationsRepository repo = getIt<MyReservationsRepository>();
   FlutterSecureStorage storage = getIt<FlutterSecureStorage>();
 
-  bool selected = false;
   List<MyReservation> reservations = [];
   late ApiResponse response;
 
@@ -20,9 +19,16 @@ class MyReservationsCubit extends Cubit<MyReservationState> {
     getReservations();
   }
 
-  void reserveSlot(int slotID) {
-    selected = !selected;
-    emit(MyReservationsToggled(selected));
+  int? selectedReservationId;
+
+  void cancelReservation(int reservationId) {
+    emit(const MyReservationsLoading());
+    if (selectedReservationId == reservationId) {
+      selectedReservationId = null;
+    } else {
+      selectedReservationId = reservationId;
+    }
+    emit(MyReservationsLoaded(List.from(reservations)));
   }
 
   Future<void> getReservations() async {

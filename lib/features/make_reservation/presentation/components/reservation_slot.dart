@@ -8,10 +8,8 @@ import 'package:intl/intl.dart';
 class ReservationSlot extends StatelessWidget {
   const ReservationSlot({
     super.key,
-    required this.isOdd,
     required this.slot,
   });
-  final bool isOdd;
   final Slot slot;
   @override
   Widget build(BuildContext context) {
@@ -23,9 +21,6 @@ class ReservationSlot extends StatelessWidget {
               topRight: Radius.circular(10.r),
               bottomRight: Radius.circular(10.r)),
           color: ColorsManager.lightgreyColor,
-          //  isOdd
-          //     ? ColorsManager.lightCyanColor
-          //     : ColorsManager.lightgreyColor,
         ),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -38,8 +33,8 @@ class ReservationSlot extends StatelessWidget {
                 Text(
                     "${DateFormat.Hm().format(DateTime.parse(slot.startTime.toString()))} - ${DateFormat.Hm().format(DateTime.parse(slot.endTime.toString()))}",
                     style: TextStyles.slotDuration),
-                Text(slot.physician.fullName, style: TextStyles.doctorName),
-                Text(slot.specialty.name, style: TextStyles.hospitalName),
+                Text(slot.physicianFullName, style: TextStyles.doctorName),
+                Text(slot.specialtyName, style: TextStyles.hospitalName),
               ],
             ),
           ),

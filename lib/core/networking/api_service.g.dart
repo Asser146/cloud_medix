@@ -84,7 +84,7 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<ApiResponse<List<Slot>>> getallSlots() async {
+  Future<ApiResponse<List<Slot>>> getallSlots(String id) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -93,7 +93,7 @@ class _ApiService implements ApiService {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'slots',
+            'slots/${id}',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -127,7 +127,7 @@ class _ApiService implements ApiService {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'reservation/patient/${id}',
+            'reservation/patient/central/${id}',
             queryParameters: queryParameters,
             data: _data,
           )

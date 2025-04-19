@@ -3,7 +3,7 @@ import 'package:cloud_medix/features/auth/presentation/blocs/auth_cubit.dart';
 import 'package:cloud_medix/features/auth/presentation/screens/login_screen.dart';
 import 'package:cloud_medix/features/auth/presentation/screens/register_screen.dart';
 import 'package:cloud_medix/features/home/home_screen.dart';
-import 'package:cloud_medix/features/make_reservation/presentation/blocs/reserve_status_cubit.dart';
+import 'package:cloud_medix/features/make_reservation/presentation/blocs/make_reservation_cubit.dart';
 import 'package:cloud_medix/features/make_reservation/presentation/make_reservation_screen.dart';
 import 'package:cloud_medix/features/medical_record/presentation/blocs/medical_record_cubit.dart';
 import 'package:cloud_medix/features/medical_record/view_medical_record.dart';
@@ -44,7 +44,7 @@ class AppRouter {
       case Routes.makeReservation:
         return MaterialPageRoute(
             builder: (_) => BlocProvider(
-                  create: (context) => ReservationCubit(),
+                  create: (context) => MakeReservationCubit(),
                   child: const MakeReservationScreen(),
                 ));
       case Routes.myReservations:

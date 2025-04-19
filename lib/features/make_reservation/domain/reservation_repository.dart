@@ -8,12 +8,11 @@ import 'package:cloud_medix/features/make_reservation/data/slot.dart';
 import 'package:dio/dio.dart';
 
 class ReservationRepository {
-  Future<ApiResponse<List<Slot>>> getSlots() async {
+  Future<ApiResponse<List<Slot>>> getSlots(String id) async {
     final client = getIt<ApiService>();
-
     try {
       final response = await client
-          .getallSlots()
+          .getallSlots(id)
           .timeout(const Duration(seconds: 10), onTimeout: () {
         return ApiResponse(
             data: [], error: "Server timeout. Please try again.");
@@ -29,7 +28,7 @@ class ReservationRepository {
       return ApiResponse(
           data: [], error: "Network error. Please check your connection.");
     } catch (e) {
-      log("Unexpected Error: ${e.toString()}");
+      log("Unexpected Error1: ${e.toString()}");
       return ApiResponse(
           data: [], error: "Something went wrong. Please try again.");
     }

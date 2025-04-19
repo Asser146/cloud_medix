@@ -16,7 +16,7 @@ class MyReservationsScreen extends StatelessWidget {
     return Scaffold(
       appBar: MyAppBar(title: "My Reservations"),
       backgroundColor: ColorsManager.backgroundColor,
-      body: BlocBuilder<MyReservationsCubit, MyReservationState>(
+      body: BlocBuilder<MyReservationsCubit, MyReservationsState>(
         builder: (context, state) {
           if (state is MyReservationsLoading) {
             return const Center(
@@ -38,7 +38,12 @@ class MyReservationsScreen extends StatelessWidget {
               itemCount: state.reservations.length,
               itemBuilder: (context, index) {
                 return ReservationRow(
-                    index: index, slot: state.reservations[index].slot);
+                  index: index,
+                  slot: state.reservations[index].slot,
+                  buttonFunc: () => context
+                      .read<MyReservationsCubit>()
+                      .cancelReservation(state.reservations[index].slot.id),
+                );
               },
             );
           } else {

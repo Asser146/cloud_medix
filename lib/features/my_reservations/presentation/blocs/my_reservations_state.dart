@@ -1,21 +1,21 @@
 part of 'my_reservations_cubit.dart';
 
-abstract class MyReservationState extends Equatable {
-  const MyReservationState();
+abstract class MyReservationsState extends Equatable {
+  const MyReservationsState();
 
   @override
   List<Object?> get props => [];
 }
 
-class MyReservationsInitial extends MyReservationState {
+class MyReservationsInitial extends MyReservationsState {
   const MyReservationsInitial();
 }
 
-class MyReservationsLoading extends MyReservationState {
+class MyReservationsLoading extends MyReservationsState {
   const MyReservationsLoading();
 }
 
-class MyReservationsLoaded extends MyReservationState {
+class MyReservationsLoaded extends MyReservationsState {
   final List<MyReservation> reservations;
 
   const MyReservationsLoaded(this.reservations);
@@ -24,16 +24,7 @@ class MyReservationsLoaded extends MyReservationState {
   List<Object> get props => [reservations];
 }
 
-class MyReservationsToggled extends MyReservationState {
-  final bool selected;
-
-  const MyReservationsToggled(this.selected);
-
-  @override
-  List<Object> get props => [selected];
-}
-
-class MyReservationsError extends MyReservationState {
+class MyReservationsError extends MyReservationsState {
   final String message;
 
   const MyReservationsError(this.message);
