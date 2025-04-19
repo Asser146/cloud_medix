@@ -33,4 +33,31 @@ class MyReservationsRepository {
           data: [], error: "Something went wrong. Please try again.");
     }
   }
+
+  Future<ApiResponse<String>> cancelReservation(
+      String patientId, int reservationId) async {
+    final client = getIt<ApiService>();
+    try {
+      final response = await client
+          .cancelReservation(patientId, reservationId)
+          .timeout(const Duration(seconds: 10), onTimeout: () {
+        return ApiResponse<String>(
+            data: null, error: "Server timeout. Please try again.");
+      });
+
+      if (response.status == 200) {
+        return response;
+      } else {
+        return ApiResponse<String>(data: null, error: "No Slots Available");
+      }
+    } on DioException catch (e) {
+      log("DioException: ${e.message}");
+      return ApiResponse<String>(
+          data: null, error: "Network error. Please check your connection.");
+    } catch (e) {
+      log("Unexpected Error1: ${e.toString()}");
+      return ApiResponse<String>(
+          data: null, error: "Something went wrong. Please try again.");
+    }
+  }
 }

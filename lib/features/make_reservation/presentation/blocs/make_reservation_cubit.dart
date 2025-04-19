@@ -23,13 +23,23 @@ class MakeReservationCubit extends Cubit<MakeReservationState> {
 
   int? selectedSlotId;
 
-  void reserveSlot(int slotID) {
-    emit(const MakeReservationLoading());
-    if (selectedSlotId == slotID) {
-      selectedSlotId = null;
-    } else {
-      selectedSlotId = slotID;
+  Future<void> reserveSlot(int slotID) async {
+    emit(MakeReservationReserveLoading(List.from(slots)));
+    String? id = await storage.read(key: "id");
+    if (id == null) {
+      emit(const MakeReservationError("User ID is missing Error"));
+      return;
     }
+
+    await repo.makeReservation(id, slotID);
+
+    // Update slot locally
+    int index = slots.indexWhere((slot) => slot.id == slotID);
+    if (index != -1) {
+      slots[index] = slots[index]
+          .copyWith(reserved: true); // You need to implement copyWith
+    }
+
     emit(MakeReservationLoaded(List.from(slots)));
   }
 

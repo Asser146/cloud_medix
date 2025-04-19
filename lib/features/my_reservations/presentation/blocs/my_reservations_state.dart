@@ -32,3 +32,12 @@ class MyReservationsError extends MyReservationsState {
   @override
   List<Object> get props => [message];
 }
+
+class MyReservationsCancelLoading extends MyReservationsState {
+  final List<MyReservation> reservations;
+
+  const MyReservationsCancelLoading(this.reservations);
+
+  @override
+  List<Object> get props => [reservations];
+}

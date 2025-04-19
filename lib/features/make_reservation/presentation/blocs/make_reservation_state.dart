@@ -32,3 +32,11 @@ class MakeReservationError extends MakeReservationState {
   @override
   List<Object> get props => [message];
 }
+
+class MakeReservationReserveLoading extends MakeReservationState {
+  final List<Slot> slots;
+  const MakeReservationReserveLoading(this.slots);
+
+  @override
+  List<Object?> get props => [slots];
+}

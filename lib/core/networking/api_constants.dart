@@ -8,4 +8,6 @@ class ApiConstants {
   static const String slots = "slots";
   static const String myReservations = "reservation/patient/central";
   static const String medicalRecord = "MedicalRecord/patientId";
+  static const String makeReservation = "reservation";
+  static const String cancelReservation = "reservation";
 }

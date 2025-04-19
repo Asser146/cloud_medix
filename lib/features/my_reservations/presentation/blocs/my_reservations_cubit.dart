@@ -21,14 +21,26 @@ class MyReservationsCubit extends Cubit<MyReservationsState> {
 
   int? selectedReservationId;
 
-  void cancelReservation(int reservationId) {
-    emit(const MyReservationsLoading());
-    if (selectedReservationId == reservationId) {
-      selectedReservationId = null;
-    } else {
-      selectedReservationId = reservationId;
+  Future<void> cancelReservation(int reservationId) async {
+    emit(MyReservationsCancelLoading(List.from(reservations))); // Show loading
+    String? id = await storage.read(key: "id");
+    if (id == null) {
+      emit(const MyReservationsError("User ID is missing Error"));
+      return;
     }
-    emit(MyReservationsLoaded(List.from(reservations)));
+
+    // Call API to cancel reservation
+    final cancelResponse = await repo.cancelReservation(id, reservationId);
+    if (cancelResponse.status == 200) {
+      // Update the reservation list after successful cancellation
+      reservations
+          .removeWhere((reservation) => reservation.id == reservationId);
+      emit(MyReservationsLoaded(
+          List.from(reservations))); // Emit loaded state with updated list
+    } else {
+      emit(MyReservationsError(
+          cancelResponse.error ?? "Failed to cancel the reservation"));
+    }
   }
 
   Future<void> getReservations() async {

@@ -23,4 +23,23 @@ class Slot {
   factory Slot.fromJson(Map<String, dynamic> json) => _$SlotFromJson(json);
 
   Map<String, dynamic> toJson() => _$SlotToJson(this);
+
+  // 👇 Add this copyWith method
+  Slot copyWith({
+    int? id,
+    DateTime? startTime,
+    DateTime? endTime,
+    String? physicianFullName,
+    String? specialtyName,
+    bool? reserved,
+  }) {
+    return Slot(
+      reserved ?? this.reserved,
+      id: id ?? this.id,
+      startTime: startTime ?? this.startTime,
+      endTime: endTime ?? this.endTime,
+      physicianFullName: physicianFullName ?? this.physicianFullName,
+      specialtyName: specialtyName ?? this.specialtyName,
+    );
+  }
 }

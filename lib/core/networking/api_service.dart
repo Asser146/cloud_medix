@@ -2,6 +2,7 @@ import 'package:cloud_medix/core/networking/api_constants.dart';
 import 'package:cloud_medix/core/networking/api_response.dart';
 import 'package:cloud_medix/features/auth/data/login_body.dart';
 import 'package:cloud_medix/features/auth/data/register_body.dart';
+import 'package:cloud_medix/features/make_reservation/data/reservation_body.dart';
 import 'package:cloud_medix/features/make_reservation/data/slot.dart';
 import 'package:cloud_medix/features/medical_record/data/medical_record.dart';
 import 'package:cloud_medix/features/my_reservations/data/my_reservation.dart';
@@ -35,4 +36,16 @@ abstract class ApiService {
 
   @GET("${ApiConstants.medicalRecord}/{id}")
   Future<ApiResponse<MedicalRecord>> getMedicalRecord(@Path('id') String id);
+
+  @POST("${ApiConstants.makeReservation}/{id}")
+  Future<ApiResponse> makeReservation(
+    @Path('id') String id,
+    @Body() ReservationBody reservationRequestBody,
+  );
+
+  @DELETE("${ApiConstants.cancelReservation}/{patientId}/{id}")
+  Future<ApiResponse<String>> cancelReservation(
+    @Path("patientId") String patientId,
+    @Path("id") int reservationId,
+  );
 }
