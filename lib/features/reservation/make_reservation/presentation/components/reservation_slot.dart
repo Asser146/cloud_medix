@@ -1,6 +1,6 @@
 import 'package:cloud_medix/core/theming/colors.dart';
 import 'package:cloud_medix/core/theming/styles.dart';
-import 'package:cloud_medix/features/make_reservation/data/slot.dart';
+import 'package:cloud_medix/features/reservation/make_reservation/data/slot.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';

@@ -3,12 +3,11 @@ import 'package:cloud_medix/features/auth/presentation/blocs/auth_cubit.dart';
 import 'package:cloud_medix/features/auth/presentation/screens/login_screen.dart';
 import 'package:cloud_medix/features/auth/presentation/screens/register_screen.dart';
 import 'package:cloud_medix/features/home/home_screen.dart';
-import 'package:cloud_medix/features/make_reservation/presentation/blocs/make_reservation_cubit.dart';
-import 'package:cloud_medix/features/make_reservation/presentation/make_reservation_screen.dart';
+import 'package:cloud_medix/features/reservation/blocs/reservation_cubit.dart';
+import 'package:cloud_medix/features/reservation/make_reservation/presentation/make_reservation_screen.dart';
 import 'package:cloud_medix/features/medical_record/presentation/blocs/medical_record_cubit.dart';
 import 'package:cloud_medix/features/medical_record/view_medical_record.dart';
-import 'package:cloud_medix/features/my_reservations/presentation/blocs/my_reservations_cubit.dart';
-import 'package:cloud_medix/features/my_reservations/presentation/my_reservations_screen.dart';
+import 'package:cloud_medix/features/reservation/my_reservations/presentation/my_reservations_screen.dart';
 import 'package:cloud_medix/features/settings/presentation/screens/settings_screen.dart';
 import 'package:cloud_medix/features/tests_scan_results/tests_scan_results.dart';
 import 'package:flutter/material.dart';
@@ -44,13 +43,13 @@ class AppRouter {
       case Routes.makeReservation:
         return MaterialPageRoute(
             builder: (_) => BlocProvider(
-                  create: (context) => MakeReservationCubit(),
+                  create: (context) => ReservationCubit(),
                   child: const MakeReservationScreen(),
                 ));
       case Routes.myReservations:
         return MaterialPageRoute(
             builder: (_) => BlocProvider(
-                  create: (context) => MyReservationsCubit(),
+                  create: (context) => ReservationCubit(),
                   child: const MyReservationsScreen(),
                 ));
 

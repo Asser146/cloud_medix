@@ -1,8 +1,8 @@
 import 'package:cloud_medix/core/widgets/loading_widget.dart';
 import 'package:cloud_medix/core/widgets/my_error_widget.dart';
-import 'package:cloud_medix/features/make_reservation/data/slot.dart';
-import 'package:cloud_medix/features/make_reservation/presentation/blocs/make_reservation_cubit.dart';
-import 'package:cloud_medix/features/make_reservation/presentation/components/reservation_row.dart';
+import 'package:cloud_medix/features/reservation/blocs/reservation_cubit.dart';
+import 'package:cloud_medix/features/reservation/make_reservation/data/slot.dart';
+import 'package:cloud_medix/features/reservation/make_reservation/presentation/components/reservation_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,20 +13,20 @@ class DataBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: BlocBuilder<MakeReservationCubit, MakeReservationState>(
+      child: BlocBuilder<ReservationCubit, ReservationState>(
         builder: (context, state) {
           // Extract slots if available
           List<Slot> slots = [];
           bool showOverlayLoader = false;
 
-          if (state is MakeReservationLoaded) {
-            slots = state.slots;
-          } else if (state is MakeReservationReserveLoading) {
-            slots = state.slots;
+          if (state is ReservationLoaded) {
+            slots = List<Slot>.from(state.list);
+          } else if (state is ReservationProcessLoading) {
+            slots = List<Slot>.from(state.list);
             showOverlayLoader = true;
-          } else if (state is MakeReservationLoading) {
+          } else if (state is ReservationLoading) {
             return const Center(child: LoadingWidget());
-          } else if (state is MakeReservationError) {
+          } else if (state is ReservationError) {
             return MyErrorWidget(message: state.message);
           }
 
@@ -55,9 +55,7 @@ class DataBody extends StatelessWidget {
                     return ReservationRow(
                       index: index,
                       slot: slots[index],
-                      buttonFunc: () => context
-                          .read<MakeReservationCubit>()
-                          .reserveSlot(slots[index].id),
+                      isMyReservations: false,
                     );
                   },
                 ),

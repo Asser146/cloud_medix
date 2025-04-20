@@ -1,4 +1,4 @@
-import 'package:cloud_medix/features/make_reservation/data/slot.dart';
+import 'package:cloud_medix/features/reservation/make_reservation/data/slot.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'my_reservation.g.dart';

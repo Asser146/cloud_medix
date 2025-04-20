@@ -2,10 +2,10 @@ import 'package:cloud_medix/core/networking/api_constants.dart';
 import 'package:cloud_medix/core/networking/api_response.dart';
 import 'package:cloud_medix/features/auth/data/login_body.dart';
 import 'package:cloud_medix/features/auth/data/register_body.dart';
-import 'package:cloud_medix/features/make_reservation/data/reservation_body.dart';
-import 'package:cloud_medix/features/make_reservation/data/slot.dart';
+import 'package:cloud_medix/features/reservation/make_reservation/data/reservation_body.dart';
+import 'package:cloud_medix/features/reservation/make_reservation/data/slot.dart';
 import 'package:cloud_medix/features/medical_record/data/medical_record.dart';
-import 'package:cloud_medix/features/my_reservations/data/my_reservation.dart';
+import 'package:cloud_medix/features/reservation/my_reservations/data/my_reservation.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 

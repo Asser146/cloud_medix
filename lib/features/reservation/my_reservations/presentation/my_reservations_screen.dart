@@ -1,9 +1,10 @@
 import 'package:cloud_medix/core/widgets/loading_widget.dart';
+
 import 'package:cloud_medix/core/widgets/my_app_bar.dart';
 import 'package:cloud_medix/core/widgets/my_error_widget.dart';
-import 'package:cloud_medix/features/make_reservation/presentation/components/reservation_row.dart';
-import 'package:cloud_medix/features/my_reservations/data/my_reservation.dart';
-import 'package:cloud_medix/features/my_reservations/presentation/blocs/my_reservations_cubit.dart';
+import 'package:cloud_medix/features/reservation/blocs/reservation_cubit.dart';
+import 'package:cloud_medix/features/reservation/make_reservation/presentation/components/reservation_row.dart';
+import 'package:cloud_medix/features/reservation/my_reservations/data/my_reservation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_medix/core/theming/colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,29 +15,30 @@ class MyReservationsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<ReservationCubit>().getReservations();
+
     return Scaffold(
       appBar: MyAppBar(title: "My Reservations"),
       backgroundColor: ColorsManager.backgroundColor,
-      body: BlocBuilder<MyReservationsCubit, MyReservationsState>(
+      body: BlocBuilder<ReservationCubit, ReservationState>(
         builder: (context, state) {
-          // Extract reservations if available
+          // Extract reservation if available
           List<MyReservation> reservations = [];
           bool showOverlayLoader = false;
-
-          if (state is MyReservationsLoaded) {
-            reservations = state.reservations;
-          } else if (state is MyReservationsCancelLoading) {
-            reservations = state.reservations;
+          if (state is ReservationLoaded) {
+            reservations = List<MyReservation>.from(state.list);
+          } else if (state is ReservationProcessLoading) {
+            reservations = List<MyReservation>.from(state.list);
             showOverlayLoader = true;
-          } else if (state is MyReservationsLoading) {
+          } else if (state is ReservationLoading) {
             return const Center(child: LoadingWidget());
-          } else if (state is MyReservationsError) {
-            return MyErrorWidget(message: state.message);
+          } else if (state is ReservationError) {
+            return Center(child: MyErrorWidget(message: state.message));
           }
 
           if (reservations.isEmpty) {
             return const Center(
-              child: Text("No available reservations.",
+              child: Text("No available reservation.",
                   style: TextStyle(color: Colors.black, fontSize: 16)),
             );
           }
@@ -50,9 +52,8 @@ class MyReservationsScreen extends StatelessWidget {
                   return ReservationRow(
                     index: index,
                     slot: reservations[index].slot,
-                    buttonFunc: () => context
-                        .read<MyReservationsCubit>()
-                        .cancelReservation(reservations[index].id),
+                    isMyReservations: true,
+                    resId: reservations[index].id,
                   );
                 },
               ),

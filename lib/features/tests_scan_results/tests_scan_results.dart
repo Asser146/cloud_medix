@@ -1,5 +1,5 @@
 import 'package:cloud_medix/core/widgets/my_app_bar.dart';
-import 'package:cloud_medix/features/make_reservation/presentation/components/filter_option.dart';
+import 'package:cloud_medix/features/reservation/make_reservation/presentation/components/filter_option.dart';
 import 'package:cloud_medix/features/tests_scan_results/components/test_scan_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

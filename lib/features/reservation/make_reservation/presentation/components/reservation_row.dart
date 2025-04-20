@@ -1,7 +1,7 @@
 import 'package:cloud_medix/core/theming/colors.dart';
-import 'package:cloud_medix/features/make_reservation/data/slot.dart';
-import 'package:cloud_medix/features/make_reservation/presentation/components/reservation_button.dart';
-import 'package:cloud_medix/features/make_reservation/presentation/components/reservation_slot.dart';
+import 'package:cloud_medix/features/reservation/make_reservation/data/slot.dart';
+import 'package:cloud_medix/features/reservation/make_reservation/presentation/components/reservation_button.dart';
+import 'package:cloud_medix/features/reservation/make_reservation/presentation/components/reservation_slot.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -10,11 +10,13 @@ class ReservationRow extends StatelessWidget {
     super.key,
     required this.index,
     required this.slot,
-    required this.buttonFunc,
+    required this.isMyReservations,
+    this.resId,
   });
+  final int? resId;
   final int index;
   final Slot slot;
-  final VoidCallback buttonFunc;
+  final bool isMyReservations;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -35,9 +37,9 @@ class ReservationRow extends StatelessWidget {
             ReservationSlot(slot: slot),
             const Spacer(),
             ReservationButton(
-              id: slot.id,
-              func: buttonFunc,
+              id: isMyReservations ? resId! : slot.id,
               isReserved: slot.reserved,
+              isMyReservations: isMyReservations,
             ),
           ],
         ),

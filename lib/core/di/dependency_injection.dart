@@ -4,9 +4,9 @@ import 'package:cloud_medix/core/networking/api_constants.dart';
 import 'package:cloud_medix/core/networking/api_service.dart';
 import 'package:cloud_medix/core/networking/dio_factory.dart';
 import 'package:cloud_medix/features/auth/domain/auth_repository.dart';
-import 'package:cloud_medix/features/make_reservation/domain/reservation_repository.dart';
+import 'package:cloud_medix/features/reservation/make_reservation/domain/make_reservation_repository.dart';
 import 'package:cloud_medix/features/medical_record/domain/medical_record_repository.dart';
-import 'package:cloud_medix/features/my_reservations/domain/my_reservations_repository.dart';
+import 'package:cloud_medix/features/reservation/my_reservations/domain/my_reservations_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart'; // Import this for IOHttpClientAdapter
 import 'package:get_it/get_it.dart';
@@ -28,8 +28,8 @@ Future<void> setupGetIt() async {
   getIt.registerLazySingleton<FlutterSecureStorage>(
       () => FlutterSecureStorage());
   getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
-  getIt.registerLazySingleton<ReservationRepository>(
-      () => ReservationRepository());
+  getIt.registerLazySingleton<MakeReservationRespository>(
+      () => MakeReservationRespository());
   getIt.registerLazySingleton<MedicalRecordRepository>(
       () => MedicalRecordRepository());
   getIt.registerLazySingleton<MyReservationsRepository>(
