@@ -8,7 +8,8 @@ import 'package:cloud_medix/features/reservation/make_reservation/presentation/m
 import 'package:cloud_medix/features/medical_record/presentation/blocs/medical_record_cubit.dart';
 import 'package:cloud_medix/features/medical_record/view_medical_record.dart';
 import 'package:cloud_medix/features/reservation/my_reservations/presentation/my_reservations_screen.dart';
-import 'package:cloud_medix/features/settings/presentation/screens/settings_screen.dart';
+import 'package:cloud_medix/features/settings/presentation/blocs/settings_cubit.dart';
+import 'package:cloud_medix/features/settings/presentation/settings_screen.dart';
 import 'package:cloud_medix/features/tests_scan_results/tests_scan_results.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,7 +24,11 @@ class AppRouter {
                   child: const LoginScreen(),
                 ));
       case Routes.settings:
-        return MaterialPageRoute(builder: (_) => const SettingsScreen());
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                  create: (context) => SettingsCubit(),
+                  child: const SettingsScreen(),
+                ));
       case Routes.register:
         return MaterialPageRoute(
             builder: (_) => BlocProvider(

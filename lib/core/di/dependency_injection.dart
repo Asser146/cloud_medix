@@ -7,8 +7,9 @@ import 'package:cloud_medix/features/auth/domain/auth_repository.dart';
 import 'package:cloud_medix/features/reservation/make_reservation/domain/make_reservation_repository.dart';
 import 'package:cloud_medix/features/medical_record/domain/medical_record_repository.dart';
 import 'package:cloud_medix/features/reservation/my_reservations/domain/my_reservations_repository.dart';
+import 'package:cloud_medix/features/settings/domain/settings_repository.dart';
 import 'package:dio/dio.dart';
-import 'package:dio/io.dart'; // Import this for IOHttpClientAdapter
+import 'package:dio/io.dart';
 import 'package:get_it/get_it.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -37,4 +38,5 @@ Future<void> setupGetIt() async {
   getIt.registerLazySingleton<ApiConstants>(() => ApiConstants());
   getIt.registerLazySingleton<ApiService>(
       () => ApiService(dio, baseUrl: ApiConstants.apiBaseUrl));
+  getIt.registerLazySingleton<SettingsRepository>(() => SettingsRepository());
 }

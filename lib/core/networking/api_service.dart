@@ -6,6 +6,7 @@ import 'package:cloud_medix/features/reservation/make_reservation/data/reservati
 import 'package:cloud_medix/features/reservation/make_reservation/data/slot.dart';
 import 'package:cloud_medix/features/medical_record/data/medical_record.dart';
 import 'package:cloud_medix/features/reservation/my_reservations/data/my_reservation.dart';
+import 'package:cloud_medix/features/settings/data/user.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -48,4 +49,7 @@ abstract class ApiService {
     @Path("patientId") String patientId,
     @Path("id") int reservationId,
   );
+
+  @GET("${ApiConstants.settings}/{id}")
+  Future<ApiResponse<User>> getUserSettings(@Path('id') String id);
 }

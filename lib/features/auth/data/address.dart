@@ -13,10 +13,13 @@ class Address {
   int? apartmentNumber;
 
   Address({
+    this.id,
     required this.government,
     required this.city,
     required this.street,
     required this.buildingNumber,
+    this.floor,
+    this.apartmentNumber,
   });
 
   factory Address.fromJson(Map<String, dynamic> json) =>
