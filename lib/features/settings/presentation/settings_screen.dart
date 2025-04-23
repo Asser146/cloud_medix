@@ -40,6 +40,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           ElevatedButton(
             onPressed: () {
+              context.read<SettingsCubit>().updateSettings(user);
               Navigator.of(context).pop();
             },
             child: const Text("Save"),

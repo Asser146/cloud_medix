@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:cloud_medix/core/di/dependency_injection.dart';
 import 'package:cloud_medix/core/networking/api_response.dart';
+import 'package:cloud_medix/features/settings/data/update_patient_body.dart';
 import 'package:cloud_medix/features/settings/data/user.dart';
 import 'package:cloud_medix/features/settings/domain/settings_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -31,6 +34,30 @@ class SettingsCubit extends Cubit<SettingsState> {
       ApiResponse response = await repo.getMySettings(id);
       if (response.status == 200 && response.data != null) {
         user = response.data;
+        emit(SettingsLoaded(user));
+      } else {
+        emit(SettingsError(response.error ?? "No Settings available."));
+      }
+    }
+  }
+
+  Future<void> updateSettings(User updatedUser) async {
+    emit(SettingsLoading());
+    String? id = await storage.read(key: "id");
+    if (id == null) {
+      emit(const SettingsError("User ID is missing Error"));
+      return;
+    } else {
+      UpdatePatientBody updatedBody = UpdatePatientBody(
+          address: updatedUser.address,
+          emergencyContactName: updatedUser.emergencyContactName,
+          emergencyContactPhone: updatedUser.emergencyContactPhone);
+
+      ApiResponse response = await repo.updateSettings(id, updatedBody);
+      if (response.status == 200 && response.data != null) {
+        user.address = updatedUser.address;
+        user.emergencyContactName = updatedUser.emergencyContactName;
+        user.emergencyContactPhone = updatedUser.emergencyContactPhone;
         emit(SettingsLoaded(user));
       } else {
         emit(SettingsError(response.error ?? "No Settings available."));

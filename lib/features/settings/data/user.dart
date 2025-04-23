@@ -9,7 +9,7 @@ class User {
   final String nationalID;
   final DateTime date;
   final String phone;
-  final Address address;
+  Address address;
   String? emergencyContactName;
   String? emergencyContactPhone;
   String? emergencyContactRelation;
