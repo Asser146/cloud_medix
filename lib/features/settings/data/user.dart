@@ -9,14 +9,20 @@ class User {
   final String nationalID;
   final DateTime date;
   final String phone;
-  Address? address;
+  final Address address;
+  String? emergencyContactName;
+  String? emergencyContactPhone;
+  String? emergencyContactRelation;
 
   User({
     required this.fullName,
     required this.nationalID,
     required this.date,
     required this.phone,
-    this.address,
+    required this.address,
+    this.emergencyContactName,
+    this.emergencyContactPhone,
+    this.emergencyContactRelation,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

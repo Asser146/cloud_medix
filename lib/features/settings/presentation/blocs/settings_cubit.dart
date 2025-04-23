@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:cloud_medix/core/di/dependency_injection.dart';
 import 'package:cloud_medix/core/networking/api_response.dart';
@@ -37,20 +35,6 @@ class SettingsCubit extends Cubit<SettingsState> {
       } else {
         emit(SettingsError(response.error ?? "No Settings available."));
       }
-    }
-  }
-
-  void addEmergencyContact() {
-    if (emergencyContacts.length < 2) {
-      emergencyContacts.add({"name": "", "phone": ""});
-      emit(SettingsUpdated(emergencyContacts));
-    }
-  }
-
-  void updateEmergencyContact(int index, String key, String value) {
-    if (index < emergencyContacts.length) {
-      emergencyContacts[index][key] = value;
-      emit(SettingsUpdated(emergencyContacts));
     }
   }
 }

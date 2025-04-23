@@ -35,10 +35,10 @@ class SettingsError extends SettingsState {
 }
 
 class SettingsUpdated extends SettingsState {
-  final List<Map<String, String>> contacts;
+  final User user;
 
-  const SettingsUpdated(this.contacts);
+  const SettingsUpdated(this.user);
 
   @override
-  List<Object?> get props => [contacts];
+  List<Object?> get props => [user];
 }

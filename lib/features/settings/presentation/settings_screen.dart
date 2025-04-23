@@ -1,6 +1,10 @@
+import 'dart:developer';
+
 import 'package:cloud_medix/core/theming/colors.dart';
 import 'package:cloud_medix/core/widgets/loading_widget.dart';
 import 'package:cloud_medix/core/widgets/my_app_bar.dart';
+import 'package:cloud_medix/core/widgets/my_error_widget.dart';
+import 'package:cloud_medix/features/settings/data/user.dart';
 import 'package:cloud_medix/features/settings/presentation/blocs/settings_cubit.dart';
 import 'package:cloud_medix/features/settings/presentation/components/building_functions.dart';
 import 'package:flutter/material.dart';
@@ -8,28 +12,64 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: ColorsManager.backgroundColor,
-        appBar: MyAppBar(title: "Profile", isSettings: true),
-        body: BlocBuilder<SettingsCubit, SettingsState>(
-            builder: (context, state) {
-          final cubit = context.read<SettingsCubit>();
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
 
-          List<Map<String, String>> contacts = [];
+class _SettingsScreenState extends State<SettingsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<SettingsCubit>().getSettings();
+  }
+
+  void _showEditDialog(
+      {required Widget form, required String title, required User user}) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text(title),
+        content: SingleChildScrollView(child: form),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text("Cancel"),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text("Save"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.watch<SettingsCubit>();
+
+    return Scaffold(
+      backgroundColor: ColorsManager.backgroundColor,
+      appBar: MyAppBar(title: "Profile", isSettings: true),
+      body: BlocBuilder<SettingsCubit, SettingsState>(
+        builder: (context, state) {
           if (state is SettingsLoading) {
-            return Center(child: LoadingWidget());
+            return const Center(child: LoadingWidget());
+          } else if (state is SettingsError) {
+            return Center(child: MyErrorWidget(message: state.message));
           } else if (state is SettingsUpdated) {
-            contacts = state.contacts;
-          } else if (cubit.emergencyContacts.isNotEmpty) {
-            contacts = cubit.emergencyContacts;
+            cubit.user = state.user;
           }
+
+          final user = cubit.user;
+
           return SingleChildScrollView(
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 18.w),
             child: Column(
               children: [
                 Stack(
@@ -49,68 +89,64 @@ class SettingsScreen extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 10.h),
-                const Text(
-                  "Username",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                Text(
+                  "UserName",
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 20),
-                // Info Fields
                 buildInput(
-                    label: "First Name",
-                    value: cubit.user.fullName.split(' ')[0]),
+                    label: "First Name", value: user.fullName.split(' ')[0]),
                 buildInput(
-                    label: "Last Name",
-                    value: cubit.user.fullName
-                        .split(' ')[cubit.user.fullName.split(' ').length - 1]),
-                buildInput(label: "Mobile Number", value: cubit.user.phone),
-
-                buildInput(label: "Age", value: calculateAge(cubit.user.date)),
-                buildInput(label: "National ID", value: cubit.user.nationalID),
+                    label: "Last Name", value: user.fullName.split(' ').last),
+                buildInput(label: "Mobile Number", value: user.phone),
+                buildInput(label: "Age", value: calculateAge(user.date)),
+                buildInput(label: "National ID", value: user.nationalID),
                 buildInput(label: "Weight", value: "70 kgs"),
                 buildInput(label: "Height", value: "5 feet 10 inches"),
-                buildInput(
-                  label: "Address",
-                  value: buildAddress(cubit.user.address!),
-                  maxLines: 2,
-                ),
-                SizedBox(height: 30.h),
-                const Align(
+                Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Emergency Contacts",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  child: Row(
+                    children: [
+                      const Text("Address",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold)),
+                      IconButton(
+                        onPressed: () => _showEditDialog(
+                            title: "Edit Address",
+                            form: buildAddressForm(user),
+                            user: user),
+                        icon:
+                            Icon(Icons.edit, color: ColorsManager.primaryColor),
+                      ),
+                    ],
                   ),
                 ),
-                SizedBox(height: 10.h),
-
-                ...contacts.asMap().entries.map((entry) {
-                  final i = entry.key;
-                  return Column(
+                ...buildAddress(user.address),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Row(
                     children: [
-                      buildEditableInput(
-                        label: "Contact ${i + 1} Full Name",
-                        onChanged: (val) =>
-                            cubit.updateEmergencyContact(i, "name", val),
+                      const Text("Emergency Contact",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold)),
+                      IconButton(
+                        onPressed: () => _showEditDialog(
+                            title: "Edit Emergency Contact",
+                            form: buildEmergencyContactForm(user),
+                            user: user),
+                        icon:
+                            Icon(Icons.edit, color: ColorsManager.primaryColor),
                       ),
-                      buildEditableInput(
-                        label: "Contact ${i + 1} Mobile Number",
-                        keyboardType: TextInputType.phone,
-                        onChanged: (val) =>
-                            cubit.updateEmergencyContact(i, "phone", val),
-                      ),
-                      SizedBox(height: 10.h),
                     ],
-                  );
-                }),
-                if (contacts.length < 2)
-                  ElevatedButton.icon(
-                    onPressed: () => cubit.addEmergencyContact(),
-                    icon: const Icon(Icons.add),
-                    label: const Text("Add Contact"),
                   ),
+                ),
+                buildEmergencyContact(user: user)
               ],
             ),
           );
-        }));
+        },
+      ),
+    );
   }
 }

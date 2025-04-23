@@ -5,10 +5,10 @@ part 'address.g.dart';
 @JsonSerializable()
 class Address {
   int? id;
-  final String government;
-  final String city;
-  final String street;
-  final int buildingNumber;
+  String government;
+  String city;
+  String street;
+  int buildingNumber;
   int? floor;
   int? apartmentNumber;
 
