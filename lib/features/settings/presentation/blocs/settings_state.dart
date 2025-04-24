@@ -11,11 +11,6 @@ final class SettingsInitial extends SettingsState {}
 
 final class SettingsLoading extends SettingsState {}
 
-final class SettingsTabChanged extends SettingsState {
-  final int tabIndex;
-  const SettingsTabChanged({required this.tabIndex});
-}
-
 class SettingsLoaded extends SettingsState {
   final User user;
 
