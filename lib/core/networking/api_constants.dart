@@ -13,4 +13,5 @@ class ApiConstants {
   static const String makeReservation = "reservation";
   static const String cancelReservation = "reservation";
   static const String allTests = "test/patient/viewTestRequests/central";
+  static const String testReult = "test/viewTestResults/central";
 }

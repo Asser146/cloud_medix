@@ -3,6 +3,7 @@ part 'test_request.g.dart';
 
 @JsonSerializable()
 class TestRequest {
+  String id;
   DateTime dateOfRequest;
   List<String> tests;
   int department;
@@ -10,6 +11,7 @@ class TestRequest {
   String physicianFullName;
 
   TestRequest({
+    required this.id,
     required this.dateOfRequest,
     required this.tests,
     required this.department,

@@ -25,6 +25,23 @@ class LabLoaded extends LabState {
   List<Object> get props => [tests];
 }
 
+final class LabResultLoading extends LabState {
+  final List<TestRequest> tests;
+  const LabResultLoading(this.tests);
+  @override
+  List<Object> get props => [tests];
+}
+
+class LabResultLoaded extends LabState {
+  final TestResult result;
+  final List<TestRequest> tests;
+
+  const LabResultLoaded(this.result, this.tests);
+
+  @override
+  List<Object> get props => [result, tests];
+}
+
 class LabError extends LabState {
   final String message;
 
