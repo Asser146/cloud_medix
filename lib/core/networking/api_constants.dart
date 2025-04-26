@@ -12,4 +12,5 @@ class ApiConstants {
   static const String medicalRecord = "MedicalRecord/patientId";
   static const String makeReservation = "reservation";
   static const String cancelReservation = "reservation";
+  static const String allTests = "test/patient/viewTestRequests/central";
 }
