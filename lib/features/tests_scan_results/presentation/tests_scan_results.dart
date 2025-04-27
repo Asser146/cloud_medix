@@ -24,7 +24,6 @@ class TestsScanResults extends StatelessWidget {
       backgroundColor: ColorsManager.backgroundColor,
       body: BlocBuilder<LabCubit, LabState>(
         builder: (context, state) {
-          log(state.toString());
           List<TestRequest> requests = [];
           TestResult? result;
           bool showOverlayLoader = false;
@@ -45,11 +44,16 @@ class TestsScanResults extends StatelessWidget {
 
             // Show dialog after the build is complete
             WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (!context.mounted) return; // <<=== ADD THIS SAFETY CHECK
               if (result != null) {
                 showDialog(
                   context: context,
                   builder: (_) => ReportDialog(testResult: result!),
-                );
+                ).then((_) {
+                  if (context.mounted) {
+                    context.read<LabCubit>().switchStates();
+                  }
+                });
               }
             });
           }
@@ -91,7 +95,11 @@ class TestsScanResults extends StatelessWidget {
                   ],
                 ),
               ),
-              if (showOverlayLoader) const Center(child: LoadingWidget()),
+              if (showOverlayLoader)
+                const Center(
+                    child: CircularProgressIndicator(
+                  color: ColorsManager.backgroundColor,
+                )),
             ],
           );
         },

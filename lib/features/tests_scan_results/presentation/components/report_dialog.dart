@@ -1,5 +1,6 @@
 import 'package:cloud_medix/core/theming/colors.dart';
 import 'package:cloud_medix/features/tests_scan_results/data/test_result.dart';
+import 'package:cloud_medix/features/tests_scan_results/presentation/components/result_table.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -10,6 +11,8 @@ class ReportDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isNotes = testResult.notes != null && testResult.notes!.isNotEmpty;
+
     return AlertDialog(
       backgroundColor: ColorsManager.thirdColor,
       shape: RoundedRectangleBorder(
@@ -17,54 +20,39 @@ class ReportDialog extends StatelessWidget {
       ),
       content: SizedBox(
         width: double.maxFinite,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Text("Test Name",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.white)),
-                Text("Result",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.white)),
-              ],
-            ),
-            SizedBox(height: 10.h),
-            SizedBox(
-              height: 250.h,
-              child: Scrollbar(
-                thumbVisibility: true,
-                child: ListView.builder(
-                  itemCount: testResult.tests.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: EdgeInsets.symmetric(vertical: 5.h),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              testResult.tests[index],
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              testResult.results[index],
-                              style: const TextStyle(color: Colors.white),
-                              textAlign: TextAlign.end,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: const [
+                  Text("Test Name",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.white)),
+                  Text("Result",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.white)),
+                ],
               ),
-            ),
-          ],
+              SizedBox(height: 10.h),
+              ResultsTable(testResult: testResult),
+              if (isNotes) ...[
+                SizedBox(height: 20.h),
+                const Text(
+                  "Notes",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.white),
+                ),
+                SizedBox(height: 10.h),
+                Text(
+                  testResult.notes!,
+                  style: const TextStyle(color: Colors.white),
+                  textAlign: TextAlign.start,
+                ),
+              ]
+            ],
+          ),
         ),
       ),
       actions: [
@@ -72,7 +60,7 @@ class ReportDialog extends StatelessWidget {
           onPressed: () {
             Navigator.pop(context);
           },
-          child: Text(
+          child: const Text(
             "Close",
             style: TextStyle(color: Colors.white),
           ),
