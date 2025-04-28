@@ -11,6 +11,9 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 part 'reservation_state.dart';
 
 class ReservationCubit extends Cubit<ReservationState> {
+  bool slotsFetched = false; // Add this flag ✅
+
+  String searchField = "Doctor";
   final MakeReservationRespository makeResRepo =
       getIt<MakeReservationRespository>();
   final MyReservationsRepository myResRepo = getIt<MyReservationsRepository>();
@@ -74,8 +77,13 @@ class ReservationCubit extends Cubit<ReservationState> {
     }
   }
 
-  Future<void> getSlots() async {
-    emit(const ReservationLoading());
+  Future<void> getSlots(bool isRefresh) async {
+    if (slotsFetched) return; // ⬅️ avoid fetching again if already fetched
+    slotsFetched = true;
+    isRefresh
+        ? emit(ReservationProcessLoading(slots))
+        : emit(const ReservationLoading());
+    ;
     String? id = await storage.read(key: "id");
     if (id == null) {
       emit(const ReservationError("User ID is missing Error"));
@@ -93,5 +101,15 @@ class ReservationCubit extends Cubit<ReservationState> {
         emit(ReservationError(errorMessage));
       }
     }
+  }
+
+  Future<void> refreshSlots() async {
+    slotsFetched = false; // Reset flag on manual refresh
+    await getSlots(true);
+  }
+
+  void updateSearchField(String newField) {
+    searchField = newField;
+    emit(ReservationUpdateSearchField(searchField)); // Add a new state
   }
 }

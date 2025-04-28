@@ -1,4 +1,5 @@
 import 'package:cloud_medix/core/widgets/my_app_bar.dart';
+import 'package:cloud_medix/core/widgets/my_app_text_field.dart';
 import 'package:cloud_medix/features/reservation/blocs/reservation_cubit.dart';
 import 'package:cloud_medix/features/reservation/make_reservation/presentation/components/data_body.dart';
 import 'package:cloud_medix/features/reservation/make_reservation/presentation/components/filter_option.dart';
@@ -12,7 +13,9 @@ class MakeReservationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<ReservationCubit>().getSlots();
+    final reservationCubit = context.read<ReservationCubit>();
+    reservationCubit.getSlots(false);
+
     return Scaffold(
       appBar: MyAppBar(title: "Make Reservation"),
       backgroundColor: ColorsManager.backgroundColor,
@@ -20,12 +23,27 @@ class MakeReservationScreen extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.only(top: 8.h),
-            child: const Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                FilterOption(),
-                FilterOption(),
-                FilterOption(),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 5.w),
+                    child: BlocBuilder<ReservationCubit, ReservationState>(
+                      builder: (context, state) {
+                        final cubit = context.read<ReservationCubit>();
+                        return MyAppTextField(
+                          hintText: "${cubit.searchField} Name",
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                SizedBox(width: 10),
+                Padding(
+                  padding: EdgeInsets.only(right: 5.w),
+                  child: const FilterOption(),
+                ),
               ],
             ),
           ),
