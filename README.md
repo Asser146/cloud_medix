@@ -1,16 +1,28 @@
-# cloud_medix
+# Cloud Medix
 
-A new Flutter project.
+Cloud Medix is a cross-platform mobile application built with Flutter that enables patients to digitally manage their healthcare journey. From appointments to prescriptions, Cloud Medix helps eliminate paperwork and streamline access to medical services.
 
-## Getting Started
+## ✨ Features
 
-This project is a starting point for a Flutter application.
+- 📁 **Medical Records Management**  
+  Access and manage your complete medical history in one secure place.
 
-A few resources to get you started if this is your first Flutter project:
+- 🏥 **Hospital Appointment Booking**  
+  Reserve appointments at hospitals and specific departments with ease.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- 🧪 **Lab & Radiology Results**  
+  View lab and radiology reports directly within the app — no need for physical copies.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- 💊 **Prescription & Medication Tracker**  
+  Manage current prescriptions and keep track of medication intake.
+
+## 🛠 Backend
+
+The backend services are implemented as a separate project using **.NET**, handling:
+- Secure data storage and authentication
+- Appointment scheduling
+- Lab/radiology request handling
+- Prescription and medical records APIs
+
+> Note: This repository includes only the Flutter frontend. Backend is maintained separately.
+
