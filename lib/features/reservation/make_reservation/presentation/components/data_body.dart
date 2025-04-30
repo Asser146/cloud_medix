@@ -27,7 +27,7 @@ class DataBody extends StatelessWidget {
           } else if (state is ReservationLoading) {
             return const Center(child: LoadingWidget());
           } else if (state is ReservationError) {
-            return MyErrorWidget(message: state.message);
+            return Center(child: MyErrorWidget(message: state.message));
           }
 
           if (slots.isEmpty) {

@@ -93,7 +93,8 @@ class MyAppTextField extends StatelessWidget {
             TextStyles.appBarTexts.copyWith(
                 fontWeight: FontWeightHelper.regular,
                 color: hintTextColor ?? ColorsManager.darkgreyColor,
-                fontSize: 17.sp),
+                fontSize: 16.sp),
+
         // ??
         //  TextStyles.font14LightGrayRegular,
         hintText: hintText,
@@ -110,6 +111,7 @@ class MyAppTextField extends StatelessWidget {
       obscureText: isObscureText ?? false,
       style: TextStyles.appBarTexts.copyWith(
           fontSize: 16.sp,
+          color: ColorsManager.darkgreyColor,
           decoration: TextDecoration.none,
           decorationThickness: 0),
     );

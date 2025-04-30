@@ -21,50 +21,54 @@ class TestScanCard extends StatelessWidget {
         : 'Unknow';
 
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 15.w),
-      child: Container(
-        height: 120.h,
-        decoration: BoxDecoration(
-          color: ColorsManager.thirdColor,
-          borderRadius: BorderRadius.circular(10.r),
-        ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15.w),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              FittedBox(
-                fit: BoxFit.fitWidth,
-                child: Text(
-                  "Issued Doc: ${testRequest.physicianFullName.split(' ').first} ${testRequest.physicianFullName.split(' ').last}",
-                  style: TextStyles.testName,
+      padding: EdgeInsets.symmetric(vertical: 5.h),
+      child: Card(
+        elevation: 2,
+        shadowColor: ColorsManager.lightgreyColor,
+        child: Container(
+          height: 120.h,
+          decoration: BoxDecoration(
+            color: ColorsManager.thirdColor,
+            borderRadius: BorderRadius.circular(10.r),
+          ),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15.w),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                FittedBox(
+                  fit: BoxFit.fitWidth,
+                  child: Text(
+                    "Issued Doc: ${testRequest.physicianFullName.split(' ').first} ${testRequest.physicianFullName.split(' ').last}",
+                    style: TextStyles.testName,
+                  ),
                 ),
-              ),
-              FittedBox(
-                fit: BoxFit.fitWidth,
-                child: Text(
-                  "Issued Date: ${DateFormat.yMd().format(DateTime.parse(testRequest.dateOfRequest.toString()))}",
-                  style: TextStyles.testdate,
+                FittedBox(
+                  fit: BoxFit.fitWidth,
+                  child: Text(
+                    "Issued Date: ${DateFormat.yMd().format(DateTime.parse(testRequest.dateOfRequest.toString()))}",
+                    style: TextStyles.testdate,
+                  ),
                 ),
-              ),
-              if (testStatus == "COMPLETED")
-                Row(
-                  children: [
-                    Text(
-                      "Status: $testStatus",
-                      style: TextStyles.testName.copyWith(fontSize: 15.sp),
-                    ),
-                    const Spacer(),
-                    ViewReportButton(testRequest: testRequest),
-                  ],
-                )
-              else
-                Text(
-                  "Status: $testStatus",
-                  style: TextStyles.testName.copyWith(fontSize: 15.sp),
-                ),
-            ],
+                if (testStatus == "COMPLETED")
+                  Row(
+                    children: [
+                      Text(
+                        "Status: $testStatus",
+                        style: TextStyles.testName.copyWith(fontSize: 15.sp),
+                      ),
+                      const Spacer(),
+                      ViewReportButton(testRequest: testRequest),
+                    ],
+                  )
+                else
+                  Text(
+                    "Status: $testStatus",
+                    style: TextStyles.testName.copyWith(fontSize: 15.sp),
+                  ),
+              ],
+            ),
           ),
         ),
       ),

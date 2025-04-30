@@ -1,8 +1,6 @@
 import 'package:cloud_medix/core/theming/colors.dart';
 import 'package:cloud_medix/core/theming/styles.dart';
-import 'package:cloud_medix/features/reservation/blocs/reservation_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FilterOption extends StatefulWidget {
@@ -13,12 +11,11 @@ class FilterOption extends StatefulWidget {
 }
 
 class _FilterOptionState extends State<FilterOption> {
-  String selectedValue = 'Search by Doctor'; // default value
+  String selectedValue = 'ICU'; // default value
 
   final List<String> options = [
-    'Search by Doctor',
-    'Search by Hospital',
-    'Search by Department',
+    'ICU',
+    'Andalusia',
   ];
 
   @override
@@ -44,9 +41,11 @@ class _FilterOptionState extends State<FilterOption> {
           items: options.map((String value) {
             return DropdownMenuItem<String>(
               value: value,
-              child: Text(
-                value,
-                style: const TextStyle(color: Colors.white),
+              child: Center(
+                child: Text(
+                  value,
+                  style: const TextStyle(color: Colors.white),
+                ),
               ),
             );
           }).toList(),
@@ -55,9 +54,6 @@ class _FilterOptionState extends State<FilterOption> {
               setState(() {
                 selectedValue = newValue;
               });
-              context.read<ReservationCubit>().updateSearchField(
-                    newValue.split(" ")[2], // Doctor, Hospital, Department
-                  );
             }
           },
         ),

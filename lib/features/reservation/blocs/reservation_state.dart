@@ -40,12 +40,3 @@ class ReservationError extends ReservationState {
   @override
   List<Object> get props => [message];
 }
-
-class ReservationUpdateSearchField extends ReservationState {
-  final String newField;
-
-  const ReservationUpdateSearchField(this.newField);
-
-  @override
-  List<Object?> get props => [newField];
-}

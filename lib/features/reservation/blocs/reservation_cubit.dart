@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:cloud_medix/core/di/dependency_injection.dart';
 import 'package:cloud_medix/core/networking/api_response.dart';
 import 'package:cloud_medix/features/reservation/make_reservation/data/slot.dart';
@@ -11,9 +14,11 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 part 'reservation_state.dart';
 
 class ReservationCubit extends Cubit<ReservationState> {
-  bool slotsFetched = false; // Add this flag ✅
+  bool slotsFetched = false;
 
-  String searchField = "Doctor";
+  Timer? _doctorDebounce;
+  Timer? _departmentDebounce;
+
   final MakeReservationRespository makeResRepo =
       getIt<MakeReservationRespository>();
   final MyReservationsRepository myResRepo = getIt<MyReservationsRepository>();
@@ -21,6 +26,9 @@ class ReservationCubit extends Cubit<ReservationState> {
   List<MyReservation> reservations = [];
   late ApiResponse response;
   FlutterSecureStorage storage = getIt<FlutterSecureStorage>();
+  String doctorFilter = '';
+  String departmentFilter = '';
+
   ReservationCubit() : super(const ReservationInitial());
 
   Future<void> reserveSlot(int slotID) async {
@@ -78,12 +86,11 @@ class ReservationCubit extends Cubit<ReservationState> {
   }
 
   Future<void> getSlots(bool isRefresh) async {
-    if (slotsFetched) return; // ⬅️ avoid fetching again if already fetched
+    if (slotsFetched) return;
     slotsFetched = true;
     isRefresh
         ? emit(ReservationProcessLoading(slots))
         : emit(const ReservationLoading());
-    ;
     String? id = await storage.read(key: "id");
     if (id == null) {
       emit(const ReservationError("User ID is missing Error"));
@@ -108,8 +115,45 @@ class ReservationCubit extends Cubit<ReservationState> {
     await getSlots(true);
   }
 
-  void updateSearchField(String newField) {
-    searchField = newField;
-    emit(ReservationUpdateSearchField(searchField)); // Add a new state
+  void searchDoctor(String value) {
+    _doctorDebounce?.cancel();
+    _doctorDebounce = Timer(const Duration(milliseconds: 1000), () {
+      searchSlots(doctor: value);
+    });
+  }
+
+  void searchDepartment(String value) {
+    _departmentDebounce?.cancel();
+    _departmentDebounce = Timer(const Duration(milliseconds: 1000), () {
+      searchSlots(department: value);
+    });
+  }
+
+  Future<void> searchSlots({String? doctor, String? department}) async {
+    // Replace this with your actual search logic
+    emit(ReservationProcessLoading(slots));
+    if (doctor != null) doctorFilter = doctor;
+    if (department != null) departmentFilter = department;
+    if (doctor == null && department == null) {
+      getSlots(true);
+      return;
+    }
+    String? id = await storage.read(key: "id");
+    if (id == null) {
+      emit(const ReservationError("User ID is missing Error"));
+      return;
+    }
+    response =
+        await makeResRepo.filterSlots(id, doctorFilter, departmentFilter);
+
+    if (response.status == 200 &&
+        response.data != null &&
+        response.data!.isNotEmpty) {
+      slots = response.data!;
+      emit(ReservationLoaded(slots));
+    } else {
+      final errorMessage = response.error ?? "No slots available.";
+      emit(ReservationError(errorMessage));
+    }
   }
 }

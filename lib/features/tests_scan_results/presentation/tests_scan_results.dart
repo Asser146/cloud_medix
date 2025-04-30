@@ -1,9 +1,6 @@
-import 'dart:developer';
-
 import 'package:cloud_medix/core/widgets/loading_widget.dart';
 import 'package:cloud_medix/core/widgets/my_app_bar.dart';
 import 'package:cloud_medix/core/widgets/my_error_widget.dart';
-import 'package:cloud_medix/features/reservation/make_reservation/presentation/components/filter_option.dart';
 import 'package:cloud_medix/features/tests_scan_results/data/test_request.dart';
 import 'package:cloud_medix/features/tests_scan_results/data/test_result.dart';
 import 'package:cloud_medix/features/tests_scan_results/presentation/blocs/lab_cubit.dart';
@@ -59,46 +56,27 @@ class TestsScanResults extends StatelessWidget {
           }
 
           if (requests.isEmpty) {
-            return const Center(
-              child: Text("No available Requests.",
-                  style: TextStyle(color: Colors.black, fontSize: 16)),
-            );
+            return Center(
+                child: MyErrorWidget(message: "No Available Requests"));
+            ;
           }
 
           return Stack(
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 5.w),
-                child: Column(
-                  children: [
-                    SizedBox(height: 15.h),
-                    const FilterOption(),
-                    SizedBox(height: 15.h),
-                    Expanded(
-                      child: Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: ColorsManager.primaryColor,
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(15.r),
-                              topLeft: Radius.circular(15.r)),
-                        ),
-                        child: ListView.builder(
-                          padding: EdgeInsets.all(10.w),
-                          itemCount: requests.length,
-                          itemBuilder: (context, index) {
-                            return TestScanCard(testRequest: requests[index]);
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
+                child: ListView.builder(
+                  padding: EdgeInsets.all(10.w),
+                  itemCount: requests.length,
+                  itemBuilder: (context, index) {
+                    return TestScanCard(testRequest: requests[index]);
+                  },
                 ),
               ),
               if (showOverlayLoader)
                 const Center(
                     child: CircularProgressIndicator(
-                  color: ColorsManager.backgroundColor,
+                  color: ColorsManager.primaryColor,
                 )),
             ],
           );

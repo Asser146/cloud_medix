@@ -1,3 +1,4 @@
+import 'package:cloud_medix/core/theming/colors.dart';
 import 'package:cloud_medix/core/theming/styles.dart';
 import 'package:cloud_medix/features/tests_scan_results/data/test_request.dart';
 import 'package:cloud_medix/features/tests_scan_results/presentation/blocs/lab_cubit.dart';
@@ -20,7 +21,8 @@ class ViewReportButton extends StatelessWidget {
         children: [
           Text(
             "View Report",
-            style: TextStyles.testName.copyWith(fontSize: 13.sp),
+            style: TextStyles.cyanTexts
+                .copyWith(color: ColorsManager.lightCyanColor, fontSize: 13.sp),
           ),
           const Icon(
             Icons.arrow_forward_ios_rounded,

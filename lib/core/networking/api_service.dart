@@ -70,4 +70,11 @@ abstract class ApiService {
     @Path('id') String id,
     @Path('testId') String testId,
   );
+
+  @GET("${ApiConstants.searchSlots}/{id}")
+  Future<ApiResponse<List<Slot>>> filterSlots(
+    @Path('id') String id,
+    @Query("docPartialName") String? docPartialName,
+    @Query("depPartialName") String? depPartialName,
+  );
 }

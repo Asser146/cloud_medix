@@ -32,7 +32,7 @@ class SettingsRepository {
         );
       }
     } on DioException catch (e) {
-      log("DioException: ${e.message}");
+      log("DioException2: ${e.message}");
       return ApiResponse(
         data: null,
         error: "Network error\nPlease check your connection and try again.",

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_medix/core/theming/colors.dart';
 import 'package:cloud_medix/features/reservation/make_reservation/data/slot.dart';
 import 'package:cloud_medix/features/reservation/make_reservation/presentation/components/reservation_button.dart';
@@ -21,28 +23,26 @@ class ReservationRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 10.h),
-      child: Align(
-        alignment: Alignment.center, // This ensures it stays centered
-        child: Row(
-          children: [
-            Container(
-              height: 70.h,
-              width: 8.w,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(12.r),
-                      bottomLeft: Radius.circular(12.r)),
-                  color: ColorsManager.darkgreyColor),
-            ),
-            ReservationSlot(slot: slot),
-            const Spacer(),
-            ReservationButton(
-              id: isMyReservations ? resId! : slot.id,
-              isReserved: slot.reserved,
-              isMyReservations: isMyReservations,
-            ),
-          ],
-        ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Container(
+            height: 70.h,
+            width: 8.w,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(12.r),
+                    bottomLeft: Radius.circular(12.r)),
+                color: ColorsManager.darkgreyColor),
+          ),
+          ReservationSlot(slot: slot),
+          const Spacer(),
+          ReservationButton(
+            id: isMyReservations ? resId! : slot.id,
+            isReserved: slot.reserved,
+            isMyReservations: isMyReservations,
+          ),
+        ],
       ),
     );
   }
