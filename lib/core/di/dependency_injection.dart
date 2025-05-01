@@ -8,6 +8,7 @@ import 'package:cloud_medix/features/reservation/make_reservation/domain/make_re
 import 'package:cloud_medix/features/medical_record/domain/medical_record_repository.dart';
 import 'package:cloud_medix/features/reservation/my_reservations/domain/my_reservations_repository.dart';
 import 'package:cloud_medix/features/settings/domain/settings_repository.dart';
+import 'package:cloud_medix/features/tests_scan_results/domain/lab_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:get_it/get_it.dart';
@@ -33,6 +34,7 @@ Future<void> setupGetIt() async {
       () => MakeReservationRespository());
   getIt.registerLazySingleton<MedicalRecordRepository>(
       () => MedicalRecordRepository());
+  getIt.registerLazySingleton<LabRepository>(() => LabRepository());
   getIt.registerLazySingleton<MyReservationsRepository>(
       () => MyReservationsRepository());
   getIt.registerLazySingleton<ApiConstants>(() => ApiConstants());

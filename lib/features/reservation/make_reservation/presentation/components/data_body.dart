@@ -27,7 +27,7 @@ class DataBody extends StatelessWidget {
           } else if (state is ReservationLoading) {
             return const Center(child: LoadingWidget());
           } else if (state is ReservationError) {
-            return MyErrorWidget(message: state.message);
+            return Center(child: MyErrorWidget(message: state.message));
           }
 
           if (slots.isEmpty) {
@@ -37,31 +37,37 @@ class DataBody extends StatelessWidget {
             );
           }
 
-          return Stack(
-            children: [
-              Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(14.sp),
-                    topRight: Radius.circular(14.sp),
+          return RefreshIndicator(
+            onRefresh: () async {
+              // Manual refresh triggers new slot fetch
+              await context.read<ReservationCubit>().refreshSlots();
+            },
+            child: Stack(
+              children: [
+                Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(14.sp),
+                      topRight: Radius.circular(14.sp),
+                    ),
+                  ),
+                  child: ListView.builder(
+                    padding: EdgeInsets.all(10.w),
+                    itemCount: slots.length,
+                    itemBuilder: (context, index) {
+                      return ReservationRow(
+                        index: index,
+                        slot: slots[index],
+                        isMyReservations: false,
+                      );
+                    },
                   ),
                 ),
-                child: ListView.builder(
-                  padding: EdgeInsets.all(10.w),
-                  itemCount: slots.length,
-                  itemBuilder: (context, index) {
-                    return ReservationRow(
-                      index: index,
-                      slot: slots[index],
-                      isMyReservations: false,
-                    );
-                  },
-                ),
-              ),
-              if (showOverlayLoader) const Center(child: LoadingWidget()),
-            ],
+                if (showOverlayLoader) const Center(child: LoadingWidget()),
+              ],
+            ),
           );
         },
       ),

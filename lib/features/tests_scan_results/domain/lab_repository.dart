@@ -4,22 +4,22 @@ import 'dart:developer';
 import 'package:cloud_medix/core/di/dependency_injection.dart';
 import 'package:cloud_medix/core/networking/api_response.dart';
 import 'package:cloud_medix/core/networking/api_service.dart';
-import 'package:cloud_medix/features/settings/data/update_patient_body.dart';
-import 'package:cloud_medix/features/settings/data/user.dart';
+import 'package:cloud_medix/features/tests_scan_results/data/test_request.dart';
+import 'package:cloud_medix/features/tests_scan_results/data/test_result.dart';
 import 'package:dio/dio.dart';
 
-class SettingsRepository {
-  Future<ApiResponse<User>> getMySettings(String id) async {
+class LabRepository {
+  Future<ApiResponse<List<TestRequest>>> getMyTests(String id) async {
     final client = getIt<ApiService>();
 
     try {
       final response = await client
-          .getUserSettings(id)
+          .getAllTests(id)
           .timeout(const Duration(seconds: 10), onTimeout: () {
         log("Timeout: Server took too long to respond.");
         return ApiResponse(
           data: null,
-          error: "Request timed out\nPlease try again later.",
+          error: "Request timed out. Please try again later.",
         );
       });
 
@@ -28,14 +28,14 @@ class SettingsRepository {
       } else {
         return ApiResponse(
           data: null,
-          error: "No Settings found for this user.",
+          error: "No Tests found for this user.",
         );
       }
     } on DioException catch (e) {
-      log("DioException2: ${e.message}");
+      log("DioException: ${e.message}");
       return ApiResponse(
         data: null,
-        error: "Network error\nPlease check your connection and try again.",
+        error: "Network error. Please check your connection and try again.",
       );
     } catch (e) {
       log("Unexpected error: ${e.toString()}");
@@ -46,35 +46,34 @@ class SettingsRepository {
     }
   }
 
-  Future<ApiResponse> updateSettings(String id, UpdatePatientBody body) async {
+  Future<ApiResponse<TestResult>> getTestResult(
+      String id, String testId) async {
     final client = getIt<ApiService>();
 
     try {
       final response = await client
-          .updateSettings(id, body)
+          .getTestResult(id, testId)
           .timeout(const Duration(seconds: 10), onTimeout: () {
         log("Timeout: Server took too long to respond.");
         return ApiResponse(
           data: null,
-          error: "Request timed out\nPlease try again later.",
+          error: "Request timed out. Please try again later.",
         );
       });
 
       if (response.status == 200) {
-        log(response.data.toString());
-
         return response;
       } else {
         return ApiResponse(
           data: null,
-          error: "No Settings found for this user.",
+          error: "No Tests Result found for this user.",
         );
       }
     } on DioException catch (e) {
       log("DioException: ${e.message}");
       return ApiResponse(
         data: null,
-        error: "Network error\nPlease check your connection and try again.",
+        error: "Network error. Please check your connection and try again.",
       );
     } catch (e) {
       log("Unexpected error: ${e.toString()}");

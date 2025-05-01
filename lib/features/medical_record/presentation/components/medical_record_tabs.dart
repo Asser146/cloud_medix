@@ -30,10 +30,10 @@ class MedicalRecordTabs extends StatelessWidget {
               int index = entry.key;
               String category = entry.value;
               return GestureDetector(
-                onTap: () =>
-                    context.read<MedicalRecordCubit>().changeTab(index),
-                child: Tab(
-                  child: Container(
+                  onTap: () =>
+                      context.read<MedicalRecordCubit>().changeTab(index),
+                  child: Tab(
+                    child: Container(
                       height: 80.h,
                       width: 140.w,
                       decoration: BoxDecoration(
@@ -47,17 +47,26 @@ class MedicalRecordTabs extends StatelessWidget {
                             20.r), // Smaller border radius
                       ),
                       child: FittedBox(
-                        fit: BoxFit.contain,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 8.h,
-                            horizontal: 12.w,
-                          ),
-                          child: Text(category),
-                        ),
-                      )),
-                ),
-              );
+                          fit: BoxFit.contain,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              vertical: 8.h,
+                              horizontal: 12.w,
+                            ),
+                            child: Text(
+                              category,
+                              style: TextStyle(
+                                color: context
+                                            .watch<MedicalRecordCubit>()
+                                            .selectedtabIndex ==
+                                        index
+                                    ? Colors.black
+                                    : ColorsManager.primaryColor,
+                              ),
+                            ),
+                          )),
+                    ),
+                  ));
             },
           ).toList(),
         ));

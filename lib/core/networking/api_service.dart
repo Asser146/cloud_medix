@@ -8,6 +8,8 @@ import 'package:cloud_medix/features/medical_record/data/medical_record.dart';
 import 'package:cloud_medix/features/reservation/my_reservations/data/my_reservation.dart';
 import 'package:cloud_medix/features/settings/data/update_patient_body.dart';
 import 'package:cloud_medix/features/settings/data/user.dart';
+import 'package:cloud_medix/features/tests_scan_results/data/test_request.dart';
+import 'package:cloud_medix/features/tests_scan_results/data/test_result.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -58,5 +60,21 @@ abstract class ApiService {
   Future<ApiResponse> updateSettings(
     @Path('id') String id,
     @Body() UpdatePatientBody updaateBody,
+  );
+
+  @GET("${ApiConstants.allTests}/{id}")
+  Future<ApiResponse<List<TestRequest>>> getAllTests(@Path('id') String id);
+
+  @GET("${ApiConstants.testReult}/{id}/{testId}")
+  Future<ApiResponse<TestResult>> getTestResult(
+    @Path('id') String id,
+    @Path('testId') String testId,
+  );
+
+  @GET("${ApiConstants.searchSlots}/{id}")
+  Future<ApiResponse<List<Slot>>> filterSlots(
+    @Path('id') String id,
+    @Query("docPartialName") String? docPartialName,
+    @Query("depPartialName") String? depPartialName,
   );
 }

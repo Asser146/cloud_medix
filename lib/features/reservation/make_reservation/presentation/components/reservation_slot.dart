@@ -24,19 +24,16 @@ class ReservationSlot extends StatelessWidget {
         ),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
-          child: FittedBox(
-            fit: BoxFit.fitHeight,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                    "${DateFormat.Hm().format(DateTime.parse(slot.startTime.toString()))} - ${DateFormat.Hm().format(DateTime.parse(slot.endTime.toString()))}",
-                    style: TextStyles.slotDuration),
-                Text(slot.physicianFullName, style: TextStyles.doctorName),
-                Text(slot.specialtyName, style: TextStyles.hospitalName),
-              ],
-            ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                  "${DateFormat.Hm().format(DateTime.parse(slot.startTime.toString()))} - ${DateFormat.Hm().format(DateTime.parse(slot.endTime.toString()))}",
+                  style: TextStyles.slotDuration),
+              Text(slot.physicianFullName, style: TextStyles.doctorName),
+              Text(slot.specialtyName, style: TextStyles.hospitalName),
+            ],
           ),
         ));
   }

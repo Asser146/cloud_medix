@@ -40,11 +40,3 @@ class ReservationError extends ReservationState {
   @override
   List<Object> get props => [message];
 }
-
-// class ReservationLoading extends ReservationState {
-//   final List<Slot> slots;
-//   const ReservationReserveLoading(this.slots);
-
-//   @override
-//   List<Object?> get props => [slots];
-// }

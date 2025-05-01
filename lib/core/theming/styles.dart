@@ -51,6 +51,12 @@ class TextStyles {
     fontWeight: FontWeightHelper.bold,
     color: Colors.white,
   );
+  static TextStyle testdate = TextStyle(
+    fontSize: 17.sp,
+    // fontFamily: 'Circular Std',
+    fontWeight: FontWeightHelper.regular,
+    color: Colors.white,
+  );
   static TextStyle tabsText = TextStyle(
     fontSize: 15.sp,
     // fontFamily: 'Circular Std',
