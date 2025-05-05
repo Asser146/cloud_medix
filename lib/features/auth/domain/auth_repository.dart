@@ -43,7 +43,7 @@ class AuthRepository {
     try {
       ApiService client = getIt<ApiService>();
       var response = await client.login(
-        LoginBody(userName: "mo11", password: "SecurePass123!"),
+        LoginBody(userName: "asser14", password: "SecurePass123!"),
       );
       if (response.status == 200 && response.data != null) {
         return LoginResponse.fromJson(response.data!);

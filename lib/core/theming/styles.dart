@@ -6,13 +6,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class TextStyles {
   static TextStyle welcomBack = TextStyle(
     fontSize: 30.sp,
-    // fontFamily: 'Circular Std',
+    fontFamily: 'Roboto',
     fontWeight: FontWeightHelper.bold,
     color: ColorsManager.primaryColor,
   );
   static TextStyle medicalRecordName = TextStyle(
     fontSize: 20.sp,
-    // fontFamily: 'Circular Std',
+    fontFamily: 'Roboto',
     fontWeight: FontWeightHelper.bold,
     color: Colors.black,
   );
@@ -22,44 +22,44 @@ class TextStyles {
   );
   static TextStyle cyanTexts = TextStyle(
     fontSize: 16.sp,
-    // fontFamily: 'Circular Std',
+    // fontFamily: 'Roboto',
     fontWeight: FontWeightHelper.bold,
     color: ColorsManager.midcyanColors,
   );
   static TextStyle appBarTexts = cyanTexts.copyWith(color: Colors.white);
   static TextStyle slotDuration = TextStyle(
     fontSize: 14.sp,
-    // fontFamily: 'Circular Std',
+    fontFamily: 'Roboto',
     fontWeight: FontWeightHelper.regular,
     color: ColorsManager.primaryColor,
   );
   static TextStyle doctorName = TextStyle(
     fontSize: 16.sp,
-    // fontFamily: 'Circular Std',
+    fontFamily: 'Roboto',
     fontWeight: FontWeightHelper.bold,
     color: ColorsManager.primaryColor,
   );
   static TextStyle hospitalName = TextStyle(
     fontSize: 12.sp,
-    // fontFamily: 'Circular Std',
+    fontFamily: 'Roboto',
     fontWeight: FontWeightHelper.semiBold,
     color: ColorsManager.primaryColor,
   );
   static TextStyle testName = TextStyle(
     fontSize: 20.sp,
-    // fontFamily: 'Circular Std',
+    fontFamily: 'Roboto',
     fontWeight: FontWeightHelper.bold,
     color: Colors.white,
   );
   static TextStyle testdate = TextStyle(
     fontSize: 17.sp,
-    // fontFamily: 'Circular Std',
+    fontFamily: 'Roboto',
     fontWeight: FontWeightHelper.regular,
     color: Colors.white,
   );
   static TextStyle tabsText = TextStyle(
     fontSize: 15.sp,
-    // fontFamily: 'Circular Std',
+    fontFamily: 'Roboto',
     fontWeight: FontWeightHelper.medium,
     color: Colors.black,
   );

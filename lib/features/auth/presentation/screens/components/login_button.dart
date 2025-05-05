@@ -12,44 +12,30 @@ class LoginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthCubit, AuthState>(
-      builder: (context, state) {
-        return Container(
-          width: double.infinity,
-          height: 35.h,
-          decoration: BoxDecoration(
-            color: Colors.teal,
-            borderRadius: BorderRadius.all(Radius.circular(10.r)),
+    return Container(
+      width: double.infinity,
+      height: 35.h,
+      decoration: BoxDecoration(
+        color: Colors.teal,
+        borderRadius: BorderRadius.all(Radius.circular(10.r)),
+      ),
+      child: Center(
+        child: GestureDetector(
+          onTap: () async {
+            if (await context.read<AuthCubit>().login()) {
+              if (context.mounted) {
+                Navigator.pushNamed(context, Routes.home);
+              } else {
+                return;
+              }
+            }
+          },
+          child: Text(
+            'Login',
+            style: TextStyles.testName,
           ),
-          child: Center(
-            child: state is AuthLoading
-                ? Padding(
-                    padding: EdgeInsets.symmetric(vertical: 5.h),
-                    child: const FittedBox(
-                      fit: BoxFit.fitHeight,
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
-                      ),
-                    ),
-                  )
-                : GestureDetector(
-                    onTap: () async {
-                      if (await context.read<AuthCubit>().login()) {
-                        if (context.mounted) {
-                          Navigator.pushNamed(context, Routes.home);
-                        } else {
-                          return;
-                        }
-                      }
-                    },
-                    child: Text(
-                      'Login',
-                      style: TextStyles.testName,
-                    ),
-                  ),
-          ),
-        );
-      },
+        ),
+      ),
     );
   }
 }
