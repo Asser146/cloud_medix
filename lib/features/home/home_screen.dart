@@ -20,7 +20,6 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 3.h),
               GestureDetector(
                 onTap: () =>
                     Navigator.pushNamed(context, Routes.viewMedicalRecord),
@@ -49,6 +48,13 @@ class HomeScreen extends StatelessWidget {
                 child: const HomeOption(
                     text: "My Reservations",
                     path: "assets/images/my_reservations.svg"),
+              ),
+              GestureDetector(
+                onTap: () =>
+                    Navigator.pushNamed(context, Routes.diagnosisTreatments),
+                child: const HomeOption(
+                    text: "Diagnosis/Treatments",
+                    path: "assets/images/protect.svg"),
               ),
             ],
           ),

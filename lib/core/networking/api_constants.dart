@@ -15,4 +15,6 @@ class ApiConstants {
   static const String allTests = "test/patient/viewTestRequests/central";
   static const String testReult = "test/viewTestResults/central";
   static const String searchSlots = "slots/search";
+  static const String treatment = "treatment";
+  static const String diagnosis = "diagnosis";
 }
