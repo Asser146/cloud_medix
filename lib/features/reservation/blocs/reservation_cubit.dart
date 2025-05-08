@@ -1,8 +1,9 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:cloud_medix/core/di/dependency_injection.dart';
 import 'package:cloud_medix/core/networking/api_response.dart';
+import 'package:cloud_medix/features/reservation/data/hospital.dart';
+import 'package:cloud_medix/features/reservation/domain/hospitals_repository.dart';
 import 'package:cloud_medix/features/reservation/make_reservation/data/slot.dart';
 import 'package:cloud_medix/features/reservation/make_reservation/domain/make_reservation_repository.dart';
 import 'package:cloud_medix/features/reservation/my_reservations/data/my_reservation.dart';
@@ -22,7 +23,11 @@ class ReservationCubit extends Cubit<ReservationState> {
   final MakeReservationRespository makeResRepo =
       getIt<MakeReservationRespository>();
   final MyReservationsRepository myResRepo = getIt<MyReservationsRepository>();
+  final HospitalsRespository hospitalsRepo = getIt<HospitalsRespository>();
+  int? selectedHospitalId; // Add this line
+
   List<Slot> slots = [];
+  List<Hospital> hospitals = [];
   List<MyReservation> reservations = [];
   late ApiResponse response;
   FlutterSecureStorage storage = getIt<FlutterSecureStorage>();
@@ -85,6 +90,41 @@ class ReservationCubit extends Cubit<ReservationState> {
     }
   }
 
+  Future<void> getHospitals() async {
+    response = await hospitalsRepo.getRegisteredHospitals();
+    if (response.status == 200 &&
+        response.data != null &&
+        response.data!.isNotEmpty) {
+      hospitals = response.data!;
+    } else {
+      final errorMessage = response.error ?? "No slots available.";
+      emit(ReservationError(errorMessage));
+    }
+  }
+
+  Future<void> changeHospital(int hospitalId) async {
+    emit(const ReservationLoading());
+    selectedHospitalId = hospitalId; // Set it here
+
+    String? userId = await storage.read(key: "id");
+    if (userId == null) {
+      emit(const ReservationError("User ID is missing"));
+      return;
+    }
+
+    response = await makeResRepo.getHospitalSlots(userId, hospitalId);
+    if (response.status == 200 &&
+        response.data != null &&
+        response.data!.isNotEmpty) {
+      slots = response.data!;
+      emit(ReservationLoaded(List.from(slots)));
+    } else {
+      final errorMessage =
+          response.error ?? "No slots available for this hospital.";
+      emit(ReservationError(errorMessage));
+    }
+  }
+
   Future<void> getSlots(bool isRefresh) async {
     if (slotsFetched) return;
     slotsFetched = true;
@@ -96,7 +136,9 @@ class ReservationCubit extends Cubit<ReservationState> {
       emit(const ReservationError("User ID is missing Error"));
       return;
     } else {
-      response = await makeResRepo.getSlots(id);
+      await getHospitals();
+      response = await makeResRepo.getHospitalSlots(
+          id, selectedHospitalId ?? hospitals[0].hospitalId);
 
       if (response.status == 200 &&
           response.data != null &&

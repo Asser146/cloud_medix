@@ -4,6 +4,7 @@ import 'package:cloud_medix/features/auth/data/login_body.dart';
 import 'package:cloud_medix/features/auth/data/register_body.dart';
 import 'package:cloud_medix/features/diagnosis_treatments/data/diagnosis.dart';
 import 'package:cloud_medix/features/diagnosis_treatments/data/treatment.dart';
+import 'package:cloud_medix/features/reservation/data/hospital.dart';
 import 'package:cloud_medix/features/reservation/make_reservation/data/reservation_body.dart';
 import 'package:cloud_medix/features/reservation/make_reservation/data/slot.dart';
 import 'package:cloud_medix/features/medical_record/data/medical_record.dart';
@@ -85,4 +86,11 @@ abstract class ApiService {
 
   @GET("${ApiConstants.diagnosis}/{id}")
   Future<ApiResponse<List<Diagnosis>>> getDiagnosis(@Path('id') String id);
+
+  @GET("${ApiConstants.routing}/{hospitalID}")
+  Future<ApiResponse<String>> getHospitalRoute(
+      @Path('hospitalID') int hospitalID);
+
+  @GET(ApiConstants.hospitals)
+  Future<ApiResponse<List<Hospital>>> getAllHospitals();
 }

@@ -42,7 +42,7 @@ class MedicalRecordCard extends StatelessWidget {
       child: Card(
         elevation: 3,
         child: Container(
-          height: 140.h,
+          height: 150.h,
           decoration: BoxDecoration(
             color: ColorsManager.lightgreyColor,
             borderRadius: BorderRadius.only(

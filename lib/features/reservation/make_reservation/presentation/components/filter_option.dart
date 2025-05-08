@@ -2,6 +2,8 @@ import 'package:cloud_medix/core/theming/colors.dart';
 import 'package:cloud_medix/core/theming/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:cloud_medix/features/reservation/blocs/reservation_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FilterOption extends StatefulWidget {
   const FilterOption({super.key});
@@ -11,17 +13,19 @@ class FilterOption extends StatefulWidget {
 }
 
 class _FilterOptionState extends State<FilterOption> {
-  String selectedValue = 'ICU'; // default value
-
-  final List<String> options = [
-    'ICU',
-    'Andalusia',
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<ReservationCubit>();
+
+    final selectedHospitalId = cubit.selectedHospitalId;
+
+    final selectedHospitalName = cubit.hospitals
+        .firstWhere((h) => h.hospitalId == selectedHospitalId,
+            orElse: () => cubit.hospitals[0])
+        .hospitalName;
+
     return Container(
-      width: 0.4.sw, // Set a fixed width (you can adjust this)
+      width: 0.4.sw,
       padding: EdgeInsets.only(left: 10.w, top: 3.h, bottom: 3.h),
       decoration: BoxDecoration(
         color: ColorsManager.primaryColor,
@@ -29,8 +33,8 @@ class _FilterOptionState extends State<FilterOption> {
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
-          isExpanded: true, // Important: make the dropdown fill the container
-          value: selectedValue,
+          isExpanded: true,
+          value: selectedHospitalName,
           icon: Icon(
             Icons.arrow_drop_down_rounded,
             color: Colors.white,
@@ -38,22 +42,23 @@ class _FilterOptionState extends State<FilterOption> {
           ),
           dropdownColor: ColorsManager.primaryColor,
           style: TextStyles.appBarTexts.copyWith(fontSize: 14.sp),
-          items: options.map((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Center(
-                child: Text(
-                  value,
-                  style: const TextStyle(color: Colors.white),
-                ),
-              ),
-            );
-          }).toList(),
+          items: cubit.hospitals
+              .map((hospital) => DropdownMenuItem<String>(
+                    value: hospital.hospitalName,
+                    child: Center(
+                      child: Text(
+                        hospital.hospitalName,
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ))
+              .toList(),
           onChanged: (String? newValue) {
             if (newValue != null) {
-              setState(() {
-                selectedValue = newValue;
-              });
+              final selectedHospital = cubit.hospitals
+                  .firstWhere((hospital) => hospital.hospitalName == newValue);
+              cubit.changeHospital(selectedHospital.hospitalId);
+              setState(() {}); // Trigger rebuild to update selection
             }
           },
         ),

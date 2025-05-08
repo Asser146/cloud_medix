@@ -14,7 +14,7 @@ class ReservationSlot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 70.h,
+        height: 75.h,
         width: 0.6 * MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(

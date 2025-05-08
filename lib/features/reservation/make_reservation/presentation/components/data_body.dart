@@ -1,43 +1,72 @@
 import 'package:cloud_medix/core/widgets/loading_widget.dart';
-import 'package:cloud_medix/core/widgets/my_error_widget.dart';
+import 'package:cloud_medix/core/widgets/my_app_text_field.dart';
 import 'package:cloud_medix/features/reservation/blocs/reservation_cubit.dart';
 import 'package:cloud_medix/features/reservation/make_reservation/data/slot.dart';
+import 'package:cloud_medix/features/reservation/make_reservation/presentation/components/filter_option.dart';
 import 'package:cloud_medix/features/reservation/make_reservation/presentation/components/reservation_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DataBody extends StatelessWidget {
-  const DataBody({super.key});
+  const DataBody({
+    super.key,
+    required this.slots,
+    required this.showOverlayLoader,
+  });
+
+  final List<Slot> slots;
+  final bool showOverlayLoader;
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: BlocBuilder<ReservationCubit, ReservationState>(
-        builder: (context, state) {
-          // Extract slots if available
-          List<Slot> slots = [];
-          bool showOverlayLoader = false;
-
-          if (state is ReservationLoaded) {
-            slots = List<Slot>.from(state.list);
-          } else if (state is ReservationProcessLoading) {
-            slots = List<Slot>.from(state.list);
-            showOverlayLoader = true;
-          } else if (state is ReservationLoading) {
-            return const Center(child: LoadingWidget());
-          } else if (state is ReservationError) {
-            return Center(child: MyErrorWidget(message: state.message));
-          }
-
-          if (slots.isEmpty) {
-            return const Center(
-              child: Text("No available slots.",
-                  style: TextStyle(color: Colors.black, fontSize: 16)),
-            );
-          }
-
-          return RefreshIndicator(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.only(top: 8.h, left: 5.w, right: 5.w),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Column(
+                children: [
+                  SizedBox(
+                    width: 0.55.sw,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 5.w),
+                      child: MyAppTextField(
+                        hintText: "Doctor",
+                        onChanged: (value) {
+                          context.read<ReservationCubit>().searchDoctor(value);
+                        },
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10.h),
+                  SizedBox(
+                    width: 0.55.sw,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 5.w),
+                      child: MyAppTextField(
+                        hintText: "Department",
+                        onChanged: (value) {
+                          context
+                              .read<ReservationCubit>()
+                              .searchDepartment(value);
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(width: 25.w),
+              Expanded(child: FilterOption()),
+            ],
+          ),
+        ),
+        SizedBox(height: 15.h),
+        Expanded(
+          child: RefreshIndicator(
             onRefresh: () async {
               // Manual refresh triggers new slot fetch
               await context.read<ReservationCubit>().refreshSlots();
@@ -68,9 +97,9 @@ class DataBody extends StatelessWidget {
                 if (showOverlayLoader) const Center(child: LoadingWidget()),
               ],
             ),
-          );
-        },
-      ),
+          ),
+        ),
+      ],
     );
   }
 }

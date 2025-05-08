@@ -5,6 +5,7 @@ import 'package:cloud_medix/core/networking/api_service.dart';
 import 'package:cloud_medix/core/networking/dio_factory.dart';
 import 'package:cloud_medix/features/auth/domain/auth_repository.dart';
 import 'package:cloud_medix/features/diagnosis_treatments/domain/diagnosis_treatment_repository.dart';
+import 'package:cloud_medix/features/reservation/domain/hospitals_repository.dart';
 import 'package:cloud_medix/features/reservation/make_reservation/domain/make_reservation_repository.dart';
 import 'package:cloud_medix/features/medical_record/domain/medical_record_repository.dart';
 import 'package:cloud_medix/features/reservation/my_reservations/domain/my_reservations_repository.dart';
@@ -21,15 +22,20 @@ Future<void> setupGetIt() async {
   // Dio & ApiService
   Dio dio = DioFactory.getDio();
 
-  // Fix: Use IOHttpClientAdapter instead of DefaultHttpClientAdapter
+// Fix: Register Dio for reuse
+  getIt.registerLazySingleton<Dio>(() => dio); // 🔥 THIS IS REQUIRED
+
   (dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () {
     HttpClient client = HttpClient();
     client.badCertificateCallback =
         (X509Certificate cert, String host, int port) => true;
     return client;
   };
+
   getIt.registerLazySingleton<FlutterSecureStorage>(
       () => FlutterSecureStorage());
+  getIt.registerLazySingleton<HospitalsRespository>(
+      () => HospitalsRespository());
   getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
   getIt.registerLazySingleton<MakeReservationRespository>(
       () => MakeReservationRespository());

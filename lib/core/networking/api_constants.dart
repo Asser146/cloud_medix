@@ -17,4 +17,6 @@ class ApiConstants {
   static const String searchSlots = "slots/search";
   static const String treatment = "treatment";
   static const String diagnosis = "diagnosis";
+  static const String routing = "hospitalroutings";
+  static const String hospitals = "hospitalroutings/allHospitals";
 }

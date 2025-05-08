@@ -9,6 +9,45 @@ import 'package:cloud_medix/features/reservation/make_reservation/data/slot.dart
 import 'package:dio/dio.dart';
 
 class MakeReservationRespository {
+  Future<ApiResponse<List<Slot>>> getHospitalSlots(
+      String patientId, int hospitalId) async {
+    final client = getIt<ApiService>();
+
+    try {
+      final response = await client
+          .getHospitalRoute(hospitalId)
+          .timeout(const Duration(seconds: 25), onTimeout: () {
+        return ApiResponse(
+            data: "", error: "Server timeout. Please try again.");
+      });
+
+      if (response.status == 200 && response.data != null) {
+        final localUrl = response.data;
+        final dio = getIt<Dio>();
+        final hospitalService = ApiService(dio, baseUrl: localUrl);
+        final slotsResponse = await hospitalService
+            .getallSlots(patientId)
+            .timeout(const Duration(seconds: 10), onTimeout: () {
+          return ApiResponse(
+              data: [], error: "Server timeout while fetching slots.");
+        });
+
+        return slotsResponse;
+      } else {
+        return ApiResponse(data: [], error: "No route found for hospital.");
+      }
+    } on DioException catch (e) {
+      log("DioException1: ${e.message}, type: ${e.type}, error: ${e.error}, response: ${e.response}");
+
+      return ApiResponse(
+          data: [], error: "Network error. Please check your connection.");
+    } catch (e) {
+      log("Unexpected Error: ${e.toString()}");
+      return ApiResponse(
+          data: [], error: "Something went wrong. Please try again.");
+    }
+  }
+
   Future<ApiResponse<List<Slot>>> getSlots(String id) async {
     final client = getIt<ApiService>();
     try {
