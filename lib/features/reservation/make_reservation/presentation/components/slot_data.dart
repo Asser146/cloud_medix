@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
-class ReservationSlot extends StatelessWidget {
-  const ReservationSlot({
+class SlotData extends StatelessWidget {
+  const SlotData({
     super.key,
     required this.slot,
   });

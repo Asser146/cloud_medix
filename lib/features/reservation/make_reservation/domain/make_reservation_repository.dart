@@ -48,56 +48,48 @@ class MakeReservationRespository {
     }
   }
 
-  Future<ApiResponse<List<Slot>>> getSlots(String id) async {
+  Future<ApiResponse<String>> makeHospitalReservation(
+      String patientId, int hospitalId, int slotID) async {
     final client = getIt<ApiService>();
+
     try {
       final response = await client
-          .getallSlots(id)
-          .timeout(const Duration(seconds: 10), onTimeout: () {
+          .getHospitalRoute(hospitalId)
+          .timeout(const Duration(seconds: 25), onTimeout: () {
         return ApiResponse(
-            data: [], error: "Server timeout. Please try again.");
+            data: "", error: "Server timeout. Please try again.");
       });
 
-      if (response.status == 200) {
-        return response;
-      } else {
-        return ApiResponse(data: [], error: "No Slots Available");
-      }
-    } on DioException catch (e) {
-      log("DioException: ${e.message}");
-      return ApiResponse(
-          data: [], error: "Network error. Please check your connection.");
-    } catch (e) {
-      log("Unexpected Error0: ${e.toString()}");
-      return ApiResponse(
-          data: [], error: "Something went wrong. Please try again.");
-    }
-  }
+      if (response.status == 200 && response.data != null) {
+        final localUrl = response.data;
+        final dio = getIt<Dio>();
+        ReservationBody requestBody = ReservationBody(
+            slotId: slotID, reservationDate: DateTime.now(), patientId: 1);
 
-  Future<ApiResponse> makeReservation(String patientId, int slotID) async {
-    final client = getIt<ApiService>();
-    try {
-      ReservationBody requestBody = ReservationBody(
-          slotId: slotID, reservationDate: DateTime.now(), patientId: 1);
-      final response = await client
-          .makeReservation(patientId, requestBody)
-          .timeout(const Duration(seconds: 10), onTimeout: () {
+        final hospitalService = ApiService(dio, baseUrl: localUrl);
+        final reservationResponse = await hospitalService
+            .makeReservation(patientId, requestBody)
+            .timeout(const Duration(seconds: 10), onTimeout: () {
+          return ApiResponse(
+              data: [], error: "Server timeout while fetching slots.");
+        });
+
         return ApiResponse(
-            data: [], error: "Server timeout. Please try again.");
-      });
-      if (response.status == 200) {
-        return response;
+            status: reservationResponse.status,
+            data: reservationResponse.data,
+            error: "Server timeout while fetching slots.");
       } else {
-        return ApiResponse(data: [], error: "No Slots Available");
+        return ApiResponse(data: "", error: "No route found for hospital.");
       }
     } on DioException catch (e) {
-      log("DioException1: ${e.message}");
+      log("DioException1: ${e.message}, type: ${e.type}, error: ${e.error}, response: ${e.response}");
+
       return ApiResponse(
-          data: [], error: "Network error. Please check your connection.");
+          data: "", error: "Network error. Please check your connection.");
     } catch (e) {
-      log("Unexpected Error1: ${e.toString()}");
+      log("Unexpected Error: ${e.toString()}");
       return ApiResponse(
-          data: [], error: "Something went wrong. Please try again.");
+          data: "", error: "Something went wrong. Please try again.");
     }
   }
 

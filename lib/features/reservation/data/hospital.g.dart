@@ -7,13 +7,13 @@ part of 'hospital.dart';
 // **************************************************************************
 
 Hospital _$HospitalFromJson(Map<String, dynamic> json) => Hospital(
-      hospitalId: (json['hospitalId'] as num).toInt(),
-      routingUrl: json['routingUrl'] as String,
-      hospitalName: json['hospitalName'] as String,
+      id: (json['id'] as num).toInt(),
+      name: json['name'] as String,
+      routingUrl: json['routingUrl'] as String?,
     );
 
 Map<String, dynamic> _$HospitalToJson(Hospital instance) => <String, dynamic>{
-      'hospitalId': instance.hospitalId,
+      'id': instance.id,
       'routingUrl': instance.routingUrl,
-      'hospitalName': instance.hospitalName,
+      'name': instance.name,
     };

@@ -1,8 +1,8 @@
 import 'package:cloud_medix/core/theming/colors.dart';
 import 'package:cloud_medix/core/theming/styles.dart';
+import 'package:cloud_medix/features/reservation/make_reservation/presentation/blocs/make_reservation_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:cloud_medix/features/reservation/blocs/reservation_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FilterOption extends StatefulWidget {
@@ -15,14 +15,14 @@ class FilterOption extends StatefulWidget {
 class _FilterOptionState extends State<FilterOption> {
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<ReservationCubit>();
+    final cubit = context.read<MakeReservationCubit>();
 
     final selectedHospitalId = cubit.selectedHospitalId;
 
     final selectedHospitalName = cubit.hospitals
-        .firstWhere((h) => h.hospitalId == selectedHospitalId,
+        .firstWhere((h) => h.id == selectedHospitalId,
             orElse: () => cubit.hospitals[0])
-        .hospitalName;
+        .name;
 
     return Container(
       width: 0.4.sw,
@@ -44,10 +44,10 @@ class _FilterOptionState extends State<FilterOption> {
           style: TextStyles.appBarTexts.copyWith(fontSize: 14.sp),
           items: cubit.hospitals
               .map((hospital) => DropdownMenuItem<String>(
-                    value: hospital.hospitalName,
+                    value: hospital.name,
                     child: Center(
                       child: Text(
-                        hospital.hospitalName,
+                        hospital.name,
                         style: const TextStyle(color: Colors.white),
                       ),
                     ),
@@ -56,8 +56,8 @@ class _FilterOptionState extends State<FilterOption> {
           onChanged: (String? newValue) {
             if (newValue != null) {
               final selectedHospital = cubit.hospitals
-                  .firstWhere((hospital) => hospital.hospitalName == newValue);
-              cubit.changeHospital(selectedHospital.hospitalId);
+                  .firstWhere((hospital) => hospital.name == newValue);
+              cubit.changeHospital(selectedHospital.id);
               setState(() {}); // Trigger rebuild to update selection
             }
           },

@@ -1,9 +1,9 @@
 import 'package:cloud_medix/core/widgets/loading_widget.dart';
 import 'package:cloud_medix/core/widgets/my_app_text_field.dart';
-import 'package:cloud_medix/features/reservation/blocs/reservation_cubit.dart';
 import 'package:cloud_medix/features/reservation/make_reservation/data/slot.dart';
+import 'package:cloud_medix/features/reservation/make_reservation/presentation/blocs/make_reservation_cubit.dart';
 import 'package:cloud_medix/features/reservation/make_reservation/presentation/components/filter_option.dart';
-import 'package:cloud_medix/features/reservation/make_reservation/presentation/components/reservation_row.dart';
+import 'package:cloud_medix/features/reservation/make_reservation/presentation/components/slot_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -37,7 +37,9 @@ class DataBody extends StatelessWidget {
                       child: MyAppTextField(
                         hintText: "Doctor",
                         onChanged: (value) {
-                          context.read<ReservationCubit>().searchDoctor(value);
+                          context
+                              .read<MakeReservationCubit>()
+                              .searchDoctor(value);
                         },
                       ),
                     ),
@@ -51,7 +53,7 @@ class DataBody extends StatelessWidget {
                         hintText: "Department",
                         onChanged: (value) {
                           context
-                              .read<ReservationCubit>()
+                              .read<MakeReservationCubit>()
                               .searchDepartment(value);
                         },
                       ),
@@ -69,7 +71,7 @@ class DataBody extends StatelessWidget {
           child: RefreshIndicator(
             onRefresh: () async {
               // Manual refresh triggers new slot fetch
-              await context.read<ReservationCubit>().refreshSlots();
+              await context.read<MakeReservationCubit>().refreshSlots();
             },
             child: Stack(
               children: [
@@ -86,7 +88,7 @@ class DataBody extends StatelessWidget {
                     padding: EdgeInsets.all(10.w),
                     itemCount: slots.length,
                     itemBuilder: (context, index) {
-                      return ReservationRow(
+                      return SlotRow(
                         index: index,
                         slot: slots[index],
                         isMyReservations: false,

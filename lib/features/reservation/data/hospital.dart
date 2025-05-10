@@ -4,14 +4,14 @@ part 'hospital.g.dart';
 
 @JsonSerializable()
 class Hospital {
-  int hospitalId;
-  String routingUrl;
-  String hospitalName;
+  int id;
+  String? routingUrl;
+  String name;
 
   Hospital({
-    required this.hospitalId,
-    required this.routingUrl,
-    required this.hospitalName,
+    required this.id,
+    required this.name,
+    this.routingUrl, // Optional and nullable
   });
 
   factory Hospital.fromJson(Map<String, dynamic> json) =>

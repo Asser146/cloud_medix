@@ -10,7 +10,6 @@ import 'package:dio/dio.dart';
 class MyReservationsRepository {
   Future<ApiResponse<List<MyReservation>>> getReservations(String id) async {
     final client = getIt<ApiService>();
-
     try {
       final response = await client
           .getMyReservations(id)

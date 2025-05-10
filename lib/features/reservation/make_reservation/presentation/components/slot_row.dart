@@ -3,12 +3,12 @@ import 'dart:developer';
 import 'package:cloud_medix/core/theming/colors.dart';
 import 'package:cloud_medix/features/reservation/make_reservation/data/slot.dart';
 import 'package:cloud_medix/features/reservation/make_reservation/presentation/components/reservation_button.dart';
-import 'package:cloud_medix/features/reservation/make_reservation/presentation/components/reservation_slot.dart';
+import 'package:cloud_medix/features/reservation/make_reservation/presentation/components/slot_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ReservationRow extends StatelessWidget {
-  const ReservationRow({
+class SlotRow extends StatelessWidget {
+  const SlotRow({
     super.key,
     required this.index,
     required this.slot,
@@ -35,7 +35,7 @@ class ReservationRow extends StatelessWidget {
                     bottomLeft: Radius.circular(12.r)),
                 color: ColorsManager.darkgreyColor),
           ),
-          ReservationSlot(slot: slot),
+          SlotData(slot: slot),
           const Spacer(),
           ReservationButton(
             id: isMyReservations ? resId! : slot.id,
