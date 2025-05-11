@@ -5,7 +5,6 @@ part 'reservation_body.g.dart';
 @JsonSerializable()
 class ReservationBody {
   final int patientId;
-
   final int slotId;
   final DateTime reservationDate;
 

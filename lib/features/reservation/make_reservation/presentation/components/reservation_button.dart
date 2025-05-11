@@ -17,26 +17,15 @@ class ReservationButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // if (isMyReservations) {
-        //   if (isReserved) {
-        //     context.read<MakeReservationCubit>().cancelReservation(id);
-        //   }
-        // } else {
-        //   if (!isReserved) {
-        //     context.read<MakeReservationCubit>().reserveSlot(id);
-        //   }
-        // }
-        context.read<MakeReservationCubit>().reserveSlot(id);
+        if (!isReserved) {
+          context.read<MakeReservationCubit>().reserveSlot(id);
+        }
       },
       child: Container(
         height: 55.h,
         width: 0.25 * MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-          color: isReserved
-              ? isMyReservations
-                  ? Colors.red
-                  : Colors.grey
-              : ColorsManager.midcyanColors,
+          color: isReserved ? Colors.grey : ColorsManager.midcyanColors,
           borderRadius: BorderRadius.circular(12.r),
         ),
         child: Center(

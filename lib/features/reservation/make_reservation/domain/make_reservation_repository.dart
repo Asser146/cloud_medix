@@ -64,7 +64,9 @@ class MakeReservationRespository {
         final localUrl = response.data;
         final dio = getIt<Dio>();
         ReservationBody requestBody = ReservationBody(
-            slotId: slotID, reservationDate: DateTime.now(), patientId: 1);
+            slotId: slotID,
+            reservationDate: DateTime.now(),
+            patientId: hospitalId);
 
         final hospitalService = ApiService(dio, baseUrl: localUrl);
         final reservationResponse = await hospitalService
