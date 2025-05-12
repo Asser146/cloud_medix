@@ -117,13 +117,6 @@ class MakeReservationCubit extends Cubit<MakeReservationState> {
       final String key = "hospital_slot_map";
       final hospitalKey = hospitalId.toString();
       final existingData = prefs.getString(key);
-
-      if (existingData != null) {
-        log("SharedPreferences - hospital_slot_map: $existingData");
-      } else {
-        log("SharedPreferences - hospital_slot_map is empty or null");
-      }
-
       List<int> reservedSlotIds = [];
 
       if (existingData != null) {
