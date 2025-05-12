@@ -33,7 +33,8 @@ class ReservationData extends StatelessWidget {
                   "${DateFormat.Hm().format(DateTime.parse(reservation.startTime.toString()))} - ${DateFormat.Hm().format(DateTime.parse(reservation.endTime.toString()))}",
                   style: TextStyles.slotDuration),
               Text(reservation.physicianName, style: TextStyles.doctorName),
-              Text(reservation.hospital.name, style: TextStyles.hospitalName),
+              Text("Hospital: ${reservation.hospital.name}",
+                  style: TextStyles.hospitalName),
             ],
           ),
         ));

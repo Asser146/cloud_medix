@@ -40,3 +40,7 @@ class MakeReservationError extends MakeReservationState {
   @override
   List<Object> get props => [message];
 }
+
+class MakeReservationSearchFail extends MakeReservationState {
+  const MakeReservationSearchFail();
+}

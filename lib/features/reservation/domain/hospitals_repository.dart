@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cloud_medix/core/di/dependency_injection.dart';
@@ -6,6 +7,7 @@ import 'package:cloud_medix/core/networking/api_response.dart';
 import 'package:cloud_medix/core/networking/api_service.dart';
 import 'package:cloud_medix/features/reservation/data/hospital.dart';
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HospitalsRespository {
   Future<ApiResponse<List<Hospital>>> getRegisteredHospitals() async {
@@ -33,6 +35,25 @@ class HospitalsRespository {
       log("Unexpected Error: ${e.toString()}");
       return ApiResponse(
           data: [], error: "Something went wrong. Please try again.");
+    }
+  }
+
+  Future<void> cacheHospitals(List<Hospital> hospitals) async {
+    final prefs = await SharedPreferences.getInstance();
+    final hospitalListJson = hospitals.map((e) => e.toJson()).toList();
+    final hospitalJsonString = jsonEncode(hospitalListJson);
+    await prefs.setString('cached_hospitals', hospitalJsonString);
+  }
+
+  Future<List<Hospital>> getCachedHospitals() async {
+    final prefs = await SharedPreferences.getInstance();
+    final hospitalJsonString = prefs.getString('cached_hospitals');
+
+    if (hospitalJsonString != null) {
+      final List<dynamic> decoded = jsonDecode(hospitalJsonString);
+      return decoded.map((e) => Hospital.fromJson(e)).toList();
+    } else {
+      return [];
     }
   }
 }

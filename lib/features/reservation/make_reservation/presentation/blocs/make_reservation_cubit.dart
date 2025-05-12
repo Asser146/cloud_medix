@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:developer';
-
 import 'package:cloud_medix/core/di/dependency_injection.dart';
 import 'package:cloud_medix/core/networking/api_response.dart';
 import 'package:cloud_medix/features/reservation/data/hospital.dart';
@@ -12,20 +11,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-
 part 'make_reservation_state.dart';
 
 class MakeReservationCubit extends Cubit<MakeReservationState> {
   bool slotsFetched = false;
 
-  Timer? _doctorDebounce;
-  Timer? _departmentDebounce;
-
   final MakeReservationRespository makeResRepo =
       getIt<MakeReservationRespository>();
   final HospitalsRespository hospitalsRepo = getIt<HospitalsRespository>();
   int? selectedHospitalId;
-
+  Timer? _doctorDebounce;
+  Timer? _departmentDebounce;
   List<Slot> slots = [];
   List<Hospital> hospitals = [];
   late ApiResponse response;
@@ -34,6 +30,32 @@ class MakeReservationCubit extends Cubit<MakeReservationState> {
   String departmentFilter = '';
 
   MakeReservationCubit() : super(const MakeReservationInitial());
+  Future<void> init() async {
+    await getHospitals();
+  }
+
+  Future<void> updateSlotsUI() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String key = "hospital_slot_map";
+    final hospitalKey = selectedHospitalId!.toString();
+    // await prefs.remove("hospital_slot_map");
+    final existingData = prefs.getString(key);
+    // Print the full hospital-slot map
+    List<int> reservedSlotIds = [];
+
+    if (existingData != null) {
+      final decoded = jsonDecode(existingData) as Map<String, dynamic>;
+      if (decoded.containsKey(hospitalKey)) {
+        reservedSlotIds = List<int>.from(decoded[hospitalKey]);
+      }
+    }
+
+    // Set reserved = true if in list, else reserved = false
+    slots = slots.map((slot) {
+      final isReserved = reservedSlotIds.contains(slot.id);
+      return slot.copyWith(reserved: isReserved);
+    }).toList();
+  }
 
   Future<void> reserveSlot(int slotID) async {
     emit(MakeReservationProcessLoading(List.from(slots))); // Show loading
@@ -84,14 +106,24 @@ class MakeReservationCubit extends Cubit<MakeReservationState> {
   }
 
   Future<void> getHospitals() async {
+    final cached =
+        await hospitalsRepo.getCachedHospitals(); // 1. Try cache first
+
+    if (cached.isNotEmpty) {
+      hospitals = cached;
+      return;
+    }
+
+    // 2. If no cache, fetch from API
     response = await hospitalsRepo.getRegisteredHospitals();
+
     if (response.status == 200 &&
         response.data != null &&
         response.data!.isNotEmpty) {
       hospitals = response.data!;
+      await hospitalsRepo.cacheHospitals(hospitals); // ✅ Save to cache
     } else {
-      final errorMessage = response.error ?? "No slots available.";
-      emit(MakeReservationError(errorMessage));
+      emit(MakeReservationError(response.error ?? "No hospitals available."));
     }
   }
 
@@ -113,24 +145,7 @@ class MakeReservationCubit extends Cubit<MakeReservationState> {
       slots = response.data!;
 
       // Load reserved slots from SharedPreferences
-      final prefs = await SharedPreferences.getInstance();
-      final String key = "hospital_slot_map";
-      final hospitalKey = hospitalId.toString();
-      final existingData = prefs.getString(key);
-      List<int> reservedSlotIds = [];
-
-      if (existingData != null) {
-        final decoded = jsonDecode(existingData) as Map<String, dynamic>;
-        if (decoded.containsKey(hospitalKey)) {
-          reservedSlotIds = List<int>.from(decoded[hospitalKey]);
-        }
-      }
-
-      // Set reserved = true if in list, else reserved = false
-      slots = slots.map((slot) {
-        final isReserved = reservedSlotIds.contains(slot.id);
-        return slot.copyWith(reserved: isReserved);
-      }).toList();
+      await updateSlotsUI();
 
       emit(MakeReservationLoaded(List.from(slots)));
     } else {
@@ -141,8 +156,8 @@ class MakeReservationCubit extends Cubit<MakeReservationState> {
   }
 
   Future<void> getSlots(bool isRefresh) async {
-    if (slotsFetched) return;
-    slotsFetched = true;
+    // if (slotsFetched) return;
+    // slotsFetched = true;
     isRefresh
         ? emit(MakeReservationProcessLoading(slots))
         : emit(const MakeReservationLoading());
@@ -152,7 +167,10 @@ class MakeReservationCubit extends Cubit<MakeReservationState> {
       emit(const MakeReservationError("User ID is missing Error"));
       return;
     } else {
-      await getHospitals();
+      if (hospitals.isEmpty) {
+        await getHospitals();
+      }
+
       selectedHospitalId = selectedHospitalId ?? hospitals[0].id;
 
       response = await makeResRepo.getHospitalSlots(id, selectedHospitalId!);
@@ -163,26 +181,7 @@ class MakeReservationCubit extends Cubit<MakeReservationState> {
         slots = response.data!;
 
         // Load reserved slots from SharedPreferences
-        final prefs = await SharedPreferences.getInstance();
-        final String key = "hospital_slot_map";
-        final hospitalKey = selectedHospitalId!.toString();
-        // await prefs.remove("hospital_slot_map");
-        final existingData = prefs.getString(key);
-        // Print the full hospital-slot map
-        List<int> reservedSlotIds = [];
-
-        if (existingData != null) {
-          final decoded = jsonDecode(existingData) as Map<String, dynamic>;
-          if (decoded.containsKey(hospitalKey)) {
-            reservedSlotIds = List<int>.from(decoded[hospitalKey]);
-          }
-        }
-
-        // Set reserved = true if in list, else reserved = false
-        slots = slots.map((slot) {
-          final isReserved = reservedSlotIds.contains(slot.id);
-          return slot.copyWith(reserved: isReserved);
-        }).toList();
+        await updateSlotsUI();
 
         emit(MakeReservationLoaded(List.from(slots)));
       } else {
@@ -197,44 +196,45 @@ class MakeReservationCubit extends Cubit<MakeReservationState> {
     await getSlots(true);
   }
 
-  void searchDoctor(String value) {
-    _doctorDebounce?.cancel();
-    _doctorDebounce = Timer(const Duration(milliseconds: 1000), () {
-      searchSlots(doctor: value);
-    });
-  }
-
-  void searchDepartment(String value) {
-    _departmentDebounce?.cancel();
-    _departmentDebounce = Timer(const Duration(milliseconds: 1000), () {
-      searchSlots(department: value);
-    });
-  }
-
   Future<void> searchSlots({String? doctor, String? department}) async {
-    // Replace this with your actual search logic
     emit(MakeReservationProcessLoading(slots));
-    if (doctor != null) doctorFilter = doctor;
-    if (department != null) departmentFilter = department;
-    if (doctor == null && department == null) {
-      getSlots(true);
+
+    // Clean up the filter inputs
+    final doctorQuery = doctor?.trim();
+    final departmentQuery = department?.trim();
+
+    // If both are empty or null, reload default slots
+    final shouldReset = (doctorQuery == null || doctorQuery.isEmpty) &&
+        (departmentQuery == null || departmentQuery.isEmpty);
+
+    if (shouldReset) {
+      await getSlots(true);
       return;
     }
+
+    // Update filters
+    if (doctor != null) doctorFilter = doctor;
+    if (department != null) departmentFilter = department;
+
     String? id = await storage.read(key: "id");
     if (id == null) {
       emit(const MakeReservationError("User ID is missing Error"));
       return;
     }
+
     response =
         await makeResRepo.filterSlots(id, doctorFilter, departmentFilter);
 
-    if (response.status == 200 &&
-        response.data != null &&
-        response.data!.isNotEmpty) {
-      slots = response.data!;
-      emit(MakeReservationLoaded(slots));
+    if (response.status == 200 && response.data != null) {
+      final data = response.data!;
+      if (data.isEmpty) {
+        emit(MakeReservationSearchFail());
+      } else {
+        slots = data;
+        emit(MakeReservationLoaded(slots));
+      }
     } else {
-      final errorMessage = response.error ?? "No slots available.";
+      final errorMessage = response.error ?? "No slots available";
       emit(MakeReservationError(errorMessage));
     }
   }

@@ -56,6 +56,7 @@ flutter:
     - assets/images/
     - assets/
     - assets/font/
+    - assets/search_fail.json
     - .env
     
 

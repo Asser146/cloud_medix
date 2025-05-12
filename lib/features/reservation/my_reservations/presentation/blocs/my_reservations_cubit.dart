@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
-
 import 'package:cloud_medix/core/di/dependency_injection.dart';
 import 'package:cloud_medix/core/networking/api_response.dart';
 import 'package:cloud_medix/features/reservation/domain/hospitals_repository.dart';
@@ -24,9 +22,7 @@ class MyReservationsCubit extends Cubit<MyReservationsState> {
   FlutterSecureStorage storage = getIt<FlutterSecureStorage>();
 
   MyReservationsCubit() : super(const MyReservationsInitial());
-//
 
-//
   Future<void> cancelMyReservations(int reservationId) async {
     emit(MyReservationsProcessLoading(List.from(reservations))); // Show loading
     String? id = await storage.read(key: "id");

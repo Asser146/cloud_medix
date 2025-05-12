@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:cloud_medix/core/widgets/loading_widget.dart';
 import 'package:cloud_medix/core/widgets/my_error_widget.dart';
+import 'package:cloud_medix/core/widgets/search_fail_widget.dart';
 import 'package:cloud_medix/features/reservation/make_reservation/data/slot.dart';
 import 'package:cloud_medix/features/reservation/make_reservation/presentation/blocs/make_reservation_cubit.dart';
 import 'package:cloud_medix/features/reservation/make_reservation/presentation/components/data_body.dart';
@@ -22,6 +25,7 @@ class MakeReservationScreen extends StatelessWidget {
       backgroundColor: ColorsManager.backgroundColor,
       body: BlocBuilder<MakeReservationCubit, MakeReservationState>(
         builder: (context, state) {
+          log(state.toString());
           List<Slot> slots = [];
           bool showOverlayLoader = false;
 
@@ -35,16 +39,6 @@ class MakeReservationScreen extends StatelessWidget {
           } else if (state is MakeReservationError) {
             return Center(child: MyErrorWidget(message: state.message));
           }
-
-          if (slots.isEmpty) {
-            return const Center(
-              child: Text(
-                "No available slots.",
-                style: TextStyle(color: Colors.black, fontSize: 16),
-              ),
-            );
-          }
-
           return DataBody(slots: slots, showOverlayLoader: showOverlayLoader);
         },
       ),

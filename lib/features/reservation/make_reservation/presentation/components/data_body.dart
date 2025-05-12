@@ -1,5 +1,6 @@
 import 'package:cloud_medix/core/widgets/loading_widget.dart';
 import 'package:cloud_medix/core/widgets/my_app_text_field.dart';
+import 'package:cloud_medix/core/widgets/search_fail_widget.dart';
 import 'package:cloud_medix/features/reservation/make_reservation/data/slot.dart';
 import 'package:cloud_medix/features/reservation/make_reservation/presentation/blocs/make_reservation_cubit.dart';
 import 'package:cloud_medix/features/reservation/make_reservation/presentation/components/filter_option.dart';
@@ -39,7 +40,7 @@ class DataBody extends StatelessWidget {
                         onChanged: (value) {
                           context
                               .read<MakeReservationCubit>()
-                              .searchDoctor(value);
+                              .searchSlots(doctor: value);
                         },
                       ),
                     ),
@@ -54,7 +55,7 @@ class DataBody extends StatelessWidget {
                         onChanged: (value) {
                           context
                               .read<MakeReservationCubit>()
-                              .searchDepartment(value);
+                              .searchSlots(department: value);
                         },
                       ),
                     ),
@@ -96,6 +97,8 @@ class DataBody extends StatelessWidget {
                   ),
                 ),
                 if (showOverlayLoader) const Center(child: LoadingWidget()),
+                if (slots.isEmpty && !showOverlayLoader)
+                  const Center(child: SearchFailWidget()),
               ],
             ),
           ),
