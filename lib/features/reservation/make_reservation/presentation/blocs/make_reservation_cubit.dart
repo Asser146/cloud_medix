@@ -10,6 +10,8 @@ import 'package:cloud_medix/features/reservation/make_reservation/domain/make_re
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'make_reservation_state.dart';
 
@@ -37,18 +39,48 @@ class MakeReservationCubit extends Cubit<MakeReservationState> {
     emit(MakeReservationProcessLoading(List.from(slots))); // Show loading
     String? id = await storage.read(key: "id");
     selectedHospitalId = selectedHospitalId ?? hospitals[0].id;
+
     if (id == null || selectedHospitalId == null) {
       emit(const MakeReservationError("Server Error or User error Id"));
       return;
-    } else {
-      await makeResRepo.makeHospitalReservation(
-          id, selectedHospitalId!, slotID);
-      int index = slots.indexWhere((slot) => slot.id == slotID);
-      if (index != -1) {
-        slots[index] = slots[index].copyWith(reserved: true);
-      }
-      emit(MakeReservationLoaded(List.from(slots)));
     }
+
+    await makeResRepo.makeHospitalReservation(id, selectedHospitalId!, slotID);
+
+    int index = slots.indexWhere((slot) => slot.id == slotID);
+    if (index != -1) {
+      slots[index] = slots[index].copyWith(reserved: true);
+    }
+
+    // Save mapping to SharedPreferences
+    final prefs = await SharedPreferences.getInstance();
+    final String key = "hospital_slot_map";
+
+    // Load existing data
+    final existingData = prefs.getString(key);
+    Map<String, List<int>> hospitalSlotMap = {};
+
+    if (existingData != null) {
+      final decoded = jsonDecode(existingData) as Map<String, dynamic>;
+      hospitalSlotMap = decoded.map(
+        (k, v) => MapEntry(k, List<int>.from(v)),
+      );
+    }
+
+    // Convert hospitalId to string for JSON map key
+    final hospitalKey = selectedHospitalId!.toString();
+
+    // Update the list for the current hospital
+    hospitalSlotMap.update(
+      hospitalKey,
+      (existingList) => {...existingList, slotID}.toList(), // remove duplicates
+      ifAbsent: () => [slotID],
+    );
+
+    // Save updated map
+    await prefs.setString(key, jsonEncode(hospitalSlotMap));
+
+    emit(MakeReservationLoaded(List.from(slots)));
   }
 
   Future<void> getHospitals() async {
@@ -65,7 +97,7 @@ class MakeReservationCubit extends Cubit<MakeReservationState> {
 
   Future<void> changeHospital(int hospitalId) async {
     emit(const MakeReservationLoading());
-    selectedHospitalId = hospitalId; // Set it here
+    selectedHospitalId = hospitalId;
 
     String? userId = await storage.read(key: "id");
     if (userId == null) {
@@ -74,10 +106,39 @@ class MakeReservationCubit extends Cubit<MakeReservationState> {
     }
 
     response = await makeResRepo.getHospitalSlots(userId, hospitalId);
+
     if (response.status == 200 &&
         response.data != null &&
         response.data!.isNotEmpty) {
       slots = response.data!;
+
+      // Load reserved slots from SharedPreferences
+      final prefs = await SharedPreferences.getInstance();
+      final String key = "hospital_slot_map";
+      final hospitalKey = hospitalId.toString();
+      final existingData = prefs.getString(key);
+
+      if (existingData != null) {
+        log("SharedPreferences - hospital_slot_map: $existingData");
+      } else {
+        log("SharedPreferences - hospital_slot_map is empty or null");
+      }
+
+      List<int> reservedSlotIds = [];
+
+      if (existingData != null) {
+        final decoded = jsonDecode(existingData) as Map<String, dynamic>;
+        if (decoded.containsKey(hospitalKey)) {
+          reservedSlotIds = List<int>.from(decoded[hospitalKey]);
+        }
+      }
+
+      // Set reserved = true if in list, else reserved = false
+      slots = slots.map((slot) {
+        final isReserved = reservedSlotIds.contains(slot.id);
+        return slot.copyWith(reserved: isReserved);
+      }).toList();
+
       emit(MakeReservationLoaded(List.from(slots)));
     } else {
       final errorMessage =
@@ -92,19 +153,44 @@ class MakeReservationCubit extends Cubit<MakeReservationState> {
     isRefresh
         ? emit(MakeReservationProcessLoading(slots))
         : emit(const MakeReservationLoading());
+
     String? id = await storage.read(key: "id");
     if (id == null) {
       emit(const MakeReservationError("User ID is missing Error"));
       return;
     } else {
       await getHospitals();
-      response = await makeResRepo.getHospitalSlots(
-          id, selectedHospitalId ?? hospitals[0].id);
+      selectedHospitalId = selectedHospitalId ?? hospitals[0].id;
+
+      response = await makeResRepo.getHospitalSlots(id, selectedHospitalId!);
 
       if (response.status == 200 &&
           response.data != null &&
           response.data!.isNotEmpty) {
         slots = response.data!;
+
+        // Load reserved slots from SharedPreferences
+        final prefs = await SharedPreferences.getInstance();
+        final String key = "hospital_slot_map";
+        final hospitalKey = selectedHospitalId!.toString();
+        // await prefs.remove("hospital_slot_map");
+        final existingData = prefs.getString(key);
+        // Print the full hospital-slot map
+        List<int> reservedSlotIds = [];
+
+        if (existingData != null) {
+          final decoded = jsonDecode(existingData) as Map<String, dynamic>;
+          if (decoded.containsKey(hospitalKey)) {
+            reservedSlotIds = List<int>.from(decoded[hospitalKey]);
+          }
+        }
+
+        // Set reserved = true if in list, else reserved = false
+        slots = slots.map((slot) {
+          final isReserved = reservedSlotIds.contains(slot.id);
+          return slot.copyWith(reserved: isReserved);
+        }).toList();
+
         emit(MakeReservationLoaded(List.from(slots)));
       } else {
         final errorMessage = response.error ?? "No slots available.";

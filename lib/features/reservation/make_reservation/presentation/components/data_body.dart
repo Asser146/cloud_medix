@@ -91,7 +91,6 @@ class DataBody extends StatelessWidget {
                       return SlotRow(
                         index: index,
                         slot: slots[index],
-                        isMyReservations: false,
                       );
                     },
                   ),

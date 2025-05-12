@@ -12,13 +12,9 @@ class SlotRow extends StatelessWidget {
     super.key,
     required this.index,
     required this.slot,
-    required this.isMyReservations,
-    this.resId,
   });
-  final int? resId;
   final int index;
   final Slot slot;
-  final bool isMyReservations;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -38,9 +34,8 @@ class SlotRow extends StatelessWidget {
           SlotData(slot: slot),
           const Spacer(),
           ReservationButton(
-            id: isMyReservations ? resId! : slot.id,
+            id: slot.id,
             isReserved: slot.reserved,
-            isMyReservations: isMyReservations,
           ),
         ],
       ),

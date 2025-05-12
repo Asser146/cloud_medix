@@ -5,14 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ReservationButton extends StatelessWidget {
-  const ReservationButton(
-      {super.key,
-      required this.id,
-      required this.isReserved,
-      required this.isMyReservations});
+  const ReservationButton({
+    super.key,
+    required this.id,
+    required this.isReserved,
+  });
   final int id;
   final bool isReserved;
-  final bool isMyReservations;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -29,11 +28,7 @@ class ReservationButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(12.r),
         ),
         child: Center(
-            child: isReserved
-                ? isMyReservations
-                    ? const Text("Cancel")
-                    : const Text("Reserved")
-                : const Text("Reserve")),
+            child: isReserved ? const Text("Reserved") : const Text("Reserve")),
       ),
     );
   }

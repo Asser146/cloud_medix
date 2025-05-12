@@ -31,4 +31,28 @@ class MyReservation {
       _$MyReservationFromJson(json);
 
   Map<String, dynamic> toJson() => _$MyReservationToJson(this);
+
+  MyReservation copyWith({
+    int? id,
+    String? patientId,
+    String? physicianName,
+    DateTime? startTime,
+    DateTime? endTime,
+    DateTime? reservationDate,
+    int? status,
+    Hospital? hospital,
+    int? localSlotId,
+  }) {
+    return MyReservation(
+      id: id ?? this.id,
+      patientId: patientId ?? this.patientId,
+      physicianName: physicianName ?? this.physicianName,
+      startTime: startTime ?? this.startTime,
+      endTime: endTime ?? this.endTime,
+      reservationDate: reservationDate ?? this.reservationDate,
+      status: status ?? this.status,
+      hospital: hospital ?? this.hospital,
+      localSlotId: localSlotId ?? this.localSlotId,
+    );
+  }
 }

@@ -34,29 +34,42 @@ class MyReservationsRepository {
   }
 
   Future<ApiResponse<String>> cancelReservation(
-      String patientId, int reservationId) async {
+      String patientId, int reservationId, int hospitalId) async {
     final client = getIt<ApiService>();
+
     try {
       final response = await client
-          .cancelReservation(patientId, reservationId)
-          .timeout(const Duration(seconds: 10), onTimeout: () {
-        return ApiResponse<String>(
-            data: null, error: "Server timeout. Please try again.");
+          .getHospitalRoute(hospitalId)
+          .timeout(const Duration(seconds: 25), onTimeout: () {
+        return ApiResponse(
+            data: "", error: "Server timeout. Please try again.");
       });
-
-      if (response.status == 200) {
-        return response;
+      if (response.status == 200 && response.data != null) {
+        final localUrl = response.data;
+        final dio = getIt<Dio>();
+        final hospitalService = ApiService(dio, baseUrl: localUrl);
+        final reservationResponse = await hospitalService
+            .cancelReservation(patientId, reservationId)
+            .timeout(const Duration(seconds: 10), onTimeout: () {
+          return ApiResponse<String>(
+              data: null, error: "Server timeout. Please try again.");
+        });
+        return ApiResponse(
+            status: reservationResponse.status,
+            data: reservationResponse.data,
+            error: "Server timeout while fetching slots.");
       } else {
         return ApiResponse<String>(data: null, error: "No Reservations Done");
       }
     } on DioException catch (e) {
-      log("DioException: ${e.message}");
-      return ApiResponse<String>(
-          data: null, error: "Network error. Please check your connection.");
+      log("DioException1: ${e.message}, type: ${e.type}, error: ${e.error}, response: ${e.response}");
+
+      return ApiResponse(
+          data: "", error: "Network error. Please check your connection.");
     } catch (e) {
-      log("Unexpected Error1: ${e.toString()}");
-      return ApiResponse<String>(
-          data: null, error: "Something went wrong. Please try again.");
+      log("Unexpected Error: ${e.toString()}");
+      return ApiResponse(
+          data: "", error: "Something went wrong. Please try again.");
     }
   }
 }

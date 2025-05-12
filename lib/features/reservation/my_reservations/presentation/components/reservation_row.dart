@@ -1,11 +1,9 @@
 import 'dart:developer';
 
 import 'package:cloud_medix/core/theming/colors.dart';
-import 'package:cloud_medix/features/reservation/make_reservation/data/slot.dart';
-import 'package:cloud_medix/features/reservation/make_reservation/presentation/components/reservation_button.dart';
-import 'package:cloud_medix/features/reservation/make_reservation/presentation/components/slot_data.dart';
 import 'package:cloud_medix/features/reservation/my_reservations/data/my_reservation.dart';
 import 'package:cloud_medix/features/reservation/my_reservations/presentation/components/reservation_data.dart';
+import 'package:cloud_medix/features/reservation/my_reservations/presentation/components/status_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -33,11 +31,10 @@ class ReservationRow extends StatelessWidget {
           ),
           ReservationData(reservation: reservation),
           const Spacer(),
-          // ReservationButton(
-          //   id: isMyReservations ? resId! : slot.id,
-          //   isReserved: slot.reserved,
-          //   isMyReservations: isMyReservations,
-          // ),
+          StatusButton(
+            id: reservation.id,
+            status: reservation.status,
+          ),
         ],
       ),
     );
