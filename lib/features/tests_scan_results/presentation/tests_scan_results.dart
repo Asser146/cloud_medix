@@ -7,6 +7,7 @@ import 'package:cloud_medix/features/tests_scan_results/data/test_result.dart';
 import 'package:cloud_medix/features/tests_scan_results/presentation/blocs/lab_cubit.dart';
 import 'package:cloud_medix/features/tests_scan_results/presentation/components/report_dialog.dart';
 import 'package:cloud_medix/features/tests_scan_results/presentation/components/test_scan_card.dart';
+import 'package:cloud_medix/features/tests_scan_results/presentation/image_viewer_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -44,14 +45,28 @@ class TestsScanResults extends StatelessWidget {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               if (!context.mounted) return; // <<=== ADD THIS SAFETY CHECK
               if (result != null) {
-                showDialog(
-                  context: context,
-                  builder: (_) => ReportDialog(testResult: result!),
-                ).then((_) {
-                  if (context.mounted) {
-                    context.read<LabCubit>().switchStates();
-                  }
-                });
+                if (result.department == 1 && result.results.isNotEmpty) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) =>
+                          ImageViewerScreen(imageUrls: result!.results),
+                    ),
+                  ).then((_) {
+                    if (context.mounted) {
+                      context.read<LabCubit>().switchStates();
+                    }
+                  });
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (_) => ReportDialog(testResult: result!),
+                  ).then((_) {
+                    if (context.mounted) {
+                      context.read<LabCubit>().switchStates();
+                    }
+                  });
+                }
               }
             });
           }

@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:cloud_medix/core/widgets/loading_widget.dart';
 import 'package:cloud_medix/core/widgets/my_error_widget.dart';
-import 'package:cloud_medix/core/widgets/search_fail_widget.dart';
 import 'package:cloud_medix/features/reservation/make_reservation/data/slot.dart';
 import 'package:cloud_medix/features/reservation/make_reservation/presentation/blocs/make_reservation_cubit.dart';
 import 'package:cloud_medix/features/reservation/make_reservation/presentation/components/data_body.dart';
@@ -21,7 +20,7 @@ class MakeReservationScreen extends StatelessWidget {
     cubit.getSlots(false);
 
     return Scaffold(
-      appBar: MyAppBar(title: "Make MakeReservation"),
+      appBar: MyAppBar(title: "Make Reservation"),
       backgroundColor: ColorsManager.backgroundColor,
       body: BlocBuilder<MakeReservationCubit, MakeReservationState>(
         builder: (context, state) {

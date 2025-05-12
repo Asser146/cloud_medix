@@ -20,8 +20,6 @@ class MakeReservationCubit extends Cubit<MakeReservationState> {
       getIt<MakeReservationRespository>();
   final HospitalsRespository hospitalsRepo = getIt<HospitalsRespository>();
   int? selectedHospitalId;
-  Timer? _doctorDebounce;
-  Timer? _departmentDebounce;
   List<Slot> slots = [];
   List<Hospital> hospitals = [];
   late ApiResponse response;
@@ -38,9 +36,8 @@ class MakeReservationCubit extends Cubit<MakeReservationState> {
     final prefs = await SharedPreferences.getInstance();
     final String key = "hospital_slot_map";
     final hospitalKey = selectedHospitalId!.toString();
-    // await prefs.remove("hospital_slot_map");
+    await prefs.remove("hospital_slot_map");
     final existingData = prefs.getString(key);
-    // Print the full hospital-slot map
     List<int> reservedSlotIds = [];
 
     if (existingData != null) {
