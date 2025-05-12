@@ -4,6 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TextStyles {
+  static TextStyle errormessage = TextStyle(
+    fontSize: 15.sp,
+    fontFamily: 'Roboto',
+    fontWeight: FontWeightHelper.bold,
+    color: ColorsManager.darkgreyColor,
+  );
   static TextStyle welcomBack = TextStyle(
     fontSize: 30.sp,
     fontFamily: 'Roboto',

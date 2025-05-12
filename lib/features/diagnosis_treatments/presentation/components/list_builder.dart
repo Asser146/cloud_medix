@@ -1,3 +1,4 @@
+import 'package:cloud_medix/core/widgets/empty_state_widget.dart';
 import 'package:cloud_medix/features/diagnosis_treatments/presentation/blocs/diagnosis_treatment_cubit.dart';
 import 'package:cloud_medix/features/diagnosis_treatments/presentation/components/data_card.dart';
 import 'package:flutter/material.dart';
@@ -37,12 +38,7 @@ class ListBuilder extends StatelessWidget {
                 );
               },
             )
-          : const Center(
-              child: Text(
-                "No Records found.",
-                style: TextStyle(color: Colors.black, fontSize: 16),
-              ),
-            ),
+          : Center(child: EmptyStateWidget(message: "No Records Found")),
     );
   }
 }

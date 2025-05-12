@@ -148,9 +148,13 @@ class MakeReservationCubit extends Cubit<MakeReservationState> {
       await updateSlotsUI();
 
       emit(MakeReservationLoaded(List.from(slots)));
+    } else if (response.status == 200 &&
+        response.data != null &&
+        response.data!.isEmpty) {
+      slots = [];
+      emit(MakeReservationLoaded(List.from(slots)));
     } else {
-      final errorMessage =
-          response.error ?? "No slots available for this hospital.";
+      final errorMessage = response.error ?? "Error, Try Again Later";
       emit(MakeReservationError(errorMessage));
     }
   }
@@ -184,8 +188,13 @@ class MakeReservationCubit extends Cubit<MakeReservationState> {
         await updateSlotsUI();
 
         emit(MakeReservationLoaded(List.from(slots)));
+      } else if (response.status == 200 &&
+          response.data != null &&
+          response.data!.isEmpty) {
+        slots = [];
+        emit(MakeReservationLoaded(List.from(slots)));
       } else {
-        final errorMessage = response.error ?? "No slots available.";
+        final errorMessage = response.error ?? "Error, Try Again Later";
         emit(MakeReservationError(errorMessage));
       }
     }
@@ -208,6 +217,7 @@ class MakeReservationCubit extends Cubit<MakeReservationState> {
         (departmentQuery == null || departmentQuery.isEmpty);
 
     if (shouldReset) {
+      log("resetting");
       await getSlots(true);
       return;
     }
@@ -231,6 +241,7 @@ class MakeReservationCubit extends Cubit<MakeReservationState> {
         emit(MakeReservationSearchFail());
       } else {
         slots = data;
+        await updateSlotsUI();
         emit(MakeReservationLoaded(slots));
       }
     } else {

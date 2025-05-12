@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cloud_medix/core/widgets/empty_state_widget.dart';
 import 'package:cloud_medix/core/widgets/loading_widget.dart';
 import 'package:cloud_medix/core/widgets/my_app_bar.dart';
 import 'package:cloud_medix/core/widgets/my_error_widget.dart';
@@ -38,10 +39,8 @@ class MyReservationsScreen extends StatelessWidget {
           }
 
           if (reservations.isEmpty) {
-            return const Center(
-              child: Text("No available MyReservations.",
-                  style: TextStyle(color: Colors.black, fontSize: 16)),
-            );
+            return Center(
+                child: EmptyStateWidget(message: "No Available Reservations"));
           }
 
           return Stack(

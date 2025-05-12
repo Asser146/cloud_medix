@@ -1,3 +1,4 @@
+import 'package:cloud_medix/core/widgets/empty_state_widget.dart';
 import 'package:cloud_medix/core/widgets/loading_widget.dart';
 import 'package:cloud_medix/core/widgets/my_app_bar.dart';
 import 'package:cloud_medix/core/widgets/my_error_widget.dart';
@@ -57,8 +58,7 @@ class TestsScanResults extends StatelessWidget {
 
           if (requests.isEmpty) {
             return Center(
-                child: MyErrorWidget(message: "No Available Requests"));
-            ;
+                child: EmptyStateWidget(message: "No Available Tests"));
           }
 
           return Stack(

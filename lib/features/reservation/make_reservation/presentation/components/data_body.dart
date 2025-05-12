@@ -98,7 +98,8 @@ class DataBody extends StatelessWidget {
                 ),
                 if (showOverlayLoader) const Center(child: LoadingWidget()),
                 if (slots.isEmpty && !showOverlayLoader)
-                  const Center(child: SearchFailWidget()),
+                  const Center(
+                      child: SearchFailWidget(message: "No Available Slots")),
               ],
             ),
           ),

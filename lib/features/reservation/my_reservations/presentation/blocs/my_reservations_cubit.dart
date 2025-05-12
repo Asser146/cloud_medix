@@ -84,8 +84,13 @@ class MyReservationsCubit extends Cubit<MyReservationsState> {
           response.data.isNotEmpty) {
         reservations = response.data;
         emit(MyReservationsLoaded(List.from(reservations)));
+      } else if (response.status == 200 &&
+          response.data != null &&
+          response.data!.isEmpty) {
+        reservations = [];
+        emit(MyReservationsLoaded(List.from(reservations)));
       } else {
-        final errorMessage = response.error ?? "No slots available.";
+        final errorMessage = response.error ?? "Error, Try Again Later";
         emit(MyReservationsError(errorMessage));
       }
     }
