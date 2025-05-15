@@ -19,7 +19,7 @@ class LabRepository {
         log("Timeout: Server took too long to respond.");
         return ApiResponse(
           data: null,
-          error: "Request timed out. Please try again later.",
+          error: "Request timed out\nPlease try again later.",
         );
       });
 
@@ -27,21 +27,22 @@ class LabRepository {
         return response;
       } else {
         return ApiResponse(
+          status: response.status,
           data: null,
-          error: "No Tests found for this user.",
+          error: "Network error\nPlease check your connection and try again.",
         );
       }
     } on DioException catch (e) {
       log("DioException: ${e.message}");
       return ApiResponse(
         data: null,
-        error: "Network error. Please check your connection and try again.",
+        error: "Network error\nPlease check your connection and try again.",
       );
     } catch (e) {
       log("Unexpected error: ${e.toString()}");
       return ApiResponse(
         data: null,
-        error: "Something went wrong. Please try again.",
+        error: "Something went wrong\nPlease try again.",
       );
     }
   }
@@ -57,7 +58,7 @@ class LabRepository {
         log("Timeout: Server took too long to respond.");
         return ApiResponse(
           data: null,
-          error: "Request timed out. Please try again later.",
+          error: "Request timed out\nPlease try again later.",
         );
       });
 
@@ -65,21 +66,22 @@ class LabRepository {
         return response;
       } else {
         return ApiResponse(
+          status: 500,
           data: null,
-          error: "No Tests Result found for this user.",
+          error: "Server Error\nplease try again later.",
         );
       }
     } on DioException catch (e) {
       log("DioException: ${e.message}");
       return ApiResponse(
         data: null,
-        error: "Network error. Please check your connection and try again.",
+        error: "Network error\nPlease check your connection and try again.",
       );
     } catch (e) {
       log("Unexpected error: ${e.toString()}");
       return ApiResponse(
         data: null,
-        error: "Something went wrong. Please try again.",
+        error: "Something went wrong\nPlease try again.",
       );
     }
   }

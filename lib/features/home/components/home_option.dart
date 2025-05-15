@@ -8,8 +8,13 @@ class HomeOption extends StatelessWidget {
     super.key,
     required this.text,
     required this.path,
+    required this.isInternet,
+    this.isMyReservations = false,
   });
+
   final String text, path;
+  final bool isInternet;
+  final bool isMyReservations;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -20,7 +25,9 @@ class HomeOption extends StatelessWidget {
         child: Container(
           height: 80.h,
           decoration: BoxDecoration(
-              color: Colors.white,
+              color: isInternet || isMyReservations
+                  ? Colors.white
+                  : Colors.grey.shade300,
               borderRadius: BorderRadius.all(Radius.circular(12.sp))),
           child: Row(
             children: [
