@@ -8,14 +8,15 @@ part of 'reservation_body.dart';
 
 ReservationBody _$ReservationBodyFromJson(Map<String, dynamic> json) =>
     ReservationBody(
-      patientId: (json['patientId'] as num).toInt(),
+      hospitalPatientInternalId:
+          (json['hospitalPatientInternalId'] as num).toInt(),
       slotId: (json['slotId'] as num).toInt(),
       reservationDate: DateTime.parse(json['reservationDate'] as String),
     );
 
 Map<String, dynamic> _$ReservationBodyToJson(ReservationBody instance) =>
     <String, dynamic>{
-      'patientId': instance.patientId,
+      'hospitalPatientInternalId': instance.hospitalPatientInternalId,
       'slotId': instance.slotId,
       'reservationDate': instance.reservationDate.toIso8601String(),
     };

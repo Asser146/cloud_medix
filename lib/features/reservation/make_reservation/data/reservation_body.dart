@@ -4,12 +4,12 @@ part 'reservation_body.g.dart';
 
 @JsonSerializable()
 class ReservationBody {
-  final int patientId;
+  final int hospitalPatientInternalId;
   final int slotId;
   final DateTime reservationDate;
 
   ReservationBody({
-    required this.patientId,
+    required this.hospitalPatientInternalId,
     required this.slotId,
     required this.reservationDate,
   });

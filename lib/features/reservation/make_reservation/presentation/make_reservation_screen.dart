@@ -24,7 +24,6 @@ class MakeReservationScreen extends StatelessWidget {
       backgroundColor: ColorsManager.backgroundColor,
       body: BlocBuilder<MakeReservationCubit, MakeReservationState>(
         builder: (context, state) {
-          log(state.toString());
           List<Slot> slots = [];
           bool showOverlayLoader = false;
 

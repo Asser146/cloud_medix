@@ -36,7 +36,7 @@ class MakeReservationCubit extends Cubit<MakeReservationState> {
     final prefs = await SharedPreferences.getInstance();
     final String key = "hospital_slot_map";
     final hospitalKey = selectedHospitalId!.toString();
-    await prefs.remove("hospital_slot_map");
+    // await prefs.remove("hospital_slot_map");
     final existingData = prefs.getString(key);
     List<int> reservedSlotIds = [];
 
