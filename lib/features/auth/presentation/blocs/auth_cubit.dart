@@ -19,6 +19,7 @@ class AuthCubit extends Cubit<AuthState> {
     if (responseData.data.isNotEmpty) {
       await storage.write(key: "id", value: responseData.data[0]);
       await storage.write(key: "token", value: responseData.data[1]);
+      await storage.write(key: "user_name", value: responseData.data[2]);
       emit(const AuthLoaded());
       return true;
     } else {

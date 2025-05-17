@@ -91,7 +91,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 SizedBox(height: 10.h),
                 Text(
-                  "UserName",
+                  user.userName ?? "UserName",
                   style: const TextStyle(
                       fontSize: 20, fontWeight: FontWeight.bold),
                 ),
@@ -104,7 +104,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 buildInput(label: "Age", value: calculateAge(user.date)),
                 buildInput(label: "National ID", value: user.nationalID),
                 buildInput(label: "Weight", value: "70 kgs"),
-                buildInput(label: "Height", value: "5 feet 10 inches"),
+                buildInput(label: "Height", value: "180 cm"),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Row(

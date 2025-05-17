@@ -27,13 +27,16 @@ class SettingsCubit extends Cubit<SettingsState> {
   Future<void> getSettings() async {
     emit(SettingsLoading());
     String? id = await storage.read(key: "id");
-    if (id == null) {
+    String? userName = await storage.read(key: "user_name");
+
+    if (id == null || userName == null) {
       emit(const SettingsError("User ID is missing Error"));
       return;
     } else {
       ApiResponse response = await repo.getMySettings(id);
       if (response.status == 200 && response.data != null) {
         user = response.data;
+        user.userName = userName;
         emit(SettingsLoaded(user));
       } else {
         emit(SettingsError(response.error ?? "No Settings available."));

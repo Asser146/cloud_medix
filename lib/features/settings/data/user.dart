@@ -13,6 +13,7 @@ class User {
   String? emergencyContactName;
   String? emergencyContactPhone;
   String? emergencyContactRelation;
+  String? userName;
 
   User({
     required this.fullName,
@@ -23,6 +24,7 @@ class User {
     this.emergencyContactName,
     this.emergencyContactPhone,
     this.emergencyContactRelation,
+    this.userName,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

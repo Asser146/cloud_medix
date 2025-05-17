@@ -42,10 +42,13 @@ class AuthRepository {
   Future<LoginResponse> loginPatient() async {
     try {
       ApiService client = getIt<ApiService>();
+      LoginBody loginBody =
+          LoginBody(userName: "asser14", password: "SecurePass123!");
       var response = await client.login(
-        LoginBody(userName: "asser14", password: "SecurePass123!"),
+        loginBody,
       );
       if (response.status == 200 && response.data != null) {
+        response.data!.add(loginBody.userName);
         return LoginResponse.fromJson(response.data!);
       } else {
         log("Login Failed: ${response.error}");

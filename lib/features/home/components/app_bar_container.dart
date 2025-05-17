@@ -8,11 +8,9 @@ class AppBarContainer extends StatelessWidget {
     super.key,
     required this.image,
     required this.data,
-    required this.type,
   });
   final String image;
   final String data;
-  final int type;
 
   @override
   Widget build(BuildContext context) {
