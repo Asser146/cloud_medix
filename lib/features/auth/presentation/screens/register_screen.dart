@@ -4,6 +4,7 @@ import 'package:cloud_medix/core/theming/styles.dart';
 import 'package:cloud_medix/features/auth/presentation/screens/components/controllers_validators.dart';
 import 'package:cloud_medix/features/auth/presentation/screens/components/custom_dob.dart';
 import 'package:cloud_medix/features/auth/presentation/screens/components/custom_text_form_field.dart';
+import 'package:cloud_medix/features/auth/presentation/screens/components/registr_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -123,23 +124,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         SizedBox(height: 12.h),
         const CustomDOB(),
         SizedBox(height: 20.h),
-        Container(
-            width: double.infinity,
-            height: 35.h,
-            decoration: BoxDecoration(
-                color: Colors.teal,
-                borderRadius: BorderRadius.all(Radius.circular(10.r))),
-            child: Center(
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, Routes.login);
-                },
-                child: Text(
-                  'Register',
-                  style: TextStyles.testName,
-                ),
-              ),
-            )),
+        RegisterButton(context: context),
       ],
     );
   }

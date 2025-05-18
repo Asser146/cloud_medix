@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:cloud_medix/core/theming/colors.dart';
 import 'package:cloud_medix/core/widgets/loading_widget.dart';
 import 'package:cloud_medix/core/widgets/my_app_bar.dart';
-import 'package:cloud_medix/core/widgets/my_error_widget.dart';
+import 'package:cloud_medix/core/widgets/server_error_widget.dart';
 import 'package:cloud_medix/features/settings/data/user.dart';
 import 'package:cloud_medix/features/settings/presentation/blocs/settings_cubit.dart';
 import 'package:cloud_medix/features/settings/presentation/components/building_functions.dart';
@@ -62,7 +62,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           if (state is SettingsLoading) {
             return const Center(child: LoadingWidget());
           } else if (state is SettingsError) {
-            return Center(child: MyErrorWidget(message: state.message));
+            return Center(child: ServerErrorWidget(message: state.message));
           } else if (state is SettingsUpdated) {
             cubit.user = state.user;
           }

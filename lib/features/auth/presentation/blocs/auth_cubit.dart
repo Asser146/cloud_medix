@@ -13,9 +13,9 @@ class AuthCubit extends Cubit<AuthState> {
   late LoginResponse responseData;
   FlutterSecureStorage storage = getIt<FlutterSecureStorage>();
 
-  Future<bool> login() async {
+  Future<bool> login(String userName, String password) async {
     emit(const AuthLoading());
-    responseData = await repo.loginPatient();
+    responseData = await repo.loginPatient(userName, password);
     if (responseData.data.isNotEmpty) {
       await storage.write(key: "id", value: responseData.data[0]);
       await storage.write(key: "token", value: responseData.data[1]);

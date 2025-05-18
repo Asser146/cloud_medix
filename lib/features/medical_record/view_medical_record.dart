@@ -1,6 +1,6 @@
 import 'package:cloud_medix/core/widgets/loading_widget.dart';
 import 'package:cloud_medix/core/widgets/my_app_bar.dart';
-import 'package:cloud_medix/core/widgets/my_error_widget.dart';
+import 'package:cloud_medix/core/widgets/server_error_widget.dart';
 import 'package:cloud_medix/features/medical_record/presentation/blocs/medical_record_cubit.dart';
 import 'package:cloud_medix/features/medical_record/presentation/components/medical_record_tabs.dart';
 import 'package:cloud_medix/features/medical_record/presentation/components/record_list_builder.dart';
@@ -35,14 +35,14 @@ class ViewMedicalRecord extends StatelessWidget {
                       child: LoadingWidget(),
                     );
                   } else if (state is MedicalRecordError) {
-                    return MyErrorWidget(message: state.message);
+                    return ServerErrorWidget(message: state.message);
                   } else if (state is MedicalRecordLoaded) {
                     return RecordListBuilder(
                         selectedIndex: context
                             .watch<MedicalRecordCubit>()
                             .selectedtabIndex);
                   } else {
-                    return MyErrorWidget(message: "Something Went Wrong");
+                    return ServerErrorWidget(message: "Something Went Wrong");
                   }
                 },
               ),

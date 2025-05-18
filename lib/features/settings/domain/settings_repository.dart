@@ -35,7 +35,7 @@ class SettingsRepository {
       log("DioException2: ${e.message}");
       return ApiResponse(
         data: null,
-        error: "Network error\nPlease check your connection and try again.",
+        error: "Network error\nPlease try again later",
       );
     } catch (e) {
       log("Unexpected error: ${e.toString()}");

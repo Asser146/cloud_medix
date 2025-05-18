@@ -16,7 +16,7 @@ class MakeReservationRespository {
     try {
       final response = await client
           .getHospitalRoute(hospitalId)
-          .timeout(const Duration(seconds: 25), onTimeout: () {
+          .timeout(const Duration(seconds: 10), onTimeout: () {
         return ApiResponse(
             data: "", error: "Server timeout. Please try again.");
       });
@@ -34,7 +34,7 @@ class MakeReservationRespository {
 
         return slotsResponse;
       } else {
-        return ApiResponse(data: [], error: "No route found for hospital.");
+        return ApiResponse(data: [], error: "Network error\nTry again later");
       }
     } on DioException catch (e) {
       log("DioException1: ${e.message}, type: ${e.type}, error: ${e.error}, response: ${e.response}");

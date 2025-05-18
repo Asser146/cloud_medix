@@ -1,7 +1,5 @@
-import 'dart:developer';
-
 import 'package:cloud_medix/core/widgets/loading_widget.dart';
-import 'package:cloud_medix/core/widgets/my_error_widget.dart';
+import 'package:cloud_medix/core/widgets/server_error_widget.dart';
 import 'package:cloud_medix/features/reservation/make_reservation/data/slot.dart';
 import 'package:cloud_medix/features/reservation/make_reservation/presentation/blocs/make_reservation_cubit.dart';
 import 'package:cloud_medix/features/reservation/make_reservation/presentation/components/data_body.dart';
@@ -35,7 +33,7 @@ class MakeReservationScreen extends StatelessWidget {
           } else if (state is MakeReservationLoading) {
             return const Center(child: LoadingWidget());
           } else if (state is MakeReservationError) {
-            return Center(child: MyErrorWidget(message: state.message));
+            return Center(child: ServerErrorWidget(message: state.message));
           }
           return DataBody(slots: slots, showOverlayLoader: showOverlayLoader);
         },

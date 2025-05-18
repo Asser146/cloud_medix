@@ -2,6 +2,7 @@ import 'package:cloud_medix/core/theming/colors.dart';
 import 'package:cloud_medix/core/theming/styles.dart';
 import 'package:cloud_medix/core/widgets/loading_widget.dart';
 import 'package:cloud_medix/features/auth/presentation/blocs/auth_cubit.dart';
+import 'package:cloud_medix/features/auth/presentation/screens/components/controllers_validators.dart';
 import 'package:cloud_medix/features/auth/presentation/screens/components/input_text_field.dart';
 import 'package:cloud_medix/features/auth/presentation/screens/components/login_button.dart';
 import 'package:flutter/material.dart';
@@ -50,9 +51,17 @@ class LoginScreen extends StatelessWidget {
                           style: TextStyles.welcomBack
                               .copyWith(color: Colors.cyan)),
                       SizedBox(height: 10.h),
-                      const InputTextField(title: "Username", isPass: false),
+                      InputTextField(
+                        title: "Username",
+                        isPass: false,
+                        controller: usernameController,
+                      ),
                       SizedBox(height: 12.h),
-                      const InputTextField(title: "Password", isPass: true),
+                      InputTextField(
+                        title: "Password",
+                        isPass: true,
+                        controller: passController,
+                      ),
                       SizedBox(height: 20.h),
                       const LoginButton(),
                     ],

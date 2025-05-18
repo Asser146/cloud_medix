@@ -2,9 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class InputTextField extends StatelessWidget {
-  const InputTextField({super.key, required this.title, required this.isPass});
   final String title;
   final bool isPass;
+  final TextEditingController controller;
+
+  const InputTextField({
+    super.key,
+    required this.title,
+    required this.isPass,
+    required this.controller,
+  });
+
   @override
   Widget build(BuildContext context) {
     return FittedBox(
@@ -28,7 +36,8 @@ class InputTextField extends StatelessWidget {
           ],
         ),
         child: TextField(
-          obscureText: isPass ? true : false,
+          controller: controller,
+          obscureText: isPass,
           decoration: InputDecoration(
             border: InputBorder.none,
             hintText: title,

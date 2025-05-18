@@ -1,8 +1,6 @@
-import 'dart:developer';
-
 import 'package:cloud_medix/core/widgets/loading_widget.dart';
 import 'package:cloud_medix/core/widgets/my_app_bar.dart';
-import 'package:cloud_medix/core/widgets/my_error_widget.dart';
+import 'package:cloud_medix/core/widgets/server_error_widget.dart';
 import 'package:cloud_medix/features/diagnosis_treatments/presentation/blocs/diagnosis_treatment_cubit.dart';
 import 'package:cloud_medix/features/diagnosis_treatments/presentation/components/list_builder.dart';
 import 'package:cloud_medix/features/diagnosis_treatments/presentation/components/switch_tabs.dart';
@@ -35,7 +33,7 @@ class DiagnosisTreatments extends StatelessWidget {
                       child: LoadingWidget(),
                     );
                   } else if (state is DiagnosisTreatmentError) {
-                    return MyErrorWidget(message: state.message);
+                    return ServerErrorWidget(message: state.message);
                   } else if (state is DiagnosisLoaded) {
                     return ListBuilder(
                         selectedIndex: context
@@ -47,7 +45,7 @@ class DiagnosisTreatments extends StatelessWidget {
                             .watch<DiagnosisTreatmentCubit>()
                             .selectedtabIndex);
                   } else {
-                    return MyErrorWidget(message: "Something Went Wrong");
+                    return ServerErrorWidget(message: "Something Went Wrong");
                   }
                 },
               ),

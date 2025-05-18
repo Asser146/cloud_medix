@@ -1,7 +1,6 @@
 import 'package:cloud_medix/core/widgets/empty_state_widget.dart';
 import 'package:cloud_medix/core/widgets/loading_widget.dart';
 import 'package:cloud_medix/core/widgets/my_app_bar.dart';
-import 'package:cloud_medix/core/widgets/my_error_widget.dart';
 import 'package:cloud_medix/core/widgets/server_error_widget.dart';
 import 'package:cloud_medix/features/tests_scan_results/data/test_request.dart';
 import 'package:cloud_medix/features/tests_scan_results/data/test_result.dart';

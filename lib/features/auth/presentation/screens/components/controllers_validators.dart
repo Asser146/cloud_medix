@@ -6,6 +6,7 @@ final TextEditingController emailController = TextEditingController();
 final TextEditingController passController = TextEditingController();
 final TextEditingController confirmPassController = TextEditingController();
 final TextEditingController dobController = TextEditingController();
+final TextEditingController usernameController = TextEditingController();
 
 String validateName(String name) {
   final RegExp nameRegExp = RegExp(r"^[a-zA-Z\s]+$");
@@ -16,6 +17,22 @@ String validateName(String name) {
     return "Name must contain only letters and spaces";
   }
   return "";
+}
+
+String validateUsername(String username) {
+  final RegExp usernameRegExp = RegExp(r'^[a-zA-Z0-9_]+$');
+
+  if (username.isEmpty) {
+    return "Username cannot be empty";
+  }
+  if (username.length < 3) {
+    return "Username must be at least 3 characters long";
+  }
+  if (!usernameRegExp.hasMatch(username)) {
+    return "Username can only contain letters, numbers, and underscores";
+  }
+
+  return ""; // No error
 }
 
 String validateEmail(String email) {

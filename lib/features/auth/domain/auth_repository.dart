@@ -39,11 +39,12 @@ class AuthRepository {
     }
   }
 
-  Future<LoginResponse> loginPatient() async {
+  Future<LoginResponse> loginPatient(
+      String inputUserName, String inputPassword) async {
     try {
       ApiService client = getIt<ApiService>();
       LoginBody loginBody =
-          LoginBody(userName: "asser14", password: "SecurePass123!");
+          LoginBody(userName: inputUserName, password: inputPassword);
       var response = await client.login(
         loginBody,
       );

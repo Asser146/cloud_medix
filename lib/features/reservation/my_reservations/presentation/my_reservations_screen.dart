@@ -1,9 +1,7 @@
-import 'dart:developer';
-
 import 'package:cloud_medix/core/widgets/empty_state_widget.dart';
 import 'package:cloud_medix/core/widgets/loading_widget.dart';
 import 'package:cloud_medix/core/widgets/my_app_bar.dart';
-import 'package:cloud_medix/core/widgets/my_error_widget.dart';
+import 'package:cloud_medix/core/widgets/server_error_widget.dart';
 import 'package:cloud_medix/features/reservation/my_reservations/data/my_reservation.dart';
 import 'package:cloud_medix/features/reservation/my_reservations/presentation/blocs/my_reservations_cubit.dart';
 import 'package:cloud_medix/features/reservation/my_reservations/presentation/components/reservation_row.dart';
@@ -35,7 +33,7 @@ class MyReservationsScreen extends StatelessWidget {
           } else if (state is MyReservationsLoading) {
             return const Center(child: LoadingWidget());
           } else if (state is MyReservationsError) {
-            return Center(child: MyErrorWidget(message: state.message));
+            return Center(child: ServerErrorWidget(message: state.message));
           }
 
           if (reservations.isEmpty) {
