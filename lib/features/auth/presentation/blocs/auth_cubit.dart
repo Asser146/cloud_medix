@@ -1,5 +1,7 @@
 import 'package:cloud_medix/core/di/dependency_injection.dart';
+import 'package:cloud_medix/core/networking/api_response.dart';
 import 'package:cloud_medix/features/auth/data/login_response.dart';
+import 'package:cloud_medix/features/auth/data/register_body.dart';
 import 'package:cloud_medix/features/auth/domain/auth_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,42 +12,34 @@ part 'auth_state.dart';
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(const AuthStateInitial());
   AuthRepository repo = getIt<AuthRepository>();
-  late LoginResponse responseData;
+  late LoginResponse loginResponse;
+  late ApiResponse registerResponse;
   FlutterSecureStorage storage = getIt<FlutterSecureStorage>();
 
-  Future<bool> login(String userName, String password) async {
+  Future<void> login(String userName, String password) async {
     emit(const AuthLoading());
-    responseData = await repo.loginPatient(userName, password);
-    if (responseData.data.isNotEmpty) {
-      await storage.write(key: "id", value: responseData.data[0]);
-      await storage.write(key: "token", value: responseData.data[1]);
-      await storage.write(key: "user_name", value: responseData.data[2]);
-      emit(const AuthLoaded());
-      return true;
+    loginResponse = await repo.loginPatient(userName, password);
+    if (loginResponse.data.isNotEmpty) {
+      await storage.write(key: "id", value: loginResponse.data[0]);
+      await storage.write(key: "token", value: loginResponse.data[1]);
+      await storage.write(key: "user_name", value: loginResponse.data[2]);
+      emit(const AuthLoginDone());
     } else {
-      emit(const AuthLoaded());
-      return false;
+      emit(const AuthError("Login Failed"));
+    }
+  }
+
+  Future<void> register(RegisterBody body) async {
+    emit(const AuthLoading());
+    registerResponse = await repo.registerPatient(body);
+    if (registerResponse.status == 200) {
+      if (registerResponse.data == null && registerResponse.error == null) {
+        emit(const AuthregisterToLogin());
+      } else {
+        emit(AuthError(registerResponse.error.toString()));
+      }
+    } else {
+      emit(AuthError("Server Error"));
     }
   }
 }
-          // if (context.read<RegisterCubit>().formKey.currentState!.validate()) {
-          //   Navigator.of(context).pushNamed(Routes.welcome);
-          // } else {}
-
-
-// Create storage
-
-// Read value
-// String value = await storage.read(key: key);
-
-// // Read all values
-// Map<String, String> allValues = await storage.readAll();
-
-// // Delete value
-// await storage.delete(key: key);
-
-// // Delete all
-// await storage.deleteAll();
-
-// // Write value
-// await storage.write(key: key, value: value);

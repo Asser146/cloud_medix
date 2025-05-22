@@ -31,7 +31,9 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                   FlutterSecureStorage storage = getIt<FlutterSecureStorage>();
                   await storage.deleteAll();
                   if (context.mounted) {
-                    Navigator.popAndPushNamed(context, Routes.login);
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      Navigator.popAndPushNamed(context, Routes.login);
+                    });
                   }
                 },
               )

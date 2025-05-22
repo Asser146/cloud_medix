@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cloud_medix/core/di/dependency_injection.dart';
 import 'package:cloud_medix/core/networking/api_response.dart';
 import 'package:cloud_medix/features/reservation/domain/hospitals_repository.dart';
+import 'package:cloud_medix/features/reservation/make_reservation/data/slot.dart';
 import 'package:cloud_medix/features/reservation/my_reservations/data/my_reservation.dart';
 import 'package:cloud_medix/features/reservation/my_reservations/domain/my_reservations_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -25,19 +26,20 @@ class MyReservationsCubit extends Cubit<MyReservationsState> {
 
   Future<void> cancelMyReservations(int reservationId) async {
     emit(MyReservationsProcessLoading(List.from(reservations))); // Show loading
-    String? id = await storage.read(key: "id");
-    if (id == null) {
+
+    String? userId = await storage.read(key: "id");
+    if (userId == null) {
       emit(const MyReservationsError("User ID is missing Error"));
       return;
     }
-    final reservation = reservations.firstWhere(
-      (r) => r.id == reservationId,
-    );
 
+    final reservation = reservations.firstWhere((r) => r.id == reservationId);
     final int slotId = reservation.localSlotId;
-    final int hospitalId = reservation.hospital.id; // Make sure this exists
+    final int hospitalId = reservation.hospital.id;
+
     final cancelResponse =
-        await myResRepo.cancelReservation(id, reservationId, hospitalId);
+        await myResRepo.cancelReservation(userId, reservationId, hospitalId);
+
     if (cancelResponse.status == 200) {
       final index = reservations.indexWhere((r) => r.id == reservationId);
       if (index != -1) {
@@ -45,28 +47,39 @@ class MyReservationsCubit extends Cubit<MyReservationsState> {
             reservations[index].copyWith(status: 1); // 1 = canceled
       }
 
-      // Remove slotId from SharedPreferences mapping
+      // Remove the slot from SharedPreferences map
       final prefs = await SharedPreferences.getInstance();
-      final String key = "hospital_slot_map";
+      const String key = "hospital_slot_map";
       final existingData = prefs.getString(key);
 
       if (existingData != null) {
-        final decoded = jsonDecode(existingData) as Map<String, dynamic>;
+        final Map<String, dynamic> userMap = jsonDecode(existingData);
+        final userKey = userId;
         final hospitalKey = hospitalId.toString();
 
-        if (decoded.containsKey(hospitalKey)) {
-          List<int> slotIds = List<int>.from(decoded[hospitalKey]);
-          slotIds.remove(slotId);
-          decoded[hospitalKey] = slotIds;
+        if (userMap.containsKey(userKey)) {
+          Map<String, dynamic> hospitalMap =
+              Map<String, dynamic>.from(userMap[userKey]);
 
-          // Save updated map back to SharedPreferences
-          await prefs.setString(key, jsonEncode(decoded));
+          if (hospitalMap.containsKey(hospitalKey)) {
+            List<Map<String, dynamic>> slotList =
+                List<Map<String, dynamic>>.from(hospitalMap[hospitalKey]);
+
+            // Remove the slot by ID
+            slotList.removeWhere((slot) => slot['id'] == slotId);
+
+            hospitalMap[hospitalKey] = slotList;
+            userMap[userKey] = hospitalMap;
+
+            await prefs.setString(key, jsonEncode(userMap));
+          }
         }
       }
+
       emit(MyReservationsLoaded(List.from(reservations)));
     } else {
       emit(MyReservationsError(
-          cancelResponse.error ?? "Failed to cancel the MyReservations"));
+          cancelResponse.error ?? "Failed to cancel the reservation"));
     }
   }
 

@@ -20,7 +20,7 @@ void main() async {
   if (id != null) {
     initialRoute = Routes.home;
   } else {
-    initialRoute = Routes.register;
+    initialRoute = Routes.login;
   }
 
   runApp(MyApp(
@@ -48,10 +48,9 @@ class MyApp extends StatelessWidget {
           ),
           home: child,
           onGenerateRoute: appRouter.onGenerateRoute,
-          initialRoute: initialRoute,
+          initialRoute: Routes.register1,
         );
       },
-      child: const HomeScreen(),
     );
   }
 }

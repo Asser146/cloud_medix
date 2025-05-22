@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
     String? storedUserName = await storage.read(key: "user_name");
 
     setState(() {
-      userName = storedUserName!;
+      userName = storedUserName ?? "UserName";
       isLoading = false;
     });
   }

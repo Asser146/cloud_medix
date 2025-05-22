@@ -1,7 +1,10 @@
 import 'package:cloud_medix/core/routing/routes.dart';
+import 'package:cloud_medix/features/auth/data/register_body.dart';
 import 'package:cloud_medix/features/auth/presentation/blocs/auth_cubit.dart';
+import 'package:cloud_medix/features/auth/presentation/screens/address_screen.dart';
 import 'package:cloud_medix/features/auth/presentation/screens/login_screen.dart';
 import 'package:cloud_medix/features/auth/presentation/screens/register_screen.dart';
+
 import 'package:cloud_medix/features/diagnosis_treatments/presentation/blocs/diagnosis_treatment_cubit.dart';
 import 'package:cloud_medix/features/diagnosis_treatments/presentation/diagnosis_treatments.dart';
 import 'package:cloud_medix/features/home/home_screen.dart';
@@ -25,7 +28,7 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (_) => BlocProvider(
                   create: (context) => AuthCubit(),
-                  child: const LoginScreen(),
+                  child: LoginScreen(),
                 ));
       case Routes.settings:
         return MaterialPageRoute(
@@ -33,12 +36,18 @@ class AppRouter {
                   create: (context) => SettingsCubit(),
                   child: const SettingsScreen(),
                 ));
-      case Routes.register:
+      case Routes.register1:
+        return MaterialPageRoute(builder: (_) => RegisterScreen());
+
+      case Routes.address:
+        final registerBody = settings.arguments as RegisterBody;
         return MaterialPageRoute(
-            builder: (_) => BlocProvider(
-                  create: (context) => AuthCubit(),
-                  child: const RegisterScreen(),
-                ));
+          builder: (_) => BlocProvider(
+            create: (context) => AuthCubit(),
+            child: AddressScreen(registerBody: registerBody),
+          ),
+        );
+
       case Routes.home:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
       case Routes.viewMedicalRecord:

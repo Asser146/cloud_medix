@@ -34,20 +34,35 @@ class MakeReservationCubit extends Cubit<MakeReservationState> {
 
   Future<void> updateSlotsUI() async {
     final prefs = await SharedPreferences.getInstance();
-    final String key = "hospital_slot_map";
-    final hospitalKey = selectedHospitalId!.toString();
+    const String key = "hospital_slot_map";
     // await prefs.remove("hospital_slot_map");
+
+    final userId = await storage.read(key: "id");
+    final hospitalKey = selectedHospitalId?.toString();
+
+    if (userId == null || hospitalKey == null) return;
+
     final existingData = prefs.getString(key);
+
+    if (existingData == null) return;
+
+    final Map<String, dynamic> userMap = jsonDecode(existingData);
+
+    if (!userMap.containsKey(userId)) return;
+
+    final hospitalMap = Map<String, dynamic>.from(userMap[userId]);
+
     List<int> reservedSlotIds = [];
 
-    if (existingData != null) {
-      final decoded = jsonDecode(existingData) as Map<String, dynamic>;
-      if (decoded.containsKey(hospitalKey)) {
-        reservedSlotIds = List<int>.from(decoded[hospitalKey]);
-      }
+    if (hospitalMap.containsKey(hospitalKey)) {
+      final List<dynamic> slotList = hospitalMap[hospitalKey];
+
+      reservedSlotIds = slotList
+          .map((slotJson) =>
+              Slot.fromJson(Map<String, dynamic>.from(slotJson)).id)
+          .toList();
     }
 
-    // Set reserved = true if in list, else reserved = false
     slots = slots.map((slot) {
       final isReserved = reservedSlotIds.contains(slot.id);
       return slot.copyWith(reserved: isReserved);
@@ -56,15 +71,17 @@ class MakeReservationCubit extends Cubit<MakeReservationState> {
 
   Future<void> reserveSlot(int slotID) async {
     emit(MakeReservationProcessLoading(List.from(slots))); // Show loading
-    String? id = await storage.read(key: "id");
+
+    String? userId = await storage.read(key: "id");
     selectedHospitalId = selectedHospitalId ?? hospitals[0].id;
 
-    if (id == null || selectedHospitalId == null) {
+    if (userId == null || selectedHospitalId == null) {
       emit(const MakeReservationError("Server Error or User error Id"));
       return;
     }
 
-    await makeResRepo.makeHospitalReservation(id, selectedHospitalId!, slotID);
+    await makeResRepo.makeHospitalReservation(
+        userId, selectedHospitalId!, slotID);
 
     int index = slots.indexWhere((slot) => slot.id == slotID);
     if (index != -1) {
@@ -73,31 +90,39 @@ class MakeReservationCubit extends Cubit<MakeReservationState> {
 
     // Save mapping to SharedPreferences
     final prefs = await SharedPreferences.getInstance();
-    final String key = "hospital_slot_map";
+    const String key = "hospital_slot_map";
 
-    // Load existing data
     final existingData = prefs.getString(key);
-    Map<String, List<int>> hospitalSlotMap = {};
+    Map<String, dynamic> userMap = {};
 
     if (existingData != null) {
-      final decoded = jsonDecode(existingData) as Map<String, dynamic>;
-      hospitalSlotMap = decoded.map(
-        (k, v) => MapEntry(k, List<int>.from(v)),
-      );
+      userMap = jsonDecode(existingData);
     }
 
-    // Convert hospitalId to string for JSON map key
     final hospitalKey = selectedHospitalId!.toString();
+    final userKey = userId;
 
-    // Update the list for the current hospital
-    hospitalSlotMap.update(
-      hospitalKey,
-      (existingList) => {...existingList, slotID}.toList(), // remove duplicates
-      ifAbsent: () => [slotID],
-    );
+    Map<String, List<Map<String, dynamic>>> hospitalMap = {};
 
-    // Save updated map
-    await prefs.setString(key, jsonEncode(hospitalSlotMap));
+    if (userMap.containsKey(userKey)) {
+      // Deserialize hospital map for this user
+      final raw = userMap[userKey] as Map<String, dynamic>;
+      hospitalMap =
+          raw.map((k, v) => MapEntry(k, List<Map<String, dynamic>>.from(v)));
+    }
+
+    // Add or update the slot for the hospital
+    List<Map<String, dynamic>> updatedSlots =
+        hospitalMap[hospitalKey]?.where((s) => s['id'] != slotID).toList() ??
+            [];
+
+    updatedSlots.add(slots[index].toJson());
+    hospitalMap[hospitalKey] = updatedSlots;
+
+    // Save back to user map
+    userMap[userKey] = hospitalMap;
+
+    await prefs.setString(key, jsonEncode(userMap));
 
     emit(MakeReservationLoaded(List.from(slots)));
   }

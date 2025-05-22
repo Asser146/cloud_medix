@@ -15,10 +15,19 @@ final class AuthLoading extends AuthState {
   const AuthLoading();
 }
 
-final class AuthLoaded extends AuthState {
-  const AuthLoaded();
+final class AuthLoginDone extends AuthState {
+  const AuthLoginDone();
 }
 
 final class AuthError extends AuthState {
-  const AuthError();
+  final String message;
+  const AuthError(this.message);
+  @override
+  List<Object> get props => [message];
+}
+
+final class AuthregisterToLogin extends AuthState {
+  const AuthregisterToLogin();
+  @override
+  List<Object> get props => [];
 }

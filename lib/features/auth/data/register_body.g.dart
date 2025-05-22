@@ -15,6 +15,7 @@ RegisterBody _$RegisterBodyFromJson(Map<String, dynamic> json) => RegisterBody(
       address: Address.fromJson(json['address'] as Map<String, dynamic>),
       email: json['email'] as String,
       password: json['password'] as String,
+      gender: json['gender'] as int,
     );
 
 Map<String, dynamic> _$RegisterBodyToJson(RegisterBody instance) =>
@@ -27,4 +28,5 @@ Map<String, dynamic> _$RegisterBodyToJson(RegisterBody instance) =>
       'date': instance.date,
       'phone': instance.phone,
       'address': instance.address,
+      'gender': instance.gender
     };

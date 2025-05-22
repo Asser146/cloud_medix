@@ -11,18 +11,19 @@ class RegisterBody {
   final String nationalID;
   final String date;
   final String phone;
-  final Address address;
+  Address? address;
+  final int gender;
 
-  RegisterBody({
-    required this.userName,
-    required this.fullName,
-    required this.nationalID,
-    required this.date,
-    required this.phone,
-    required this.address,
-    required this.email,
-    required this.password,
-  });
+  RegisterBody(
+      {required this.userName,
+      required this.fullName,
+      required this.nationalID,
+      required this.date,
+      required this.phone,
+      this.address,
+      required this.email,
+      required this.password,
+      required this.gender});
 
   Map<String, dynamic> toJson() => _$RegisterBodyToJson(this);
   factory RegisterBody.fromJson(Map<String, dynamic> json) =>
