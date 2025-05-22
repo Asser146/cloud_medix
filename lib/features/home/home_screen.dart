@@ -132,7 +132,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildOption(String route, String text, String assetPath,
       {bool isMyReservations = false}) {
     return GestureDetector(
-      onTap: () => hasInternet ? Navigator.pushNamed(context, route) : {},
+      onTap: () => hasInternet
+          ? Navigator.pushNamed(context, route)
+          : isMyReservations
+              ? Navigator.pushNamed(context, Routes.myReservationsOffline)
+              : {},
       child: HomeOption(
         text: text,
         path: assetPath,

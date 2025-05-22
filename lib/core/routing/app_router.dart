@@ -14,6 +14,7 @@ import 'package:cloud_medix/features/medical_record/presentation/blocs/medical_r
 import 'package:cloud_medix/features/medical_record/view_medical_record.dart';
 import 'package:cloud_medix/features/reservation/my_reservations/presentation/blocs/my_reservations_cubit.dart';
 import 'package:cloud_medix/features/reservation/my_reservations/presentation/my_reservations_screen.dart';
+import 'package:cloud_medix/features/reservation/my_reservations/presentation/my_reservations_screen_offline.dart';
 import 'package:cloud_medix/features/settings/presentation/blocs/settings_cubit.dart';
 import 'package:cloud_medix/features/settings/presentation/settings_screen.dart';
 import 'package:cloud_medix/features/tests_scan_results/presentation/blocs/lab_cubit.dart';
@@ -36,9 +37,10 @@ class AppRouter {
                   create: (context) => SettingsCubit(),
                   child: const SettingsScreen(),
                 ));
-      case Routes.register1:
+      case Routes.register:
         return MaterialPageRoute(builder: (_) => RegisterScreen());
-
+      case Routes.myReservationsOffline:
+        return MaterialPageRoute(builder: (_) => MyReservationsScreenOffline());
       case Routes.address:
         final registerBody = settings.arguments as RegisterBody;
         return MaterialPageRoute(
