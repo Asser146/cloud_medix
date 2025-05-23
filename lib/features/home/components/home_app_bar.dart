@@ -24,6 +24,7 @@ class HomeAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _HomeAppBarState extends State<HomeAppBar> {
+  // ignore: unused_field
   File? _selectedImage;
 
   @override
@@ -85,13 +86,15 @@ class _HomeAppBarState extends State<HomeAppBar> {
                     }
 
                     return CircleAvatar(
-                      radius: 50.sp,
-                      backgroundColor: Colors.grey.shade200,
+                      radius: 45.sp,
+                      backgroundColor: Colors.transparent,
                       backgroundImage: userImageFile != null
                           ? FileImage(userImageFile)
                           : null,
                       child: userImageFile == null
-                          ? SvgPicture.asset('assets/images/user.svg')
+                          ? SvgPicture.asset(
+                              'assets/images/user.svg',
+                            )
                           : null,
                     );
                   },

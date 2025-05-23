@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:cloud_medix/core/di/dependency_injection.dart';
 import 'package:cloud_medix/core/networking/api_response.dart';
 import 'package:cloud_medix/features/reservation/data/hospital.dart';
@@ -239,7 +238,6 @@ class MakeReservationCubit extends Cubit<MakeReservationState> {
         (departmentQuery == null || departmentQuery.isEmpty);
 
     if (shouldReset) {
-      log("resetting");
       await getSlots(true);
       return;
     }

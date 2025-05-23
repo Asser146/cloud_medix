@@ -1,12 +1,10 @@
 import 'package:cloud_medix/core/di/dependency_injection.dart';
 import 'package:cloud_medix/core/networking/api_response.dart';
 import 'package:cloud_medix/core/networking/api_service.dart';
-import 'package:cloud_medix/features/auth/data/address.dart';
 import 'package:cloud_medix/features/auth/data/login_body.dart';
 import 'package:cloud_medix/features/auth/data/login_response.dart';
 import 'package:cloud_medix/features/auth/data/register_body.dart';
 import 'package:dio/dio.dart';
-import 'dart:developer';
 
 class AuthRepository {
   Future<ApiResponse> registerPatient(RegisterBody body) async {
@@ -27,11 +25,8 @@ class AuthRepository {
         );
       }
     } on DioException catch (e) {
-      log("Dio Error: ${e.response?.statusCode}");
-      log("Error Data: ${e.response?.data}");
       return ApiResponse(status: 500, data: null, error: e.response?.data);
     } catch (e) {
-      log("Unexpected Error: $e");
       return ApiResponse(status: 500, data: null, error: e.toString());
     }
   }
@@ -49,15 +44,11 @@ class AuthRepository {
         response.data!.add(loginBody.userName);
         return LoginResponse.fromJson(response.data!);
       } else {
-        log("Login Failed: ${response.error}");
         return LoginResponse(data: []);
       }
-    } on DioException catch (e) {
-      log("Dio Error: ${e.response?.statusCode}");
-      log("Error Data: ${e.response?.data}");
+    } on DioException {
       return LoginResponse(data: []);
     } catch (e) {
-      log("Unexpected Error: $e");
       return LoginResponse(data: []);
     }
   }

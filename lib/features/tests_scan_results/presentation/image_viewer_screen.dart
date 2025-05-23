@@ -1,6 +1,5 @@
 import 'package:cloud_medix/core/theming/colors.dart';
 import 'package:cloud_medix/core/widgets/my_app_bar.dart';
-import 'package:cloud_medix/core/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 
 class ImageViewerScreen extends StatelessWidget {

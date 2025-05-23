@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
-
 import 'package:cloud_medix/core/di/dependency_injection.dart';
 import 'package:cloud_medix/core/networking/api_response.dart';
 import 'package:cloud_medix/core/networking/api_service.dart';
@@ -22,12 +20,10 @@ class MyReservationsRepository {
       } else {
         return ApiResponse(data: [], error: "No Reservations Done");
       }
-    } on DioException catch (e) {
-      log("DioException: ${e.message}");
+    } on DioException {
       return ApiResponse(
           data: [], error: "Network error. Please check your connection.");
     } catch (e) {
-      log("Unexpected Error: ${e.toString()}");
       return ApiResponse(
           data: [], error: "Something went wrong. Please try again.");
     }
@@ -61,13 +57,10 @@ class MyReservationsRepository {
       } else {
         return ApiResponse<String>(data: null, error: "No Reservations Done");
       }
-    } on DioException catch (e) {
-      log("DioException1: ${e.message}, type: ${e.type}, error: ${e.error}, response: ${e.response}");
-
+    } on DioException {
       return ApiResponse(
           data: "", error: "Network error. Please check your connection.");
     } catch (e) {
-      log("Unexpected Error: ${e.toString()}");
       return ApiResponse(
           data: "", error: "Something went wrong. Please try again.");
     }

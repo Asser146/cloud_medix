@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
-
 import 'package:cloud_medix/core/di/dependency_injection.dart';
 import 'package:cloud_medix/core/networking/api_response.dart';
 import 'package:cloud_medix/core/networking/api_service.dart';
@@ -16,7 +14,6 @@ class LabRepository {
       final response = await client
           .getAllTests(id)
           .timeout(const Duration(seconds: 10), onTimeout: () {
-        log("Timeout: Server took too long to respond.");
         return ApiResponse(
           data: null,
           error: "Request timed out\nPlease try again later.",
@@ -32,14 +29,12 @@ class LabRepository {
           error: "Network error\nPlease check your connection and try again.",
         );
       }
-    } on DioException catch (e) {
-      log("DioException: ${e.message}");
+    } on DioException {
       return ApiResponse(
         data: null,
         error: "Network error\nPlease check your connection and try again.",
       );
     } catch (e) {
-      log("Unexpected error: ${e.toString()}");
       return ApiResponse(
         data: null,
         error: "Something went wrong\nPlease try again.",
@@ -55,7 +50,6 @@ class LabRepository {
       final response = await client
           .getTestResult(id, testId)
           .timeout(const Duration(seconds: 10), onTimeout: () {
-        log("Timeout: Server took too long to respond.");
         return ApiResponse(
           data: null,
           error: "Request timed out\nPlease try again later.",
@@ -71,14 +65,12 @@ class LabRepository {
           error: "Server Error\nplease try again later.",
         );
       }
-    } on DioException catch (e) {
-      log("DioException: ${e.message}");
+    } on DioException {
       return ApiResponse(
         data: null,
         error: "Network error\nPlease check your connection and try again.",
       );
     } catch (e) {
-      log("Unexpected error: ${e.toString()}");
       return ApiResponse(
         data: null,
         error: "Something went wrong\nPlease try again.",

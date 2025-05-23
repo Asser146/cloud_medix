@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
-
 import 'package:cloud_medix/core/di/dependency_injection.dart';
 import 'package:cloud_medix/core/networking/api_response.dart';
 import 'package:cloud_medix/core/networking/api_service.dart';
@@ -26,13 +24,10 @@ class HospitalsRespository {
       } else {
         return ApiResponse(data: [], error: "No route found for hospital.");
       }
-    } on DioException catch (e) {
-      log("DioException1: ${e.message}, type: ${e.type}, error: ${e.error}, response: ${e.response}");
-
+    } on DioException {
       return ApiResponse(
           data: [], error: "Network error. Please check your connection.");
     } catch (e) {
-      log("Unexpected Error: ${e.toString()}");
       return ApiResponse(
           data: [], error: "Something went wrong. Please try again.");
     }

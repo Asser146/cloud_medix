@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_medix/core/theming/colors.dart';
 import 'package:cloud_medix/features/reservation/my_reservations/data/my_reservation.dart';
 import 'package:cloud_medix/features/reservation/my_reservations/presentation/components/reservation_data.dart';

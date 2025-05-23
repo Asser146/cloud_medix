@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:cloud_medix/core/di/dependency_injection.dart';
 import 'package:cloud_medix/core/networking/api_response.dart';
 import 'package:cloud_medix/features/reservation/domain/hospitals_repository.dart';
-import 'package:cloud_medix/features/reservation/make_reservation/data/slot.dart';
 import 'package:cloud_medix/features/reservation/my_reservations/data/my_reservation.dart';
 import 'package:cloud_medix/features/reservation/my_reservations/domain/my_reservations_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -91,7 +90,6 @@ class MyReservationsCubit extends Cubit<MyReservationsState> {
       return;
     } else {
       response = await myResRepo.getReservations(id);
-      // log(response.data[0].toJson().toString());
       if (response.status == 200 &&
           response.data != null &&
           response.data.isNotEmpty) {

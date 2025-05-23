@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
-
 import 'package:cloud_medix/core/di/dependency_injection.dart';
 import 'package:cloud_medix/core/networking/api_response.dart';
 import 'package:cloud_medix/core/networking/api_service.dart';
@@ -36,13 +34,10 @@ class MakeReservationRespository {
       } else {
         return ApiResponse(data: [], error: "Network error\nTry again later");
       }
-    } on DioException catch (e) {
-      log("DioException1: ${e.message}, type: ${e.type}, error: ${e.error}, response: ${e.response}");
-
+    } on DioException {
       return ApiResponse(
           data: [], error: "Network error. Please check your connection.");
     } catch (e) {
-      log("Unexpected Error: ${e.toString()}");
       return ApiResponse(
           data: [], error: "Something went wrong. Please try again.");
     }
@@ -83,13 +78,10 @@ class MakeReservationRespository {
       } else {
         return ApiResponse(data: "", error: "No route found for hospital.");
       }
-    } on DioException catch (e) {
-      log("DioException1: ${e.message}, type: ${e.type}, error: ${e.error}, response: ${e.response}");
-
+    } on DioException {
       return ApiResponse(
           data: "", error: "Network error. Please check your connection.");
     } catch (e) {
-      log("Unexpected Error: ${e.toString()}");
       return ApiResponse(
           data: "", error: "Something went wrong. Please try again.");
     }
@@ -105,19 +97,15 @@ class MakeReservationRespository {
         return ApiResponse(
             data: [], error: "Server timeout. Please try again.");
       });
-      log(response.toString());
       if (response.status == 200) {
-        log(response.toString());
         return response;
       } else {
         return ApiResponse(data: [], error: "No Slots Available");
       }
-    } on DioException catch (e) {
-      log("DioException: ${e.message}");
+    } on DioException {
       return ApiResponse(
           data: [], error: "Network error. Please check your connection.");
     } catch (e) {
-      log("Unexpected Error2: ${e.toString()}");
       return ApiResponse(
           data: [], error: "Something went wrong. Please try again.");
     }

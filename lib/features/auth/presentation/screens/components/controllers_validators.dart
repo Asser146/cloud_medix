@@ -23,8 +23,9 @@ final ValueNotifier<String?> genderNotifier = ValueNotifier<String?>(null);
 String validateName(String name) {
   final RegExp nameRegExp = RegExp(r"^[a-zA-Z\s]+$");
   if (name.isEmpty) return "Name cannot be empty";
-  if (!nameRegExp.hasMatch(name))
+  if (!nameRegExp.hasMatch(name)) {
     return "Name must contain only letters and spaces";
+  }
   return "";
 }
 
@@ -32,8 +33,9 @@ String validateUsername(String username) {
   final RegExp usernameRegExp = RegExp(r'^[a-zA-Z0-9_]+$');
   if (username.isEmpty) return "Username cannot be empty";
   if (username.length < 3) return "Username must be at least 3 characters long";
-  if (!usernameRegExp.hasMatch(username))
+  if (!usernameRegExp.hasMatch(username)) {
     return "Username can only contain letters, numbers, and underscores";
+  }
   return "";
 }
 
@@ -48,14 +50,18 @@ String validateEmail(String email) {
 String validateRegisterPassword(String password) {
   if (password.isEmpty) return "Password cannot be empty";
   if (password.length < 8) return "Password must be at least 8 characters long";
-  if (!password.contains(RegExp(r'[A-Z]')))
+  if (!password.contains(RegExp(r'[A-Z]'))) {
     return "Password must contain at least one uppercase letter";
-  if (!password.contains(RegExp(r'[a-z]')))
+  }
+  if (!password.contains(RegExp(r'[a-z]'))) {
     return "Password must contain at least one lowercase letter";
-  if (!password.contains(RegExp(r'[0-9]')))
+  }
+  if (!password.contains(RegExp(r'[0-9]'))) {
     return "Password must contain at least one number";
-  if (!password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]')))
+  }
+  if (!password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
     return "Password must contain at least one special character";
+  }
   return "";
 }
 
@@ -85,16 +91,18 @@ String validateDOB(String dobText) {
 String validatePhone(String phone) {
   final RegExp phoneRegExp = RegExp(r'^(010|011|012|015)[0-9]{8}$');
   if (phone.isEmpty) return "Phone number cannot be empty";
-  if (!phoneRegExp.hasMatch(phone))
+  if (!phoneRegExp.hasMatch(phone)) {
     return "Enter a valid Egyptian phone number";
+  }
   return "";
 }
 
 String validateNationalId(String id) {
   final RegExp idRegExp = RegExp(r'^[23]\d{13}$');
   if (id.isEmpty) return "National ID cannot be empty";
-  if (!idRegExp.hasMatch(id))
+  if (!idRegExp.hasMatch(id)) {
     return "National ID must be 14 digits and start with 2 or 3";
+  }
 
   String centuryDigit = id.substring(0, 1);
   String year = id.substring(1, 3);
@@ -133,24 +141,27 @@ String validateStreet(String street) {
 String validateBuildingNumber(String building) {
   if (building.trim().isEmpty) return 'Building number is required';
   final number = int.tryParse(building);
-  if (number == null || number <= 0)
+  if (number == null || number <= 0) {
     return 'Building number must be a positive integer';
+  }
   return '';
 }
 
 String? validateFloor(String floor) {
   if (floor.trim().isEmpty) return null; // Optional field
   final number = int.tryParse(floor);
-  if (number == null || number < 0)
+  if (number == null || number < 0) {
     return 'Floor must be a non-negative number';
+  }
   return null;
 }
 
 String? validateApartmentNumber(String apartment) {
   if (apartment.trim().isEmpty) return null; // Optional field
   final number = int.tryParse(apartment);
-  if (number == null || number <= 0)
+  if (number == null || number <= 0) {
     return 'Apartment number must be a positive number';
+  }
   return null;
 }
 
@@ -185,7 +196,5 @@ String validateField(FieldType type, String value) {
       return validateNationalId(value);
     case FieldType.username:
       return validateUsername(value);
-    default:
-      return "Unknown validation type";
   }
 }

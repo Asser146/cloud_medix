@@ -27,6 +27,7 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   final storage = const FlutterSecureStorage();
   File? _selectedImage;
+  // ignore: unused_field
   String? _imagePath;
 
   @override
