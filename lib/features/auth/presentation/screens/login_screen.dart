@@ -5,6 +5,7 @@ import 'package:cloud_medix/features/auth/presentation/screens/components/contro
 import 'package:cloud_medix/features/auth/presentation/screens/components/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -33,10 +34,6 @@ class LoginScreen extends StatelessWidget {
       body: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is AuthLoginDone) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Login Successful')),
-            );
-            // Navigate to the next screen
             Navigator.of(context).pushReplacementNamed(Routes.home);
           } else if (state is AuthError) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -89,11 +86,13 @@ class LoginScreen extends StatelessWidget {
                             TextInputType.visiblePassword,
                             true,
                           ),
-                          const SizedBox(height: 24),
+                          SizedBox(height: 10.h),
                           ElevatedButton(
                             onPressed: isLoading
                                 ? null
                                 : () {
+                                    FocusScope.of(context).unfocus();
+
                                     final errors = validateLogin(
                                       username: usernameController.text.trim(),
                                       password: passwordController.text.trim(),
@@ -146,6 +145,7 @@ class LoginScreen extends StatelessWidget {
                                     style: TextStyle(color: Colors.white),
                                   ),
                           ),
+                          SizedBox(height: 16.h),
                         ],
                       ),
                     ),

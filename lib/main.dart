@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,6 +16,8 @@ void main() async {
 
   FlutterSecureStorage storage = getIt<FlutterSecureStorage>();
   String? id = await storage.read(key: "id");
+  // final prefs = await SharedPreferences.getInstance();
+  // await prefs.clear(); // This clears everything
 
   if (id != null) {
     initialRoute = Routes.home;

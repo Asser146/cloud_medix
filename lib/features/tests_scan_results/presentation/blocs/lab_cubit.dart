@@ -30,6 +30,9 @@ class LabCubit extends Cubit<LabState> {
       if (response.status == 200 && response.data != null) {
         tests = response.data;
         emit(LabLoaded(tests));
+      } else if (response.status == 200 && response.data == null) {
+        tests = [];
+        emit(LabLoaded([]));
       } else {
         tests = [];
         emit(LabError(response.error ?? "No medical record available."));

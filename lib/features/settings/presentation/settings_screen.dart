@@ -1,5 +1,6 @@
-import 'dart:developer';
-
+import 'dart:convert';
+import 'dart:io';
+import 'package:cloud_medix/core/di/dependency_injection.dart';
 import 'package:cloud_medix/core/theming/colors.dart';
 import 'package:cloud_medix/core/widgets/loading_widget.dart';
 import 'package:cloud_medix/core/widgets/my_app_bar.dart';
@@ -11,6 +12,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -20,10 +25,71 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  final storage = const FlutterSecureStorage();
+  File? _selectedImage;
+  String? _imagePath;
+
   @override
   void initState() {
     super.initState();
     context.read<SettingsCubit>().getSettings();
+    _loadSavedImage();
+  }
+
+  Future<void> _pickAndSaveImage() async {
+    final userImageNotifier = getIt<ValueNotifier<String?>>();
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      final userId = await storage.read(key: "id");
+      if (userId == null) return;
+
+      final appDir = await getApplicationDocumentsDirectory();
+      final fileName =
+          "${DateTime.now().millisecondsSinceEpoch}_${pickedFile.name}";
+      final savedImage =
+          await File(pickedFile.path).copy('${appDir.path}/$fileName');
+
+      final prefs = await SharedPreferences.getInstance();
+      const key = "user_image_map";
+      final rawMap = prefs.getString(key);
+
+      Map<String, String> imageMap = {};
+      if (rawMap != null) {
+        imageMap = Map<String, String>.from(jsonDecode(rawMap));
+      }
+
+      imageMap[userId] = savedImage.path;
+      await prefs.setString(key, jsonEncode(imageMap));
+
+      setState(() {
+        _selectedImage = savedImage;
+        _imagePath = savedImage.path;
+        userImageNotifier.value = savedImage.path;
+      });
+    }
+  }
+
+  Future<void> _loadSavedImage() async {
+    final userId = await storage.read(key: "id");
+    if (userId == null) return;
+
+    final prefs = await SharedPreferences.getInstance();
+    const key = "user_image_map";
+    final rawMap = prefs.getString(key);
+
+    if (rawMap != null) {
+      final imageMap = Map<String, String>.from(jsonDecode(rawMap));
+      final path = imageMap[userId];
+
+      if (path != null && File(path).existsSync()) {
+        setState(() {
+          _selectedImage = File(path);
+          _imagePath = path;
+        });
+      }
+    }
   }
 
   void _showEditDialog(
@@ -78,14 +144,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   children: [
                     CircleAvatar(
                       radius: 50,
-                      backgroundColor: Colors.transparent,
-                      child: SvgPicture.asset('assets/images/user.svg'),
+                      backgroundColor: Colors.grey.shade200,
+                      backgroundImage: _selectedImage != null
+                          ? FileImage(_selectedImage!)
+                          : null,
+                      child: _selectedImage == null
+                          ? SvgPicture.asset('assets/images/user.svg')
+                          : null,
                     ),
-                    const CircleAvatar(
-                      backgroundColor: Colors.white,
-                      radius: 16,
-                      child: Icon(Icons.upload,
-                          size: 18, color: Colors.deepPurple),
+                    GestureDetector(
+                      onTap: _pickAndSaveImage,
+                      child: const CircleAvatar(
+                        backgroundColor: Colors.white,
+                        radius: 16,
+                        child: Icon(Icons.upload,
+                            size: 18, color: Colors.deepPurple),
+                      ),
                     ),
                   ],
                 ),
