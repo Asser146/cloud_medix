@@ -11,7 +11,7 @@ part 'medical_record_state.dart';
 class MedicalRecordCubit extends Cubit<MedicalRecordState> {
   MedicalRecordCubit() : super(MedicalRecordInitial());
 
-  final List<String> categories = ["Allergies", "Diseases", "Medications"];
+  final List<String> categories = ["Allergies", "Chronics", "Medications"];
   List<List<dynamic>> medicalRecordLists = [];
   FlutterSecureStorage storage = getIt<FlutterSecureStorage>();
   final MedicalRecordRepository repo = getIt<MedicalRecordRepository>();

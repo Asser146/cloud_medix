@@ -206,6 +206,14 @@ class MakeReservationCubit extends Cubit<MakeReservationState> {
         slots = response.data!;
 
         // Load reserved slots from SharedPreferences
+        final today = DateTime.now();
+        final todayDate = DateTime(today.year, today.month, today.day);
+        slots = slots.where((slot) {
+          final slotDate = DateTime(
+              slot.startTime.year, slot.startTime.month, slot.startTime.day);
+          return slotDate.isAtSameMomentAs(todayDate) ||
+              slotDate.isAfter(todayDate);
+        }).toList();
         await updateSlotsUI();
 
         emit(MakeReservationLoaded(List.from(slots)));

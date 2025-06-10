@@ -26,7 +26,7 @@ class TestScanCard extends StatelessWidget {
         elevation: 2,
         shadowColor: ColorsManager.lightgreyColor,
         child: Container(
-          height: 120.h,
+          height: 150.h,
           decoration: BoxDecoration(
             color: ColorsManager.thirdColor,
             borderRadius: BorderRadius.circular(10.r),
@@ -37,11 +37,17 @@ class TestScanCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text(
+                  "Test: ${testRequest.tests.join(', ')}", // This joins the list with comma+space
+                  style: TextStyles.testdate,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
                 FittedBox(
                   fit: BoxFit.fitWidth,
                   child: Text(
                     "Issued Doc: ${testRequest.physicianFullName.split(' ').first} ${testRequest.physicianFullName.split(' ').last}",
-                    style: TextStyles.testName,
+                    style: TextStyles.testdate,
                   ),
                 ),
                 FittedBox(

@@ -28,7 +28,17 @@ class LabCubit extends Cubit<LabState> {
     } else {
       ApiResponse response = await repo.getMyTests(id);
       if (response.status == 200 && response.data != null) {
-        tests = response.data;
+        // Sort the tests first by date (newest first), then by status (descending)
+        tests = (response.data as List<TestRequest>)
+          ..sort((a, b) {
+            // First compare by date (newest first)
+            int dateComparison = b.dateOfRequest.compareTo(a.dateOfRequest);
+            if (dateComparison != 0) {
+              return dateComparison;
+            }
+            // If dates are equal, compare by status (higher status first)
+            return b.status.compareTo(a.status);
+          });
         emit(LabLoaded(tests));
       } else if (response.status == 200 && response.data == null) {
         tests = [];

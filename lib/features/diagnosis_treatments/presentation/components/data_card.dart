@@ -2,6 +2,7 @@ import 'package:cloud_medix/core/theming/colors.dart';
 import 'package:cloud_medix/core/theming/font_weight_helper.dart';
 import 'package:cloud_medix/core/theming/styles.dart';
 import 'package:cloud_medix/features/diagnosis_treatments/data/diagnosis.dart';
+import 'package:cloud_medix/features/diagnosis_treatments/data/treatment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -42,10 +43,47 @@ class DataCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(
-                  '• ${data.type}',
-                  style: TextStyles.medicalRecordName,
-                ),
+                if (data is Treatment) ...[
+                  Row(
+                    children: [
+                      Text(
+                        'Type: ',
+                        style: TextStyles.medicalRecordTypeDesc,
+                      ),
+                      Expanded(
+                        child: Text(
+                          '${data.type}',
+                          style: TextStyles.medicalRecordTypeDesc.copyWith(
+                            fontWeight: FontWeightHelper.regular,
+                          ),
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+                if (data is Diagnosis) ...[
+                  Row(
+                    children: [
+                      Text(
+                        'Type: ',
+                        style: TextStyles.medicalRecordTypeDesc,
+                      ),
+                      Expanded(
+                        child: Text(
+                          '${data.description}',
+                          style: TextStyles.medicalRecordTypeDesc.copyWith(
+                            fontWeight: FontWeightHelper.regular,
+                          ),
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+
                 SizedBox(height: 8.h),
                 Row(
                   children: [
@@ -88,22 +126,22 @@ class DataCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                if (data is Diagnosis) ...[
-                  Text(
-                    'Description: ',
-                    style: TextStyles.medicalRecordTypeDesc,
-                  ),
-                  Expanded(
-                    child: Text(
-                      '${data.description}',
-                      style: TextStyles.medicalRecordTypeDesc.copyWith(
-                        fontWeight: FontWeightHelper.regular,
-                      ),
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ]
+                // if (data is Diagnosis) ...[
+                //   Text(
+                //     'Description: ',
+                //     style: TextStyles.medicalRecordTypeDesc,
+                //   ),
+                //   Expanded(
+                //     child: Text(
+                //       '${data.description}',
+                //       style: TextStyles.medicalRecordTypeDesc.copyWith(
+                //         fontWeight: FontWeightHelper.regular,
+                //       ),
+                //       maxLines: 3,
+                //       overflow: TextOverflow.ellipsis,
+                //     ),
+                //   ),
+                // ]
               ],
             ),
           ),

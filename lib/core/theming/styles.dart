@@ -54,7 +54,7 @@ class TextStyles {
   static TextStyle testName = TextStyle(
     fontSize: 20.sp,
     fontFamily: 'Roboto',
-    fontWeight: FontWeightHelper.bold,
+    fontWeight: FontWeightHelper.regular,
     color: Colors.white,
   );
   static TextStyle testdate = TextStyle(

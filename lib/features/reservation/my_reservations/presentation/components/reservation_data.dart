@@ -29,7 +29,7 @@ class ReservationData extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                  "${DateFormat.Hm().format(DateTime.parse(reservation.startTime.toString()))} - ${DateFormat.Hm().format(DateTime.parse(reservation.endTime.toString()))}",
+                  "${DateFormat.Hm().format(DateTime.parse(reservation.startTime.toString()))} - ${DateFormat.Hm().format(DateTime.parse(reservation.endTime.toString()))} | ${DateFormat('d/M/y').format(DateTime.parse(reservation.startTime.toString()))}",
                   style: TextStyles.slotDuration),
               Text(reservation.physicianName, style: TextStyles.doctorName),
               Text("Hospital: ${reservation.hospital.name}",

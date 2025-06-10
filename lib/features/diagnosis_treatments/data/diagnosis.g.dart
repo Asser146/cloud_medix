@@ -7,7 +7,7 @@ part of 'diagnosis.dart';
 // **************************************************************************
 
 Diagnosis _$DiagnosisFromJson(Map<String, dynamic> json) => Diagnosis(
-      type: json['type'] as String,
+      code: json['code'] as String,
       description: json['description'] as String,
       hospitalName: json['hospitalName'] as String,
       issuedDate: json['issuedDate'] as String,
@@ -15,7 +15,7 @@ Diagnosis _$DiagnosisFromJson(Map<String, dynamic> json) => Diagnosis(
     );
 
 Map<String, dynamic> _$DiagnosisToJson(Diagnosis instance) => <String, dynamic>{
-      'type': instance.type,
+      'code': instance.code,
       'description': instance.description,
       'hospitalName': instance.hospitalName,
       'issuedDate': instance.issuedDate,

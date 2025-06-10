@@ -4,14 +4,14 @@ part 'allergy.g.dart';
 @JsonSerializable()
 class Allergy {
   int medicalRecordId;
-  String name;
-  String type;
+  String code;
+  String notes;
   String description;
 
   Allergy({
     required this.medicalRecordId,
-    required this.name,
-    required this.type,
+    required this.code,
+    required this.notes,
     required this.description,
   });
   Map<String, dynamic> toJson() => _$AllergyToJson(this);

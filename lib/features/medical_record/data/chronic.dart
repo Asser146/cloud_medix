@@ -4,14 +4,14 @@ part 'chronic.g.dart';
 @JsonSerializable()
 class Chronic {
   int medicalRecordId;
-  String name;
-  String type;
+  String code;
+  String notes;
   String description;
 
   Chronic({
     required this.medicalRecordId,
-    required this.name,
-    required this.type,
+    required this.code,
+    required this.notes,
     required this.description,
   });
   Map<String, dynamic> toJson() => _$ChronicToJson(this);

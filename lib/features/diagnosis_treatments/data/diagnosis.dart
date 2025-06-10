@@ -4,14 +4,14 @@ part 'diagnosis.g.dart';
 
 @JsonSerializable()
 class Diagnosis {
-  String type;
+  String code;
   String description;
   String hospitalName;
   String issuedDate;
   String physicianFullname;
 
   Diagnosis({
-    required this.type,
+    required this.code,
     required this.description,
     required this.hospitalName,
     required this.issuedDate,

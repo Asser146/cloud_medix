@@ -29,7 +29,7 @@ class SlotData extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                  "${DateFormat.Hm().format(DateTime.parse(slot.startTime.toString()))} - ${DateFormat.Hm().format(DateTime.parse(slot.endTime.toString()))}",
+                  "${DateFormat.Hm().format(DateTime.parse(slot.startTime.toString()))} - ${DateFormat.Hm().format(DateTime.parse(slot.endTime.toString()))} | ${DateFormat('d/M/y').format(DateTime.parse(slot.startTime.toString()))}",
                   style: TextStyles.slotDuration),
               Text(slot.physicianFullName, style: TextStyles.doctorName),
               Text(slot.specialtyName, style: TextStyles.hospitalName),

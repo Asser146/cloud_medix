@@ -59,7 +59,7 @@ String validateRegisterPassword(String password) {
   if (!password.contains(RegExp(r'[0-9]'))) {
     return "Password must contain at least one number";
   }
-  if (!password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+  if (!password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>_]'))) {
     return "Password must contain at least one special character";
   }
   return "";
