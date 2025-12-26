@@ -24,5 +24,5 @@ The backend services are implemented as a separate project using **.NET**, handl
 - Lab/radiology request handling
 - Prescription and medical records APIs
 
-> Note: This repository includes only the Flutter frontend. Backend is maintained separately.
+> Note: This repository includes only the Flutter frontend. Backend is maintained separately at https://github.com/Asser146/Cloud-Medix-Backend.
 
